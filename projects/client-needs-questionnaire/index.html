@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Annual Legal Needs Questionnaire · Open-source template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Noto+Kufi+Arabic:wght@500;700&display=swap">
+<script>
+/* ===== الإعداد — عدّل هنا فقط ===== */
+const NOTIFY_EMAIL = "you@example.com";   /* البريد الذي تصله الإجابات */
+const CC_EMAILS = "";                                  /* بريد إضافي اختياري، افصل بفاصلة */
+</script>
+<style>
+.logo-text{font-weight:700;letter-spacing:.12em;font-size:13px;opacity:.85}
+
+/* Theme "Counsel & Signal" — مبني من الشعارين:
+   كحلي + ذهبي للهيكل، أسود وأحمر العميل للنبرة والتنبيه */
+:root{
+--navy:#2A4287;--navy-deep:#1B2C5E;--gold:#BE9262;--gold-soft:#F4ECE1;--red:#E8141F;
+--ink:#141820;--muted:#5B6476;--line:#DCE1EA;--paper:#F4F6FA;--surface:#FFFFFF;--field:#FAFBFD;--ok:#1E7A4F;
+--en-display:"IBM Plex Sans","Segoe UI",Arial,sans-serif;--en-body:"IBM Plex Sans","Segoe UI",Arial,sans-serif;
+--ar-display:"Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;--ar-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--en-body);font-size:16px;line-height:1.6}
+[lang=ar]{direction:rtl;text-align:right;font-family:var(--ar-body);line-height:1.85}
+.in{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* brand strip */
+.brands{background:var(--surface);border-bottom:1px solid var(--line)}
+.brands .in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px;flex-wrap:wrap}
+.logos{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logos img{display:block;height:40px;width:auto;max-width:100%}
+.logos img.sm{height:26px}
+.logos .div{width:1px;height:34px;background:var(--gold)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--field)}
+.seg button{font:inherit;font-size:13px;background:transparent;color:var(--muted);border:0;padding:5px 12px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--navy);color:#fff}
+
+/* hero */
+.hero{background:var(--navy-deep);background-image:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy) 100%);color:#fff;border-bottom:4px solid var(--gold)}
+.hero .in{padding-block:38px 34px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--gold)}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red)}
+.hero h1{font-family:var(--en-display);font-weight:700;font-size:clamp(26px,4.4vw,38px);line-height:1.2;margin:10px 0 6px;text-wrap:balance}
+.hero h1.ar{font-family:var(--ar-display);font-size:clamp(22px,3.6vw,30px);line-height:1.6;margin-top:2px}
+.hero p{margin:10px 0 0;max-width:62ch;color:#D7DEEE}
+.hero .facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .chip{display:inline-flex;gap:6px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 12px;font-size:13.5px;color:#fff}
+.hero .chip b{color:var(--gold);font-weight:600}
+
+/* progress */
+.prog{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(244,246,250,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.prog .in{display:flex;align-items:center;gap:14px;padding-block:10px}
+.bar{flex:1;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--gold));transition:width .3s}
+.prog span{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+main .in{padding-block:8px 64px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-top:22px;padding:26px clamp(18px,4vw,36px)}
+.sec-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.step{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.sec-h h2{margin:0;font-family:var(--en-display);font-size:21px;color:var(--navy);font-weight:600}
+.sec-h h2.ar{font-family:var(--ar-display);font-size:18px;font-weight:500;color:var(--muted)}
+.sub{font-size:14px;color:var(--muted);margin:0 0 4px}
+
+/* bilingual */
+body.m-en .ar,body.m-ar .en{display:none!important}
+
+/* fields */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 18px;margin-top:16px}
+.f{display:grid;gap:5px;min-width:0}
+.lb{font-size:13.5px;font-weight:500;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline}
+.lb .ar{font-weight:400;color:var(--muted)}
+.req{color:var(--red)}
+input,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%}
+textarea{resize:vertical;min-height:44px}
+input:focus-visible,textarea:focus-visible,button:focus-visible,.opt input:focus-visible+span{outline:2px solid var(--navy);outline-offset:2px}
+input[aria-invalid=true]{border-color:var(--red);background:#FFF6F6}
+
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt span{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--field);border-radius:20px;padding:7px 14px;font-size:14px;cursor:pointer;font-variant-numeric:tabular-nums;user-select:none}
+.opt span:hover{border-color:var(--navy)}
+.opt input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* questions */
+.q{border-top:1px solid var(--line);padding-block:22px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 16px}
+.q:first-of-type{border-top:0;padding-top:12px}
+.no{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;transition:background .2s,color .2s}
+.q.done .no{background:var(--navy);border-color:var(--navy);color:#fff}
+.qb{display:grid;gap:12px;min-width:0}
+.cat{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.cat .ar{letter-spacing:0;text-transform:none;font-size:13px;font-weight:600}
+.qt{font-weight:600;font-size:16px;margin:2px 0 0}
+.qt.ar{font-family:var(--ar-display);font-weight:500;font-size:15px;color:var(--ink)}
+.eg{font-size:13.5px;color:var(--muted);margin:0}
+.more{display:grid;grid-template-columns:190px minmax(0,1fr);gap:10px}
+.eg-wrap{display:grid;gap:2px}
+.more input{font-variant-numeric:tabular-nums}
+
+/* submit */
+.send{display:grid;gap:14px}
+.privacy{display:grid;gap:2px;font-size:13.5px;color:var(--muted);background:var(--gold-soft);border-radius:6px;padding:12px 14px}
+.btn{font:inherit;font-size:16px;font-weight:600;background:var(--red);color:#fff;border:0;border-radius:6px;padding:13px 26px;cursor:pointer;justify-self:start;box-shadow:0 2px 0 #B40E17}
+.btn:hover{background:#D1101A}
+.btn[disabled]{opacity:.6;cursor:progress}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:14px;font-weight:500;padding:8px 14px}
+.status{font-size:14.5px;min-height:1.4em;color:var(--red)}
+.fallback{display:grid;gap:10px;border:1px solid var(--red);border-radius:8px;padding:16px}
+.fallback pre{margin:0;white-space:pre-wrap;font-family:var(--en-body);font-size:13px;background:var(--field);border:1px solid var(--line);border-radius:6px;padding:12px;max-height:260px;overflow:auto}
+.done-card{text-align:center;display:grid;gap:8px;justify-items:center;padding-block:44px}
+.tick{width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:26px;border:3px solid var(--gold)}
+.done-card h2{margin:6px 0 0;color:var(--navy);font-size:24px}
+.done-card h2.ar{font-family:var(--ar-display);font-size:20px}
+.done-card p{margin:0;color:var(--muted);max-width:52ch}
+footer{border-top:1px solid var(--line);background:var(--surface)}
+footer .in{padding-block:18px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;font-size:13px;color:var(--muted)}
+[hidden]{display:none!important}
+
+@media (max-width:640px){
+ .q{grid-template-columns:minmax(0,1fr)}
+ .more{grid-template-columns:minmax(0,1fr)}
+ .logos img{height:32px}.logos img.sm{height:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="brands"><div class="in">
+<div class="logos"><span class="logo-text">YOUR FIRM</span><span class="div" aria-hidden="true"></span><span class="logo-text">CLIENT CO.</span></div>
+<div class="seg" role="group" aria-label="Language"><button type="button" data-m="both" aria-pressed="true">EN + ع</button><button type="button" data-m="en" aria-pressed="false">EN</button><button type="button" data-m="ar" aria-pressed="false">عربي</button></div>
+</div></header>
+
+<section class="hero"><div class="in">
+<div class="kicker"><span class="en" lang="en">Prepared for your client</span><span class="ar" lang="ar">مُعد لفريق العميل</span></div>
+<h1 class="en" lang="en">Annual Legal Requirements</h1>
+<h1 class="ar" lang="ar">نموذج حصر الاحتياج القانوني السنوي</h1>
+<p class="en" lang="en">Please estimate how often the client expects to need each legal service over a year. Your answers will be used to prepare a tailored annual proposal.</p>
+<p class="ar" lang="ar">يرجى تقدير عدد المرات التي تتوقع العميل الحاجة فيها إلى كل خدمة قانونية خلال السنة. ستُستخدم الإجابات لإعداد عرض سنوي مخصص لكم.</p>
+<div class="facts">
+<span class="chip"><b>≈ 8 min</b> <span class="en" lang="en">to complete</span><span class="ar" lang="ar">دقائق للتعبئة</span></span>
+<span class="chip"><b>12</b> <span class="en" lang="en">questions</span><span class="ar" lang="ar">سؤالًا</span></span>
+<span class="chip"><span class="en" lang="en">Estimates are fine</span><span class="ar" lang="ar">التقدير التقريبي يكفي</span></span>
+</div>
+</div></section>
+
+<div class="prog" aria-hidden="true"><div class="in"><div class="bar"><i id="pbar"></i></div><span id="ptxt">0 / 12</span></div></div>
+
+<main><div class="in">
+<form id="qf" novalidate>
+
+<section class="card">
+<div class="sec-h"><span class="step">Step 1</span><h2 class="en" lang="en">Your details</h2><h2 class="ar" lang="ar">بيانات المعبّئ</h2></div>
+<div class="grid">
+<label class="f" for="name"><span class="lb"><span class="en" lang="en">Full name <span class="req">*</span></span><span class="ar" lang="ar">الاسم</span></span><input id="name" name="name" autocomplete="name" required></label>
+<label class="f" for="title"><span class="lb"><span class="en" lang="en">Job title</span><span class="ar" lang="ar">المسمى الوظيفي</span></span><input id="title" name="title" autocomplete="organization-title"></label>
+<label class="f" for="email"><span class="lb"><span class="en" lang="en">Work email <span class="req">*</span></span><span class="ar" lang="ar">البريد الإلكتروني</span></span><input id="email" name="email" type="email" autocomplete="email" required></label>
+<label class="f" for="phone"><span class="lb"><span class="en" lang="en">Phone</span><span class="ar" lang="ar">الجوال</span></span><input id="phone" name="phone" type="tel" autocomplete="tel"></label>
+</div>
+<div class="f" role="group" aria-labelledby="curLbl" style="margin-top:18px">
+<span class="lb" id="curLbl"><span class="en" lang="en">Who handles legal matters today?</span><span class="ar" lang="ar">من يتولى المسائل القانونية حاليًا؟</span></span>
+<div class="opts">
+<label class="opt"><input type="radio" name="current" value="In-house lawyer"><span>In-house lawyer · محامٍ داخلي</span></label>
+<label class="opt"><input type="radio" name="current" value="External law firm"><span>External law firm · مكتب خارجي</span></label>
+<label class="opt"><input type="radio" name="current" value="Case by case"><span>Case by case · حسب الحاجة</span></label>
+<label class="opt"><input type="radio" name="current" value="No one dedicated"><span>No one dedicated · لا أحد مخصص</span></label>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="sec-h"><span class="step">Step 2</span><h2 class="en" lang="en">Expected annual volume</h2><h2 class="ar" lang="ar">الحجم السنوي المتوقع</h2></div>
+<p class="sub en" lang="en">Pick a range, or type an exact number if you know it.</p>
+<p class="sub ar" lang="ar">اختاروا نطاقًا، أو اكتبوا العدد الدقيق إن كان معروفًا.</p>
+<div id="qlist"></div>
+</section>
+
+<section class="card">
+<div class="sec-h"><span class="step">Step 3</span><h2 class="en" lang="en">Anything else</h2><h2 class="ar" lang="ar">إضافات</h2></div>
+<div class="grid">
+<label class="f" for="start"><span class="lb"><span class="en" lang="en">Preferred start date</span><span class="ar" lang="ar">تاريخ البدء المفضل</span></span><input id="start" name="start" type="month"></label>
+<label class="f" for="comments" style="grid-column:1/-1"><span class="lb"><span class="en" lang="en">Priorities or comments</span><span class="ar" lang="ar">أولويات أو ملاحظات</span></span><textarea id="comments" name="comments" rows="3"></textarea></label>
+</div>
+</section>
+
+<section class="card send">
+<div class="privacy"><span class="en" lang="en">Your answers go only to our team and are used solely to prepare your proposal.</span><span class="ar" lang="ar">تصل إجاباتكم إلى فريقنا فقط، وتُستخدم لإعداد العرض فقط.</span></div>
+<button class="btn" type="submit" id="sendBtn">Submit answers · إرسال الإجابات</button>
+<div class="status" id="status" aria-live="polite"></div>
+<div class="fallback" id="fallback" hidden>
+<p style="margin:0;font-size:14px"><b>Almost done.</b> Please send your answers with one click using the button below, or copy them and email them to <b id="fbMail"></b>.</p>
+<p lang="ar" style="margin:0;font-size:14px">خطوة أخيرة: أرسلوا الإجابات بضغطة زر عبر البريد، أو انسخوها وأرسلوها إلى البريد الظاهر.</p>
+<pre id="fbText"></pre>
+<div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn" id="mailBtn" href="#" style="text-decoration:none;font-size:14px;padding:9px 16px">Send by email · إرسال بالبريد</a><button class="btn ghost" type="button" id="copyBtn">Copy answers · نسخ الإجابات</button></div>
+<p class="small" id="fbWhy" style="margin:0;font-size:12px;color:var(--muted)"></p>
+</div>
+</section>
+</form>
+
+<section class="card done-card" id="done" hidden>
+<div class="tick" aria-hidden="true">✓</div>
+<h2 class="en" lang="en">Thank you. Your answers have been received.</h2>
+<h2 class="ar" lang="ar">شكرًا لكم، وصلتنا إجاباتكم.</h2>
+<p class="en" lang="en">The our firm team will review them and send the client a tailored annual proposal.</p>
+<p class="ar" lang="ar">سيراجعها فريقنا ويرسل للعميل عرضًا سنويًا مخصصًا.</p>
+</section>
+</div></main>
+
+<footer><div class="in"><span>Your Firm · Riyadh</span><span lang="ar">المكتب محامون مستشارون · الرياض</span></div></footer>
+
+<script>
+const RANGES=["0","1–5","6–20","21–50","50+"];
+const Q=[
+["Legal cases","القضايا","How many legal cases do you anticipate requiring assistance with annually, including both financial and non-financial cases?","كم عدد القضايا التي تتوقعون الحاجة إلى المساعدة فيها سنويًا، المالية وغير المالية؟","e.g. overdue client payments, disputes with suppliers or subcontractors, labor cases · مثل: مستحقات متأخرة، خلافات مع موردين، قضايا عمالية"],
+["Contract drafting","صياغة العقود","How many contracts do you expect to require drafting annually?","كم عدد العقود التي تتوقعون الحاجة إلى صياغتها سنويًا؟","e.g. client service agreements, SOWs, NDAs, subcontractor and staffing agreements · مثل: عقود الخدمات، اتفاقيات السرية، عقود المقاولين"],
+["Contract review","مراجعة العقود","How many contracts do you expect to require reviewing annually?","كم عدد العقود التي تتوقعون الحاجة إلى مراجعتها سنويًا؟","e.g. client and government contracts, tender conditions, partner program terms · مثل: عقود العملاء والجهات الحكومية، شروط المنافسات"],
+["Notarization & attestation","التوثيق والتصديق","How many document notarization and attestation services do you anticipate requiring annually, including promissory notes and other documents requiring attestation by the Chamber of Commerce?","كم عدد خدمات التوثيق والتصديق المتوقعة سنويًا، بما فيها السندات لأمر والمستندات التي تتطلب تصديق الغرفة التجارية؟","e.g. powers of attorney, promissory notes, Chamber of Commerce attestations · مثل: الوكالات، السندات لأمر، تصديقات الغرفة"],
+["Licenses & certificates","التراخيص والشهادات","How many licenses and certificates do you expect to require issuance or renewal for annually?","كم عدد التراخيص والشهادات التي تتوقعون إصدارها أو تجديدها سنويًا؟","e.g. commercial registration, municipal licenses, sector certificates · مثل: السجل التجاري، رخص البلدية، الشهادات القطاعية"],
+["Entity formation","تأسيس الكيانات","How many company or entity formation services do you anticipate requiring annually, including non-profit companies and establishments?","كم عدد خدمات تأسيس الشركات أو الكيانات المتوقعة سنويًا، بما فيها غير الربحية والمؤسسات؟","e.g. new branches, subsidiaries, joint ventures · مثل: فروع جديدة، شركات تابعة، مشاريع مشتركة"],
+["Intellectual property","الملكية الفكرية","How many intellectual property services do you expect to require annually?","كم عدد خدمات الملكية الفكرية المتوقعة سنويًا؟","e.g. trademark registration and protection, ownership of software you develop · مثل: تسجيل العلامات وحمايتها، ملكية البرمجيات"],
+["Legal consultations","الاستشارات القانونية","How many written or telephone legal consultations do you anticipate requiring annually?","كم عدد الاستشارات القانونية المكتوبة أو الهاتفية المتوقعة سنويًا؟","Day-to-day questions by email or phone · الأسئلة اليومية عبر البريد أو الهاتف"],
+["Legal research & studies","البحوث والدراسات","How many legal research projects or studies do you expect to require annually, including complex legal matters requiring in-depth research?","كم عدد البحوث والدراسات القانونية المتوقعة سنويًا، بما فيها المسائل المعقدة التي تتطلب بحثًا معمقًا؟","Complex matters that need a written legal memo · مسائل معقدة تحتاج مذكرة مكتوبة"],
+["Enforcement applications","طلبات التنفيذ","How many enforcement applications do you anticipate requiring annually?","كم عدد طلبات التنفيذ المتوقعة سنويًا؟","Filing promissory notes or final judgments with the Enforcement Court to collect amounts owed · تقديم السندات التنفيذية لمحكمة التنفيذ"],
+["Legal letters & notices","الخطابات والإنذارات","How many legal letters and formal notices do you expect to require drafting annually?","كم عدد الخطابات والإنذارات الرسمية المتوقعة سنويًا؟","e.g. demand letters, formal notices to clients, suppliers or employees · مثل: خطابات المطالبة، الإنذارات الرسمية"],
+["Other services","خدمات أخرى","Are there any other legal services you would like to include? Please specify each service and its estimated annual volume.","هل توجد خدمات قانونية أخرى ترغبون في إضافتها؟ يرجى ذكر كل خدمة وعددها السنوي المتوقع.","e.g. employment matters, tender support, data protection reviews, board resolutions · مثل: مسائل العمل، دعم المنافسات، حماية البيانات"]
+];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=i=>String(i+1).padStart(2,"0");
+document.getElementById("qlist").innerHTML=Q.map((q,i)=>{
+ const last=i===Q.length-1;
+ const opts=last?"":`<div class="opts" role="radiogroup" aria-label="${esc(q[0])} range">${RANGES.map(r=>`<label class="opt"><input type="radio" name="r${i}" value="${r}"><span>${r}</span></label>`).join("")}</div>`;
+ const more=last
+  ?`<label class="f" for="t${i}"><span class="lb"><span class="en" lang="en">Services and annual volume</span><span class="ar" lang="ar">الخدمات والعدد السنوي</span></span><textarea id="t${i}" name="t${i}" rows="3"></textarea></label>`
+  :`<div class="more"><label class="f" for="n${i}"><span class="lb"><span class="en" lang="en">Exact number</span><span class="ar" lang="ar">العدد الدقيق</span></span><input id="n${i}" name="n${i}" inputmode="numeric" autocomplete="off" placeholder="optional"></label>
+    <label class="f" for="t${i}"><span class="lb"><span class="en" lang="en">Notes</span><span class="ar" lang="ar">ملاحظات</span></span><textarea id="t${i}" name="t${i}" rows="1" placeholder="optional"></textarea></label></div>`;
+ return `<div class="q" id="q${i}"><div class="no">${pad(i)}</div><div class="qb">
+  <div><div class="cat"><span class="en" lang="en">${esc(q[0])}</span><span class="ar" lang="ar">${q[1]}</span></div>
+  <p class="qt en" lang="en">${esc(q[2])}</p><p class="qt ar" lang="ar">${q[3]}</p></div>
+  <div class="eg-wrap"><p class="eg en" lang="en">${esc(q[4].split(" · ")[0])}</p><p class="eg ar" lang="ar">${q[4].split(" · ")[1]||""}</p></div>${opts}${more}</div></div>`}).join("");
+
+const form=document.getElementById("qf"),body=document.body;
+function setMode(m){body.classList.remove("m-en","m-ar");if(m!=="both")body.classList.add("m-"+m);
+ document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m))}
+document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.m)));
+document.getElementById("fbMail").textContent=NOTIFY_EMAIL;
+
+const val=k=>((new FormData(form)).get(k)||"").toString().trim();
+function progress(){
+ let n=0;Q.forEach((q,i)=>{const d=!!(val("r"+i)||val("n"+i)||val("t"+i));document.getElementById("q"+i).classList.toggle("done",d);if(d)n++});
+ document.getElementById("pbar").style.width=(n/Q.length*100)+"%";document.getElementById("ptxt").textContent=n+" / "+Q.length;
+}
+const KEY="zuraiq-client-q-v2";
+try{const d=JSON.parse(localStorage.getItem(KEY)||"{}");for(const[k,v]of Object.entries(d)){const el=form.elements[k];if(el)el.value=v}}catch(e){}
+progress();
+form.addEventListener("input",()=>{progress();try{localStorage.setItem(KEY,JSON.stringify(Object.fromEntries(new FormData(form))))}catch(e){}});
+form.addEventListener("change",progress);
+
+function collect(){
+ const o={"Company · الشركة":"the client","Name · الاسم":val("name"),"Job title · المسمى":val("title"),"Email · البريد":val("email"),"Phone · الجوال":val("phone"),"Legal handled by today · الوضع الحالي":val("current")};
+ Q.forEach((q,i)=>{const parts=[];const r=val("r"+i),n=val("n"+i),t=val("t"+i);
+  if(r)parts.push("Range: "+r);if(n)parts.push("Exact: "+n);if(t)parts.push("Notes: "+t);
+  o[`${pad(i)}. ${q[0]} · ${q[1]}`]=parts.join(" | ")||"—"});
+ o["Preferred start · تاريخ البدء"]=val("start");o["Comments · ملاحظات"]=val("comments");
+ return o;
+}
+const st=document.getElementById("status"),btn=document.getElementById("sendBtn");
+form.addEventListener("submit",async e=>{
+ e.preventDefault();st.textContent="";let bad=null;
+ ["name","email"].forEach(id=>{const el=document.getElementById(id);const ok=el.value.trim()&&el.checkValidity();el.setAttribute("aria-invalid",!ok);if(!ok&&!bad)bad=el});
+ if(bad){st.textContent="Please add your name and a valid email. · يرجى إدخال الاسم وبريد صحيح.";bad.scrollIntoView({block:"center"});bad.focus({preventScroll:true});return}
+ const data=collect();btn.disabled=true;btn.textContent="Sending… · جارٍ الإرسال";
+ const payload={_subject:`the client — Annual legal requirements (${data["Name · الاسم"]})`,_template:"table",_captcha:"false",_replyto:data["Email · البريد"],...data};
+ if(CC_EMAILS)payload._cc=CC_EMAILS;
+ try{
+  const r=await fetch("https://formsubmit.co/ajax/"+encodeURIComponent(NOTIFY_EMAIL),{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok||String(j.success)==="false")throw new Error(j.message||r.status);
+  try{localStorage.removeItem(KEY)}catch(e){}
+  form.hidden=true;document.querySelector(".prog").hidden=true;document.getElementById("done").hidden=false;window.scrollTo({top:0,behavior:"smooth"});
+ }catch(err){
+  btn.disabled=false;btn.textContent="Submit answers · إرسال الإجابات";
+  document.getElementById("fbText").textContent=Object.entries(data).map(([k,v])=>`${k}: ${v||"—"}`).join("\n");
+  const txt=Object.entries(data).map(([k,v])=>`${k}: ${v||"—"}`).join("\n");
+  const mail=document.getElementById("mailBtn");
+  mail.href="mailto:"+NOTIFY_EMAIL+"?subject="+encodeURIComponent(payload._subject)+"&body="+encodeURIComponent(txt.slice(0,1800));
+  document.getElementById("fbWhy").textContent=(location.protocol==="file:"?"Reason: opened as a local file (automatic sending works from a web link). ":"Reason: ")+(err&&err.message?err.message:"");
+  document.getElementById("fallback").hidden=false;
+  document.getElementById("fallback").scrollIntoView({block:"center",behavior:"smooth"});
+ }
+});
+document.getElementById("copyBtn").addEventListener("click",()=>{
+ const pre=document.getElementById("fbText");
+ const sel=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r)};
+ (navigator.clipboard?navigator.clipboard.writeText(pre.textContent):Promise.reject()).then(()=>{st.textContent="Copied · تم النسخ"},()=>{sel();st.textContent="Selected — press Ctrl+C · اضغط نسخ"});
+});
+</script>
+</body>
+</html>

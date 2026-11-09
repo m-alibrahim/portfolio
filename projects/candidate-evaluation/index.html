@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تقييم المرشحين — اسم شركتك</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+:root{
+  --navy:#1a2a5e;--navy-dark:#0f1a3d;--navy-light:#2a3f7f;
+  --gold:#C8A05A;--gold-light:#e8c87a;--gold-pale:#f9f3e8;
+  --white:#fff;--gray-50:#f8f9fb;--gray-100:#f0f2f6;
+  --gray-200:#e2e6ee;--gray-400:#9aa0b4;--gray-600:#5a6280;--gray-800:#2c3150;
+  --danger:#c0392b;--danger-light:#fdf0ee;--warn:#b7770d;--warn-light:#fdf6e8;
+  --success:#1e6b3a;--success-light:#edf7f1;
+  --radius:10px;--radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans Arabic',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;}
+.header{background:var(--navy-dark);padding:0 2rem;display:flex;align-items:center;height:64px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--gold);}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-text{color:#fff;font-size:15px;font-weight:600;}
+.logo-sub{color:var(--gold);font-size:11px;margin-top:2px;}
+.header-nav{margin-right:auto;display:flex;gap:4px;}
+.nav-btn{padding:7px 14px;border:none;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;transition:all .15s;background:transparent;color:rgba(255,255,255,0.65);}
+.nav-btn:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.nav-btn.active{background:var(--gold);color:var(--navy-dark);font-weight:600;}
+.container{max-width:920px;margin:0 auto;padding:2rem 1.5rem;}
+.page{display:none;}.page.active{display:block;}
+.card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.25rem;}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-100);}
+.card-icon{width:36px;height:36px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.card-title{font-size:14px;font-weight:600;color:var(--navy);}
+.card-sub{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid.full{grid-template-columns:1fr;}
+.form-grid.three{grid-template-columns:1fr 1fr 1fr;}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--gray-600);margin-bottom:5px;}
+.field input,.field select,.field textarea{width:100%;padding:9px 12px;border:1px solid var(--gray-200);border-radius:8px;font-family:inherit;font-size:13px;color:var(--gray-800);background:var(--gray-50);transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy);background:#fff;}
+.field textarea{resize:vertical;min-height:80px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s;}
+.btn-primary{background:var(--navy);color:#fff;}.btn-primary:hover{background:var(--navy-light);}
+.btn-gold{background:var(--gold);color:var(--navy-dark);}.btn-gold:hover{background:var(--gold-light);}
+.btn-outline{background:transparent;color:var(--navy);border:1px solid var(--navy);}.btn-outline:hover{background:var(--navy);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:500;margin:3px;}
+.tag-navy{background:#eef1fb;color:var(--navy);}
+.tag-gold{background:var(--gold-pale);color:#7a5a1a;}
+.tag-remove{background:none;border:none;cursor:pointer;color:inherit;font-size:14px;line-height:1;padding:0;opacity:.6;}
+.tag-remove:hover{opacity:1;}
+.rating-row{display:grid;grid-template-columns:1fr auto 155px;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--gray-100);}
+.rating-row:last-child{border-bottom:none;}
+.factor-label{font-size:12.5px;color:var(--gray-800);line-height:1.4;}
+.factor-num{font-size:11px;color:var(--gold);font-weight:600;margin-left:4px;}
+.stars{display:flex;gap:3px;direction:ltr;}
+.star{width:28px;height:28px;border-radius:6px;border:1px solid var(--gray-200);background:var(--gray-50);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--gray-400);transition:all .1s;flex-shrink:0;}
+.star:hover{background:var(--gold-pale);border-color:var(--gold);color:var(--warn);}
+.star.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.note-field{padding:6px 8px;border:1px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:11.5px;color:var(--gray-800);background:var(--gray-50);width:100%;}
+.note-field:focus{outline:none;border-color:var(--navy);}
+.progress-wrap{background:var(--gray-100);border-radius:4px;height:5px;margin-bottom:1.5rem;overflow:hidden;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--navy),var(--gold));border-radius:4px;transition:width .3s;}
+.result-box{background:var(--navy-dark);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.25rem;color:#fff;}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px;color:rgba(255,255,255,0.75);}
+.result-divider{border:none;border-top:1px solid rgba(255,255,255,0.12);margin:10px 0;}
+.result-total{font-size:28px;font-weight:600;}
+.result-label{font-size:13px;margin-right:10px;padding:3px 10px;border-radius:6px;}
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.25rem;}
+.metric-box{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:1rem;text-align:center;}
+.metric-val{font-size:22px;font-weight:600;color:var(--navy);}
+.metric-lbl{font-size:11px;color:var(--gray-400);margin-top:4px;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.bar-label{font-size:11.5px;color:var(--gray-600);width:165px;text-align:right;flex-shrink:0;}
+.bar-track{flex:1;height:7px;background:var(--gray-100);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--navy);border-radius:4px;transition:width .5s;}
+.bar-val{font-size:11px;color:var(--gray-400);width:28px;}
+.eval-info-bar{background:var(--navy-dark);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;color:#fff;}
+.avatar{width:46px;height:46px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--navy-dark);flex-shrink:0;}
+.avatar-sm{width:34px;height:34px;font-size:13px;}
+.cv-badge{margin-right:auto;background:var(--gold);color:var(--navy-dark);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy-dark);color:#fff;padding:11px 22px;border-radius:10px;font-size:13px;border-right:3px solid var(--gold);transition:transform .25s;z-index:9999;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;padding:2.5rem;color:var(--gray-400);font-size:13px;}
+.page-hero{background:var(--navy-dark);border-radius:var(--radius-lg);padding:1.75rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;color:#fff;}
+.hero-title{font-size:19px;font-weight:600;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-top:5px;}
+.rec-table{width:100%;border-collapse:collapse;font-size:13px;}
+.rec-table th{background:var(--navy);color:#fff;padding:10px 12px;font-weight:500;text-align:right;}
+.rec-table td{padding:10px 12px;border-bottom:1px solid var(--gray-100);vertical-align:middle;}
+.rec-table tr:hover td{background:var(--gray-50);}
+.badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:600;}
+.badge-excellent{background:var(--success-light);color:var(--success);}
+.badge-good{background:#e8f4fd;color:#1a6fa8;}
+.badge-mid{background:var(--warn-light);color:var(--warn);}
+.badge-weak{background:var(--danger-light);color:var(--danger);}
+.sub-card{border:1px solid var(--gray-200);border-radius:var(--radius);padding:1rem;margin-bottom:10px;}
+.sub-header{display:flex;justify-content:space-between;align-items:center;}
+.sub-name{font-size:13px;font-weight:600;color:var(--navy);}
+.sub-meta{font-size:11px;color:var(--gray-400);margin-top:3px;}
+.sub-score{font-size:18px;font-weight:600;}
+/* PDF overlay */
+.pdf-overlay{position:fixed;inset:0;background:rgba(15,26,61,0.85);z-index:9998;display:flex;align-items:center;justify-content:center;display:none;}
+.pdf-overlay.show{display:flex;}
+.pdf-spinner{background:#fff;border-radius:16px;padding:2rem 3rem;text-align:center;font-family:'IBM Plex Sans Arabic',sans-serif;}
+.spinner-ring{width:40px;height:40px;border:3px solid var(--gray-200);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:640px){
+  .form-grid{grid-template-columns:1fr;}
+  .form-grid.three{grid-template-columns:1fr 1fr;}
+  .rating-row{grid-template-columns:1fr;gap:6px;}
+  .metric-row{grid-template-columns:1fr 1fr;}
+  .bar-label{width:110px;font-size:11px;}
+}
+
+/* ═══ PDF TEMPLATE (hidden, rendered off-screen) ══ */
+#pdf-template{
+  position:fixed;top:0;right:-9999px;
+  width:794px;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  direction:rtl;
+  background:#fff;
+  color:#1a1a2e;
+}
+.pdf-page{
+  width:794px;min-height:1123px;
+  padding:0;
+  position:relative;
+  background:#fff;
+  page-break-after:always;
+}
+.pdf-header{
+  background:#0f1a3d;
+  padding:20px 30px 0;
+  border-bottom:3px solid #C8A05A;
+}
+.pdf-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.pdf-logo{display:flex;align-items:center;gap:12px;}
+.pdf-logo-text{color:#fff;font-size:16px;font-weight:700;line-height:1.3;}
+.pdf-logo-sub{color:#C8A05A;font-size:11px;}
+.pdf-report-title{
+  background:#1a2a5e;
+  color:#fff;
+  text-align:center;
+  padding:8px;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.3px;
+}
+.pdf-section{padding:16px 28px;}
+.pdf-info-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+  background:#f8f9fb;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid #e2e6ee;
+  margin-bottom:14px;
+}
+.pdf-info-row{display:contents;}
+.pdf-info-cell{padding:7px 12px;border-bottom:1px solid #e2e6ee;font-size:12px;}
+.pdf-info-cell.label{color:#5a6280;font-weight:500;}
+.pdf-info-cell.val{color:#2c3150;font-weight:600;}
+.pdf-score-box{
+  background:#0f1a3d;
+  border-radius:10px;
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.pdf-score-item{text-align:center;color:#fff;}
+.pdf-score-item .lbl{font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:4px;}
+.pdf-score-item .val{font-size:22px;font-weight:700;}
+.pdf-score-divider{width:1px;background:rgba(255,255,255,0.15);align-self:stretch;}
+.pdf-total-box{
+  background:#C8A05A;
+  border-radius:10px;
+  padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.pdf-scale{display:flex;gap:6px;margin-bottom:16px;}
+.pdf-scale-item{flex:1;text-align:center;padding:5px 4px;border-radius:6px;font-size:10px;font-weight:600;}
+.pdf-bars{margin-bottom:14px;}
+.pdf-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pdf-bar-label{font-size:11px;color:#5a6280;width:130px;text-align:right;flex-shrink:0;}
+.pdf-bar-track{flex:1;height:8px;background:#f0f2f6;border-radius:4px;overflow:hidden;}
+.pdf-bar-fill{height:100%;border-radius:4px;}
+.pdf-bar-val{font-size:11px;font-weight:600;width:36px;text-align:left;}
+.pdf-table{width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:16px;}
+.pdf-table th{background:#1a2a5e;color:#fff;padding:8px 10px;text-align:right;font-weight:500;font-size:11px;}
+.pdf-table td{padding:7px 10px;border-bottom:1px solid #f0f2f6;text-align:right;vertical-align:middle;}
+.pdf-table tr:nth-child(even) td{background:#f8f9fb;}
+.pdf-dots{display:flex;gap:3px;direction:ltr;justify-content:flex-start;}
+.pdf-dot{width:10px;height:10px;border-radius:50%;}
+.pdf-section-header{
+  background:#1a2a5e;
+  color:#fff;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:600;
+  border-radius:6px;
+  margin-bottom:8px;
+  border-right:4px solid #C8A05A;
+}
+.pdf-qual-box{
+  border-radius:8px;
+  padding:12px 16px;
+  margin-bottom:10px;
+  border-right:4px solid;
+}
+.pdf-qual-box.strength{background:#edf7f1;border-color:#1e6b3a;}
+.pdf-qual-box.weakness{background:#fdf0ee;border-color:#c0392b;}
+.pdf-qual-box.notes{background:#f8f9fb;border-color:#1a2a5e;}
+.pdf-qual-title{font-size:12px;font-weight:600;margin-bottom:6px;}
+.pdf-qual-text{font-size:11.5px;color:#2c3150;line-height:1.7;white-space:pre-wrap;}
+.pdf-rec-box{
+  border-radius:10px;
+  padding:14px 20px;
+  margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pdf-footer{
+  background:#0f1a3d;
+  border-top:2px solid #C8A05A;
+  padding:8px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:absolute;bottom:0;width:100%;
+}
+.pdf-footer-text{font-size:9px;color:rgba(255,255,255,0.5);}
+.pdf-footer-brand{font-size:9px;color:#C8A05A;}
+.pdf-sig-area{display:flex;justify-content:space-between;padding:0 28px;margin-bottom:50px;}
+.pdf-sig-box{text-align:center;width:200px;}
+.pdf-sig-line{border-top:1px solid #1a2a5e;margin-bottom:6px;margin-top:40px;}
+.pdf-sig-name{font-size:12px;font-weight:600;color:#1a2a5e;}
+.pdf-sig-role{font-size:11px;color:#5a6280;}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="logo">
+    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+      <circle cx="19" cy="19" r="17" stroke="#C8A05A" stroke-width="2"/>
+      <path d="M10 26 L19 12 L28 26" stroke="#C8A05A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M13.5 21 L24.5 21" stroke="#C8A05A" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div class="logo-text">اسم شركتك</div>
+      <div class="logo-sub">نظام تقييم المرشحين</div>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <button class="nav-btn active" onclick="showPage('admin',this)">الإدارة</button>
+    <button class="nav-btn" onclick="showPage('eval',this)">التقييم</button>
+    <button class="nav-btn" onclick="showPage('records',this)">السجلات</button>
+    <button class="nav-btn" onclick="showPage('analysis',this)">التحليل</button>
+  </nav>
+  <button onclick="loadFromCloud()" style="margin-right:8px;padding:6px 12px;background:transparent;border:1px solid rgba(200,160,90,0.5);border-radius:7px;color:#C8A05A;font-size:12px;font-family:inherit;cursor:pointer;" title="تحديث البيانات من السحابة">↻ تحديث</button>
+</header>
+
+<!-- ═══ ADMIN ═══ -->
+<div id="page-admin" class="page active">
+<div class="container">
+  <div class="page-hero">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="13" fill="rgba(200,160,90,0.15)"/><path d="M18 34v-2a6 6 0 016-6h8a6 6 0 016 6v2" stroke="#C8A05A" stroke-width="2" stroke-linecap="round"/><circle cx="26" cy="20" r="5" stroke="#C8A05A" stroke-width="2"/><line x1="34" y1="12" x2="34" y2="18" stroke="#C8A05A" stroke-width="2" stroke-linecap="round"/><line x1="31" y1="15" x2="37" y2="15" stroke="#C8A05A" stroke-width="2" stroke-linecap="round"/></svg>
+    <div><div class="hero-title">لوحة الإدارة</div><div class="hero-sub">أضف المرشحين وسجّل المقيّمين قبل بدء جلسات التقييم</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg></div>
+      <div><div class="card-title">إضافة مرشح</div><div class="card-sub">بياناته ستظهر في قائمة اختيار المقيّمين</div></div>
+    </div>
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="field"><label>اسم المرشح *</label><input id="c-name" placeholder="الاسم الكامل"></div>
+      <div class="field"><label>الوظيفة المرشح لها *</label><input id="c-job" placeholder="مثال: مدير إدارة التقاضي"></div>
+    </div>
+    <div class="form-grid three" style="margin-bottom:12px;">
+      <div class="field"><label>الخبرة الإجمالية</label><input id="c-exp" placeholder="مثال: 10 سنوات"></div>
+      <div class="field"><label>العمر التقديري</label><input id="c-age" placeholder="مثال: 35"></div>
+      <div class="field"><label>الجنسية</label><input id="c-nat" placeholder="سعودي"></div>
+    </div>
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="field"><label>مصدر الترشيح</label><input id="c-src" placeholder="مثال: استقطاب / إحالة"></div>
+      <div class="field"><label>تقييم السيرة الذاتية (%)</label><input id="c-cv" type="number" min="0" max="100" placeholder="78"></div>
+    </div>
+    <div class="form-grid full" style="margin-bottom:16px;">
+      <div class="field">
+        <label>رابط السيرة الذاتية</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input id="c-cvlink" placeholder="مثال: https://drive.google.com/... أو أي رابط مشترك" style="flex:1;">
+          <a id="c-cvlink-preview" href="#" target="_blank" style="display:none;padding:9px 14px;background:var(--navy);color:#fff;border-radius:8px;font-size:12px;text-decoration:none;white-space:nowrap;flex-shrink:0;">فتح ↗</a>
+        </div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:5px;">ضع رابط Google Drive أو Dropbox أو أي رابط مشترك للسيرة الذاتية</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="addCandidate()">إضافة المرشح</button>
+      <button class="btn btn-sm" style="background:#fdf0ee;color:#c0392b;border:1px solid #f5c6c2;" onclick="clearAllData()">مسح جميع البيانات</button>
+    </div>
+    <div id="candidates-list" style="margin-top:1rem;min-height:30px;"></div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><div class="card-title">المقيّمون</div><div class="card-sub">المسجّلون في النظام</div></div>
+    </div>
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="field"><label>اسم المقيّم</label><input id="e-name" placeholder="الاسم الكامل"></div>
+      <div class="field"><label>الدور الوظيفي</label><input id="e-role" placeholder="مثال: أخصائية موارد بشرية"></div>
+    </div>
+    <button class="btn btn-outline" onclick="addEvaluator()">إضافة مقيّم</button>
+    <div id="evaluators-list" style="margin-top:1rem;min-height:30px;"></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ EVAL ═══ -->
+<div id="page-eval" class="page">
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+      <div><div class="card-title">معلومات الجلسة</div><div class="card-sub">حدد المقيّم والمرشح لبدء التقييم</div></div>
+    </div>
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="field"><label>المقيّم *</label><select id="sel-evaluator" onchange="checkReady()"><option value="">— اختر —</option></select></div>
+      <div class="field"><label>المرشح *</label><select id="sel-candidate" onchange="onCandidateSelect()"><option value="">— اختر —</option></select></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>تاريخ المقابلة</label><input type="date" id="e-date"></div>
+      <div class="field"><label>مكان المقابلة</label><input id="e-place" placeholder="مثال: مكتب الرياض"></div>
+    </div>
+  </div>
+  <div id="cand-bar" class="eval-info-bar" style="display:none;">
+    <div class="avatar" id="cand-avatar">م</div>
+    <div><div style="font-size:15px;font-weight:600;" id="cand-bar-name"></div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;" id="cand-bar-sub"></div></div>
+    <div class="cv-badge" id="cand-bar-cv"></div>
+  </div>
+  <div id="eval-empty" class="empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c0c8d8" stroke-width="1.5" style="margin:0 auto 12px;display:block;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>اختر المقيّم والمرشح أولاً</div>
+  <div id="eval-form" style="display:none;">
+    <div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+    <div class="card">
+      <div class="card-header" style="margin-bottom:.5rem;">
+        <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div><div class="card-title">التقييم العام</div><div class="card-sub">20 عاملاً — وزن 40%</div></div>
+        <div style="margin-right:auto;font-size:12px;color:var(--gold);font-weight:600;" id="g-score-disp">0 / 100</div>
+      </div>
+      <div id="general-rows"></div>
+    </div>
+    <div class="card">
+      <div class="card-header" style="margin-bottom:.5rem;">
+        <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div><div class="card-title">التقييم الخاص بالشاغر</div><div class="card-sub">14 عاملاً — وزن 60%</div></div>
+        <div style="margin-right:auto;font-size:12px;color:var(--gold);font-weight:600;" id="s-score-disp">0 / 70</div>
+      </div>
+      <div id="special-rows"></div>
+    </div>
+    <div class="card">
+      <div class="card-header" style="margin-bottom:.5rem;">
+        <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+        <div><div class="card-title">القوة والضعف والتوصية</div></div>
+      </div>
+      <div class="form-grid full" style="margin-bottom:12px;"><div class="field"><label>أهم نقاط القوة</label><textarea id="strengths" placeholder="1- &#10;2- &#10;3- "></textarea></div></div>
+      <div class="form-grid full" style="margin-bottom:12px;"><div class="field"><label>أهم نقاط الضعف</label><textarea id="weaknesses" placeholder="1- &#10;2- &#10;3- "></textarea></div></div>
+      <div class="form-grid full" style="margin-bottom:12px;"><div class="field"><label>ملاحظات عامة</label><textarea id="gen-notes"></textarea></div></div>
+      <div class="form-grid">
+        <div class="field"><label>التوصية النهائية</label>
+          <select id="recommendation"><option value="">— اختر —</option><option>مناسب جداً</option><option>ممتاز</option><option>متوسط</option><option>بديل</option><option>غير مناسب</option><option>يُعاد تقييمه</option><option>مرفوض</option></select>
+        </div>
+        <div class="field"><label>الراتب المتوقع (ريال/شهر)</label><input id="salary" placeholder="مثال: 25,000"></div>
+      </div>
+    </div>
+    <div id="result-box" class="result-box" style="display:none;">
+      <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px;">معاينة النتيجة</div>
+      <div class="result-row"><span>التقييم العام (40%)</span><span id="r-g">—</span></div>
+      <div class="result-row"><span>التقييم الخاص (60%)</span><span id="r-s">—</span></div>
+      <hr class="result-divider">
+      <div class="result-row" style="font-weight:600;color:#fff;"><span style="font-size:14px;">الإجمالي</span><div><span class="result-total" id="r-total">—</span><span class="result-label" id="r-label"></span></div></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:1.25rem;flex-wrap:wrap;">
+      <button class="btn btn-gold" onclick="submitEval()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+        إرسال وتوليد PDF
+      </button>
+      <button class="btn btn-outline" onclick="calcAndShow()">معاينة النتيجة</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ RECORDS ═══ -->
+<div id="page-records" class="page">
+<div class="container">
+  <div class="page-hero">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="13" fill="rgba(200,160,90,0.15)"/><path d="M16 14h20v24H16z" stroke="#C8A05A" stroke-width="2" stroke-linejoin="round"/><line x1="21" y1="20" x2="31" y2="20" stroke="#C8A05A" stroke-width="1.5" stroke-linecap="round"/><line x1="21" y1="24" x2="31" y2="24" stroke="#C8A05A" stroke-width="1.5" stroke-linecap="round"/><line x1="21" y1="28" x2="27" y2="28" stroke="#C8A05A" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <div><div class="hero-title">سجل التقييمات</div><div class="hero-sub">جميع التقييمات المُرسلة — يمكن إعادة تصدير أي تقرير</div></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;"><div id="records-body"><div class="empty" style="padding:3rem;">لا توجد تقييمات بعد</div></div></div>
+</div>
+</div>
+
+<!-- ═══ ANALYSIS ═══ -->
+<div id="page-analysis" class="page">
+<div class="container">
+  <div class="metric-row">
+    <div class="metric-box"><div class="metric-val" id="m-evals">0</div><div class="metric-lbl">تقييمات مُرسلة</div></div>
+    <div class="metric-box"><div class="metric-val" id="m-cands">0</div><div class="metric-lbl">مرشحون مقيّمون</div></div>
+    <div class="metric-box"><div class="metric-val" id="m-avg">—</div><div class="metric-lbl">متوسط النتائج</div></div>
+  </div>
+  <div class="card"><div class="field"><label>اختر مرشحاً</label><select id="analysis-sel" onchange="renderAnalysis()" style="margin-top:6px;"><option value="">— اختر —</option></select></div></div>
+  <div id="analysis-body"><div class="empty">اختر مرشحاً لعرض تقاريره</div></div>
+</div>
+</div>
+
+<!-- PDF Loading overlay -->
+<div class="pdf-overlay" id="pdf-overlay">
+  <div class="pdf-spinner">
+    <div class="spinner-ring"></div>
+    <div style="font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;color:#1a2a5e;font-weight:500;">جاري توليد التقرير...</div>
+    <div style="font-size:12px;color:#9aa0b4;margin-top:6px;">قد يستغرق بضع ثوانٍ</div>
+  </div>
+</div>
+
+<!-- ═══════════ PDF TEMPLATE ═══════════ -->
+<div id="pdf-template"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const {jsPDF}=window.jspdf;
+
+const GENERAL=['المظهر','السلوك','التعبير عن الذات','النضج','الحكم واتخاذ القرار','مهارات التواصل','إجادة اللغة الإنجليزية','حل المشكلات','العمل تحت الضغط','تحمل المسؤولية','الإيجابية والمبادرة','قابلية التطور المهني','الخبرة المهنية','خبرة النشاط','الاستقرار في العمل','الإنجازات المهنية والشخصية','المهارات التقنية','المهارات الشخصية','القدرات الذهنية','التقييم النفسي'];
+const SPECIAL=['تقييم وتحليل الموقف القضائي وتحديد الاستراتيجية','إتقان صياغة المذكرات القانونية','سابق الخبرة في دور مهني مماثل للمنصب','توزيع القضايا والمهام على الفريق','إدارة الاجتماعات الدورية وضبط الجدول الزمني','التناسب الثقافي للمنشأة','الرقابة على المواعيد والإجراءات القضائية','التعامل مع كبار العملاء واحتواء طلباتهم','متابعة أعمال الفريق والتأكد من الالتزام','إعداد التقارير الدورية (عملاء / الإدارة التنفيذية)','تقييم الدعاوى الجديدة قبل التعاقد','إدارة المعرفة والتدريب ونقل الخبرة','المعرفة بالأنظمة والأدوات التقنية','متابعة مستجدات والتحديثات القانونية'];
+
+// ═══ Firebase Config ═══
+// Demo mode: data is stored only in this browser (localStorage).
+// To sync across a team, connect your own backend here.
+const FB_URL=null;
+
+let state={
+  candidates:[],
+  evaluators:[
+    {id:1,name:'مقيّم 1',role:'مدير القسم'},
+    {id:2,name:'مقيّم 2',role:'مطور أعمال'},
+    {id:3,name:'مقيّم 3',role:'أخصائية موارد بشرية'},
+    {id:4,name:'مقيّم 4',role:'الرئيس التنفيذي'},
+    {id:5,name:'مقيّم 5',role:'شريك'}
+  ],
+  submissions:[],
+  ratings:{g:{},s:{}},
+  notes:{g:{},s:{}}
+};
+
+// ═══ CLOUD SYNC ═══
+function showSyncBadge(msg,color){
+  let el=document.getElementById('sync-badge');
+  if(!el){
+    el=document.createElement('div');
+    el.id='sync-badge';
+    el.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#0f1a3d;color:#fff;padding:7px 20px;border-radius:8px;font-size:12px;font-family:IBM Plex Sans Arabic,sans-serif;z-index:9997;border-right:3px solid #C8A05A;transition:opacity .4s;white-space:nowrap;';
+    document.body.appendChild(el);
+  }
+  el.style.borderColor=color||'#C8A05A';
+  el.textContent=msg;
+  el.style.opacity='1';
+}
+function hideSyncBadge(delay=2000){setTimeout(()=>{const el=document.getElementById('sync-badge');if(el)el.style.opacity='0';},delay);}
+
+async function loadFromCloud(){
+  showSyncBadge('⟳  جاري تحميل البيانات...','#C8A05A');
+  try{
+    const res={ok:true,json:async()=>JSON.parse(localStorage.getItem('candidate_eval_cloud')||'null')};
+    if(!res.ok) throw new Error(res.status);
+    const data=await res.json();
+    if(data){
+      if(Array.isArray(data.candidates)) state.candidates=data.candidates;
+      if(Array.isArray(data.submissions)) state.submissions=data.submissions;
+    }
+    renderCandidates();
+    renderEvaluators();
+    showSyncBadge('✓  البيانات محدّثة','#1e6b3a');
+    hideSyncBadge(2500);
+  }catch(e){
+    showSyncBadge('⚠  '+e.message,'#c0392b');
+    hideSyncBadge(5000);
+    console.error('Firebase load error:',e);
+  }
+}
+
+async function saveToCloud(){
+  showSyncBadge('⟳  جاري الحفظ في السحابة...','#C8A05A');
+  try{
+    const payload={candidates:state.candidates,submissions:state.submissions};
+    localStorage.setItem('candidate_eval_cloud',JSON.stringify(payload));const res={ok:true};
+    if(!res.ok) throw new Error(res.status);
+    showSyncBadge('✓  تم الحفظ بنجاح','#1e6b3a');
+    hideSyncBadge(2500);
+  }catch(e){
+    showSyncBadge('⚠  '+e.message,'#c0392b');
+    hideSyncBadge(5000);
+    console.error('Firebase save error:',e);
+  }
+}
+
+function showPage(p,btn){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  btn.classList.add('active');
+  if(p==='eval')refreshEvalSelects();
+  if(p==='analysis')refreshAnalysisPage();
+  if(p==='records')renderRecords();
+}
+function toast(msg,dur=2800){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),dur);}
+
+// ── CANDIDATES
+function addCandidate(){
+  const name=document.getElementById('c-name').value.trim();
+  const job=document.getElementById('c-job').value.trim();
+  if(!name||!job){toast('أدخل اسم المرشح والوظيفة');return;}
+  const cvlinkEl=document.getElementById('c-cvlink');
+  state.candidates.push({id:Date.now(),name,job,exp:document.getElementById('c-exp').value,age:document.getElementById('c-age').value,nat:document.getElementById('c-nat').value,src:document.getElementById('c-src').value,cv:document.getElementById('c-cv').value||'—',cvlink:cvlinkEl?cvlinkEl.value.trim():''});
+  ['c-name','c-job','c-exp','c-age','c-nat','c-src','c-cv','c-cvlink'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderCandidates();saveToCloud();toast('تمت إضافة المرشح ✓');
+}
+function removeCandidate(id){state.candidates=state.candidates.filter(c=>c.id!==id);renderCandidates();saveToCloud();}
+function renderCandidates(){
+  const el=document.getElementById('candidates-list');
+  if(!state.candidates.length){el.innerHTML='<div style="font-size:12px;color:var(--gray-400);">لا يوجد مرشحون بعد</div>';return;}
+  el.innerHTML=state.candidates.map(c=>`
+    <div style="display:inline-flex;align-items:center;gap:0;background:#eef1fb;border-radius:8px;margin:3px;overflow:hidden;">
+      <span style="padding:5px 10px;font-size:12px;font-weight:500;color:var(--navy);">${c.name} — ${c.job}</span>
+      ${c.cvlink?`<a href="${c.cvlink}" target="_blank" style="padding:5px 10px;background:var(--navy);color:#C8A05A;font-size:11px;text-decoration:none;font-weight:500;">السيرة ↗</a>`:''}
+      <button class="tag-remove" onclick="removeCandidate(${c.id})" style="padding:5px 10px;color:var(--navy);font-size:14px;background:rgba(26,42,94,0.08);">×</button>
+    </div>`).join('');
+}
+
+// ── EVALUATORS
+function addEvaluator(){
+  const name=document.getElementById('e-name').value.trim();
+  const role=document.getElementById('e-role').value.trim();
+  if(!name){toast('أدخل اسم المقيّم');return;}
+  if(state.evaluators.find(e=>e.name===name)){toast('المقيّم موجود مسبقاً');return;}
+  state.evaluators.push({id:Date.now(),name,role});
+  document.getElementById('e-name').value='';document.getElementById('e-role').value='';
+  renderEvaluators();toast('تم تسجيل المقيّم ✓');
+}
+function removeEvaluator(id){state.evaluators=state.evaluators.filter(e=>e.id!==id);renderEvaluators();}
+function renderEvaluators(){
+  const el=document.getElementById('evaluators-list');
+  el.innerHTML=state.evaluators.map(e=>`<span class="tag tag-gold">${e.name}${e.role?' | '+e.role:''}<button class="tag-remove" onclick="removeEvaluator(${e.id})">×</button></span>`).join('');
+}
+
+// ── EVAL
+function refreshEvalSelects(){
+  const sev=document.getElementById('sel-evaluator');
+  const sc=document.getElementById('sel-candidate');
+  const pEv=sev.value,pCa=sc.value;
+  sev.innerHTML='<option value="">— اختر —</option>'+state.evaluators.map(e=>`<option value="${e.id}"${e.id==pEv?' selected':''}>${e.name} — ${e.role}</option>`).join('');
+  sc.innerHTML='<option value="">— اختر —</option>'+state.candidates.map(c=>`<option value="${c.id}"${c.id==pCa?' selected':''}>${c.name} — ${c.job}</option>`).join('');
+}
+function checkReady(){
+  const ev=document.getElementById('sel-evaluator').value;
+  const ca=document.getElementById('sel-candidate').value;
+  const ready=ev&&ca;
+  document.getElementById('eval-empty').style.display=ready?'none':'block';
+  document.getElementById('eval-form').style.display=ready?'block':'none';
+  if(ready)buildFactors();
+}
+function onCandidateSelect(){
+  const id=parseInt(document.getElementById('sel-candidate').value);
+  const cand=state.candidates.find(c=>c.id===id);
+  const bar=document.getElementById('cand-bar');
+  if(cand){
+    bar.style.display='flex';
+    document.getElementById('cand-avatar').textContent=cand.name.charAt(0);
+    document.getElementById('cand-bar-name').textContent=cand.name;
+    document.getElementById('cand-bar-sub').textContent=`${cand.job}${cand.exp?' | '+cand.exp:''}${cand.nat?' | '+cand.nat:''}`;
+    const cvBadge=document.getElementById('cand-bar-cv');
+    cvBadge.innerHTML=cand.cvlink
+      ? `<a href="${cand.cvlink}" target="_blank" style="color:var(--navy-dark);text-decoration:none;">السيرة: ${cand.cv}%  ↗</a>`
+      : `السيرة الذاتية: ${cand.cv}%`;
+  }else{bar.style.display='none';}
+  checkReady();
+}
+function buildFactors(){
+  buildRows('general-rows',GENERAL,'g');
+  buildRows('special-rows',SPECIAL,'s');
+  updateProgress();
+}
+function buildRows(cId,factors,type){
+  document.getElementById(cId).innerHTML=factors.map((f,i)=>`
+    <div class="rating-row">
+      <span class="factor-label"><span class="factor-num">${i+1}. </span>${f}</span>
+      <div class="stars" id="stars-${type}-${i}">${[1,2,3,4,5].map(n=>`<div class="star" onclick="setRating('${type}',${i},${n})">${n}</div>`).join('')}</div>
+      <input class="note-field" placeholder="ملاحظة..." onchange="state.notes['${type}'][${i}]=this.value">
+    </div>`).join('');
+}
+function setRating(type,idx,val){
+  state.ratings[type][idx]=val;
+  document.querySelectorAll(`#stars-${type}-${idx} .star`).forEach((s,i)=>s.classList.toggle('active',i<val));
+  updateProgress();calcAndShow(false);
+}
+function updateProgress(){
+  const total=GENERAL.length+SPECIAL.length;
+  const filled=Object.keys(state.ratings.g).length+Object.keys(state.ratings.s).length;
+  document.getElementById('prog-bar').style.width=Math.round(filled/total*100)+'%';
+  document.getElementById('g-score-disp').textContent=Object.values(state.ratings.g).reduce((a,b)=>a+b,0)+' / '+(GENERAL.length*5);
+  document.getElementById('s-score-disp').textContent=Object.values(state.ratings.s).reduce((a,b)=>a+b,0)+' / '+(SPECIAL.length*5);
+}
+function calcScores(){
+  const gSum=Object.values(state.ratings.g).reduce((a,b)=>a+b,0);
+  const sSum=Object.values(state.ratings.s).reduce((a,b)=>a+b,0);
+  const gPct=Math.round(gSum/(GENERAL.length*5)*100);
+  const sPct=Math.round(sSum/(SPECIAL.length*5)*100);
+  const total=Math.round(gPct*0.4+sPct*0.6);
+  const label=total<=25?'مرفوض':total<=50?'ضعيف':total<=75?'متوسط':'ممتاز';
+  const color=total<=25?'#c0392b':total<=50?'#b7770d':total<=75?'#1a6fa8':'#1e6b3a';
+  return{gSum,sSum,gPct,sPct,total,label,color};
+}
+function calcAndShow(show=true){
+  const sc=calcScores();
+  if(show||Object.keys(state.ratings.g).length+Object.keys(state.ratings.s).length>0){
+    document.getElementById('r-g').textContent=sc.gPct+'%';
+    document.getElementById('r-s').textContent=sc.sPct+'%';
+    document.getElementById('r-total').textContent=sc.total+'%';
+    const lbl=document.getElementById('r-label');
+    lbl.textContent=sc.label;lbl.style.background=sc.color+'33';lbl.style.color=sc.color;
+    document.getElementById('result-box').style.display='block';
+  }
+  return sc;
+}
+function submitEval(){
+  const evId=document.getElementById('sel-evaluator').value;
+  const caId=document.getElementById('sel-candidate').value;
+  if(!evId||!caId){toast('اختر المقيّم والمرشح');return;}
+  if(Object.keys(state.ratings.g).length+Object.keys(state.ratings.s).length<15){toast('يرجى تقييم معظم العوامل أولاً');return;}
+  const ev=state.evaluators.find(e=>e.id==evId);
+  const cand=state.candidates.find(c=>c.id==caId);
+  const sc=calcAndShow();
+  const sub={
+    id:Date.now(),ts:new Date().toLocaleString('ar-SA'),
+    evaluator:ev,candidate:cand,
+    date:document.getElementById('e-date').value,
+    place:document.getElementById('e-place').value,
+    ratings:JSON.parse(JSON.stringify(state.ratings)),
+    notes:JSON.parse(JSON.stringify(state.notes)),
+    strengths:document.getElementById('strengths').value,
+    weaknesses:document.getElementById('weaknesses').value,
+    genNotes:document.getElementById('gen-notes').value,
+    recommendation:document.getElementById('recommendation').value,
+    salary:document.getElementById('salary').value,
+    scores:sc
+  };
+  state.submissions.push(sub);
+  saveToCloud();
+  generatePDF(sub);
+  resetForm();
+}
+function resetForm(){
+  state.ratings={g:{},s:{}};state.notes={g:{},s:{}};
+  buildFactors();
+  ['strengths','weaknesses','gen-notes','recommendation','salary','e-date','e-place'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('result-box').style.display='none';
+  document.getElementById('prog-bar').style.width='0%';
+  document.getElementById('g-score-disp').textContent='0 / 100';
+  document.getElementById('s-score-disp').textContent='0 / 70';
+}
+
+// ══════════════════════════════════════════════
+//  PDF via HTML → Canvas → jsPDF  (Arabic safe)
+// ══════════════════════════════════════════════
+function scoreLabel(pct){return pct<=25?'مرفوض':pct<=50?'ضعيف':pct<=75?'متوسط':'ممتاز';}
+function scoreColor(pct){return pct<=25?'#c0392b':pct<=50?'#b7770d':pct<=75?'#1a6fa8':'#1e6b3a';}
+function dotRow(val){
+  return[1,2,3,4,5].map(d=>`<div class="pdf-dot" style="background:${d<=val?scoreColor(val*20):'#e2e6ee'};"></div>`).join('');
+}
+function barHtml(label,pct,color){
+  return`<div class="pdf-bar-row">
+    <div class="pdf-bar-label">${label}</div>
+    <div class="pdf-bar-track"><div class="pdf-bar-fill" style="width:${pct}%;background:${color};"></div></div>
+    <div class="pdf-bar-val" style="color:${color};">${pct}%</div>
+  </div>`;
+}
+
+function buildPdfHtml(sub){
+  const sc=sub.scores;
+  const totalColor=scoreColor(sc.total);
+  const ts=sub.ts||'';
+
+  // factor table rows
+  function factorRows(factors,ratingsObj,notesObj){
+    return factors.map((f,i)=>{
+      const val=ratingsObj[i]||0;
+      const note=notesObj[i]||'';
+      return`<tr>
+        <td>${i+1}. ${f}</td>
+        <td><div class="pdf-dots">${dotRow(val)}</div></td>
+        <td style="font-weight:600;color:${val>0?scoreColor(val*20):'#ccc'};">${val>0?val+'/5':'—'}</td>
+        <td style="color:#5a6280;font-size:10.5px;">${note}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  return`
+  <div style="font-family:'IBM Plex Sans Arabic',sans-serif;direction:rtl;background:#fff;width:794px;">
+
+  <!-- PAGE 1 -->
+  <div class="pdf-page">
+    <div class="pdf-header">
+      <div class="pdf-header-top">
+        <div class="pdf-logo">
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+            <circle cx="21" cy="21" r="19" stroke="#C8A05A" stroke-width="2"/>
+            <path d="M12 29 L21 13 L30 29" stroke="#C8A05A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15.5 23.5 L26.5 23.5" stroke="#C8A05A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div class="pdf-logo-text">اسم شركتك</div>
+            <div class="pdf-logo-sub">محامون ومستشارون قانونيون</div>
+          </div>
+        </div>
+        <div style="text-align:left;color:rgba(255,255,255,0.5);font-size:10px;">
+          <div>${ts}</div>
+          <div style="margin-top:3px;">وثيقة سرية</div>
+        </div>
+      </div>
+      <div class="pdf-report-title">تقرير تقييم المقابلة الشخصية</div>
+    </div>
+
+    <div class="pdf-section">
+      <!-- INFO GRID -->
+      <div class="pdf-info-grid">
+        <div class="pdf-info-cell label">اسم المرشح</div>
+        <div class="pdf-info-cell val">${sub.candidate.name}</div>
+        <div class="pdf-info-cell label">الوظيفة المرشح لها</div>
+        <div class="pdf-info-cell val">${sub.candidate.job}</div>
+        <div class="pdf-info-cell label">المقيّم</div>
+        <div class="pdf-info-cell val">${sub.evaluator.name} — ${sub.evaluator.role}</div>
+        <div class="pdf-info-cell label">تاريخ المقابلة</div>
+        <div class="pdf-info-cell val">${sub.date||'—'}</div>
+        <div class="pdf-info-cell label">الخبرة الإجمالية</div>
+        <div class="pdf-info-cell val">${sub.candidate.exp||'—'}</div>
+        <div class="pdf-info-cell label">مكان المقابلة</div>
+        <div class="pdf-info-cell val">${sub.place||'—'}</div>
+        <div class="pdf-info-cell label">العمر التقديري</div>
+        <div class="pdf-info-cell val">${sub.candidate.age||'—'}</div>
+        <div class="pdf-info-cell label">الجنسية</div>
+        <div class="pdf-info-cell val">${sub.candidate.nat||'—'}</div>
+        <div class="pdf-info-cell label">مصدر الترشيح</div>
+        <div class="pdf-info-cell val">${sub.candidate.src||'—'}</div>
+        <div class="pdf-info-cell label">تقييم السيرة الذاتية</div>
+        <div class="pdf-info-cell val">${sub.candidate.cv}%</div>
+      </div>
+
+      <!-- SCORES -->
+      <div class="pdf-score-box">
+        <div class="pdf-score-item"><div class="lbl">التقييم العام (40%)</div><div class="val">${sc.gPct}%</div></div>
+        <div class="pdf-score-divider"></div>
+        <div class="pdf-score-item"><div class="lbl">التقييم الخاص (60%)</div><div class="val">${sc.sPct}%</div></div>
+        <div class="pdf-score-divider"></div>
+        <div class="pdf-score-item"><div class="lbl">الدرجة الكلية</div><div class="val" style="font-size:28px;color:#C8A05A;">${sc.total}%</div></div>
+        <div class="pdf-score-divider"></div>
+        <div class="pdf-score-item"><div class="lbl">التصنيف</div><div class="val" style="font-size:20px;color:${totalColor};">${sc.label}</div></div>
+      </div>
+
+      <!-- SCALE -->
+      <div class="pdf-scale">
+        <div class="pdf-scale-item" style="background:#fdf0ee;color:#c0392b;">0 – 25%<br>مرفوض</div>
+        <div class="pdf-scale-item" style="background:#fdf6e8;color:#b7770d;">26 – 50%<br>ضعيف</div>
+        <div class="pdf-scale-item" style="background:#eaf3fb;color:#1a6fa8;">51 – 75%<br>متوسط</div>
+        <div class="pdf-scale-item" style="background:#edf7f1;color:#1e6b3a;">76 – 100%<br>ممتاز</div>
+      </div>
+
+      <!-- BARS -->
+      <div class="pdf-bars">
+        ${barHtml('التقييم العام',sc.gPct,scoreColor(sc.gPct))}
+        ${barHtml('التقييم الخاص',sc.sPct,scoreColor(sc.sPct))}
+        ${barHtml('الإجمالي',sc.total,scoreColor(sc.total))}
+      </div>
+
+      <!-- GENERAL TABLE -->
+      <div class="pdf-section-header">أولاً: التقييم العام — 20 عاملاً (وزن 40%)</div>
+      <table class="pdf-table">
+        <thead><tr><th style="width:42%;">عامل التقييم</th><th style="width:18%;">التقييم</th><th style="width:10%;">الدرجة</th><th>ملاحظات</th></tr></thead>
+        <tbody>${factorRows(GENERAL,sub.ratings.g,sub.notes.g)}</tbody>
+      </table>
+    </div>
+
+    <div class="pdf-footer">
+      <div class="pdf-footer-text">اسم شركتك — وثيقة تقييم سرية — صفحة 1</div>
+      <div class="pdf-footer-brand">ALZERAIG LAW FIRM</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="pdf-page">
+    <div class="pdf-header">
+      <div class="pdf-header-top">
+        <div class="pdf-logo">
+          <svg width="36" height="36" viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" stroke="#C8A05A" stroke-width="2"/><path d="M12 29 L21 13 L30 29" stroke="#C8A05A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 23.5 L26.5 23.5" stroke="#C8A05A" stroke-width="2" stroke-linecap="round"/></svg>
+          <div><div class="pdf-logo-text">اسم شركتك</div><div class="pdf-logo-sub">تقرير تقييم — ${sub.candidate.name}</div></div>
+        </div>
+      </div>
+      <div class="pdf-report-title">تابع التقييم — التقييم الخاص بالشاغر</div>
+    </div>
+
+    <div class="pdf-section">
+      <!-- SPECIAL TABLE -->
+      <div class="pdf-section-header">ثانياً: التقييم الخاص بالشاغر — 14 عاملاً (وزن 60%)</div>
+      <table class="pdf-table">
+        <thead><tr><th style="width:42%;">عامل التقييم</th><th style="width:18%;">التقييم</th><th style="width:10%;">الدرجة</th><th>ملاحظات</th></tr></thead>
+        <tbody>${factorRows(SPECIAL,sub.ratings.s,sub.notes.s)}</tbody>
+      </table>
+
+      <!-- QUAL BOXES -->
+      ${sub.strengths?`<div class="pdf-qual-box strength"><div class="pdf-qual-title" style="color:#1e6b3a;">✦ أهم نقاط القوة</div><div class="pdf-qual-text">${sub.strengths}</div></div>`:''}
+      ${sub.weaknesses?`<div class="pdf-qual-box weakness"><div class="pdf-qual-title" style="color:#c0392b;">✦ أهم نقاط الضعف</div><div class="pdf-qual-text">${sub.weaknesses}</div></div>`:''}
+      ${sub.genNotes?`<div class="pdf-qual-box notes"><div class="pdf-qual-title" style="color:#1a2a5e;">✦ ملاحظات عامة وانطباع المقيّم</div><div class="pdf-qual-text">${sub.genNotes}</div></div>`:''}
+
+      <!-- RECOMMENDATION -->
+      <div class="pdf-rec-box" style="background:${totalColor};margin-top:14px;">
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:4px;">التوصية النهائية</div>
+          <div style="font-size:18px;font-weight:700;color:#fff;">${sub.recommendation||'لم تُحدَّد'}</div>
+        </div>
+        <div style="text-align:left;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:4px;">الراتب المتوقع</div>
+          <div style="font-size:14px;font-weight:600;color:#fff;">${sub.salary?sub.salary+' ريال/شهر':'لم يُفصح'}</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px;font-weight:700;color:rgba(255,255,255,0.9);">${sc.total}%</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8);">${sc.label}</div>
+        </div>
+      </div>
+
+      <!-- SIGNATURE -->
+      <div class="pdf-sig-area">
+        <div class="pdf-sig-box">
+          <div class="pdf-sig-line"></div>
+          <div class="pdf-sig-name">${sub.evaluator.name}</div>
+          <div class="pdf-sig-role">${sub.evaluator.role}</div>
+          <div class="pdf-sig-role" style="color:#9aa0b4;margin-top:3px;">توقيع المقيّم</div>
+        </div>
+        <div class="pdf-sig-box">
+          <div class="pdf-sig-line"></div>
+          <div class="pdf-sig-name">الجهة المعتمِدة</div>
+          <div class="pdf-sig-role">التوقيع المعتمَد</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdf-footer">
+      <div class="pdf-footer-text">اسم شركتك — وثيقة تقييم سرية — صفحة 2</div>
+      <div class="pdf-footer-brand">ALZERAIG LAW FIRM</div>
+    </div>
+  </div>
+
+  </div>`;
+}
+
+async function generatePDF(sub){
+  const overlay=document.getElementById('pdf-overlay');
+  overlay.classList.add('show');
+  await new Promise(r=>setTimeout(r,100));
+
+  const tpl=document.getElementById('pdf-template');
+  tpl.innerHTML=buildPdfHtml(sub);
+  tpl.style.right='-9999px';
+  tpl.style.position='fixed';
+  tpl.style.top='0';
+
+  // wait for fonts
+  await document.fonts.ready;
+  await new Promise(r=>setTimeout(r,400));
+
+  const pages=tpl.querySelectorAll('.pdf-page');
+  const doc=new jsPDF({orientation:'p',unit:'mm',format:'a4'});
+  const A4_W=210,A4_H=297;
+
+  for(let i=0;i<pages.length;i++){
+    if(i>0)doc.addPage();
+    const canvas=await html2canvas(pages[i],{
+      scale:2,
+      useCORS:true,
+      allowTaint:true,
+      backgroundColor:'#ffffff',
+      width:794,
+      windowWidth:794
+    });
+    const imgData=canvas.toDataURL('image/jpeg',0.92);
+    doc.addImage(imgData,'JPEG',0,0,A4_W,A4_H);
+  }
+
+  const fname='AlZeraig_'+sub.candidate.name.replace(/\s+/g,'_')+'_'+sub.evaluator.name.split(' ')[0]+'.pdf';
+  doc.save(fname);
+
+  tpl.innerHTML='';
+  overlay.classList.remove('show');
+  toast('تم تحميل تقرير PDF بنجاح ✓',3000);
+}
+
+// ── RECORDS
+function renderRecords(){
+  const body=document.getElementById('records-body');
+  if(!state.submissions.length){body.innerHTML='<div class="empty" style="padding:3rem;">لا توجد تقييمات بعد</div>';return;}
+  body.innerHTML=`<table class="rec-table"><thead><tr><th>المرشح</th><th>الوظيفة</th><th>المقيّم</th><th>التاريخ</th><th>الإجمالي</th><th>التصنيف</th><th>التوصية</th><th>PDF</th></tr></thead><tbody>
+    ${state.submissions.map(s=>{
+      const sc=s.scores;
+      const cls=sc.total<=25?'badge-weak':sc.total<=50?'badge-mid':sc.total<=75?'badge-good':'badge-excellent';
+      return`<tr>
+        <td><strong>${s.candidate.name}</strong></td>
+        <td style="color:var(--gray-600);font-size:12px;">${s.candidate.job}</td>
+        <td>${s.evaluator.name}<br><span style="font-size:11px;color:var(--gray-400);">${s.evaluator.role}</span></td>
+        <td style="font-size:12px;">${s.date||'—'}</td>
+        <td style="font-weight:700;font-size:15px;color:${sc.color};">${sc.total}%</td>
+        <td><span class="badge ${cls}">${sc.label}</span></td>
+        <td style="font-size:12px;">${s.recommendation||'—'}</td>
+        <td><button class="btn btn-outline btn-sm" onclick="generatePDF(state.submissions.find(x=>x.id===${s.id}))">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF
+        </button></td>
+      </tr>`;
+    }).join('')}
+  </tbody></table>`;
+}
+
+// ── ANALYSIS
+function refreshAnalysisPage(){
+  const total=state.submissions.length;
+  document.getElementById('m-evals').textContent=total;
+  document.getElementById('m-cands').textContent=[...new Set(state.submissions.map(s=>s.candidate.id))].length;
+  if(total>0)document.getElementById('m-avg').textContent=Math.round(state.submissions.reduce((a,s)=>a+s.scores.total,0)/total)+'%';
+  const sel=document.getElementById('analysis-sel');
+  const prev=sel.value;
+  sel.innerHTML='<option value="">— اختر —</option>'+state.candidates.filter(c=>state.submissions.find(s=>s.candidate.id===c.id)).map(c=>`<option value="${c.id}"${c.id==prev?' selected':''}>${c.name} — ${c.job}</option>`).join('');
+  renderAnalysis();
+}
+function renderAnalysis(){
+  const id=parseInt(document.getElementById('analysis-sel').value);
+  const body=document.getElementById('analysis-body');
+  if(!id){body.innerHTML='<div class="empty">اختر مرشحاً لعرض تقاريره</div>';return;}
+  const subs=state.submissions.filter(s=>s.candidate.id===id);
+  if(!subs.length){body.innerHTML='<div class="empty">لا توجد تقييمات</div>';return;}
+  const cand=state.candidates.find(c=>c.id===id);
+  const avgTotal=Math.round(subs.reduce((a,s)=>a+s.scores.total,0)/subs.length);
+  const avgG=Math.round(subs.reduce((a,s)=>a+s.scores.gPct,0)/subs.length);
+  const avgS=Math.round(subs.reduce((a,s)=>a+s.scores.sPct,0)/subs.length);
+  const color=scoreColor(avgTotal);
+  const label=scoreLabel(avgTotal);
+  const lblBg=avgTotal<=25?'var(--danger-light)':avgTotal<=50?'var(--warn-light)':avgTotal<=75?'#eaf3fb':'var(--success-light)';
+  const avgF=(type,idx)=>{const vals=subs.map(s=>s.ratings[type][idx]||0).filter(v=>v>0);return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;};
+  body.innerHTML=`
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;">
+        <div class="avatar">${cand.name.charAt(0)}</div>
+        <div style="flex:1;"><div style="font-size:16px;font-weight:600;color:var(--navy);">${cand.name}</div><div style="font-size:12px;color:var(--gray-400);margin-top:3px;">${cand.job} | ${subs.length} تقييم</div></div>
+        <div style="text-align:center;"><div style="font-size:30px;font-weight:700;color:${color};">${avgTotal}%</div><div style="font-size:12px;background:${lblBg};color:${color};padding:3px 10px;border-radius:6px;font-weight:600;">${label}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="metric-box"><div class="metric-val" style="color:var(--navy);">${avgG}%</div><div class="metric-lbl">متوسط التقييم العام</div></div>
+        <div class="metric-box"><div class="metric-val" style="color:var(--navy);">${avgS}%</div><div class="metric-lbl">متوسط التقييم الخاص</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="card-title">تحليل عوامل التقييم العام</div></div>
+      ${GENERAL.map((f,i)=>{const avg=avgF('g',i);return`<div class="bar-row"><span class="bar-label">${i+1}. ${f}</span><div class="bar-track"><div class="bar-fill" style="width:${avg/5*100}%;background:${avg>=3.5?'var(--navy)':avg>=2?'var(--gold)':'var(--danger)'};"></div></div><span class="bar-val">${avg?avg.toFixed(1):'—'}</span></div>`;}).join('')}
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="card-title">تحليل عوامل التقييم الخاص</div></div>
+      ${SPECIAL.map((f,i)=>{const avg=avgF('s',i);return`<div class="bar-row"><span class="bar-label">${i+1}. ${f}</span><div class="bar-track"><div class="bar-fill" style="width:${avg/5*100}%;background:${avg>=3.5?'var(--navy)':avg>=2?'var(--gold)':'var(--danger)'};"></div></div><span class="bar-val">${avg?avg.toFixed(1):'—'}</span></div>`;}).join('')}
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8A05A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="card-title">تفاصيل المقيّمين</div></div>
+      ${subs.map(s=>`<div class="sub-card"><div class="sub-header"><div style="display:flex;align-items:center;gap:10px;"><div class="avatar avatar-sm">${s.evaluator.name.charAt(0)}</div><div><div class="sub-name">${s.evaluator.name}</div><div class="sub-meta">${s.evaluator.role}${s.date?' | '+s.date:''}${s.place?' | '+s.place:''}</div></div></div><div style="display:flex;align-items:center;gap:8px;"><div class="sub-score" style="color:${s.scores.color};">${s.scores.total}%</div><button class="btn btn-outline btn-sm" onclick="generatePDF(state.submissions.find(x=>x.id===${s.id}))">PDF</button></div></div>${s.recommendation?`<div style="margin-top:8px;font-size:12px;"><span style="color:var(--gray-400);">التوصية:</span> <strong>${s.recommendation}</strong></div>`:''}${s.strengths?`<div style="margin-top:5px;font-size:12px;color:var(--success);">+ ${s.strengths.split('\n').slice(0,2).join(' | ')}</div>`:''}${s.weaknesses?`<div style="margin-top:3px;font-size:12px;color:var(--danger);">- ${s.weaknesses.split('\n').slice(0,2).join(' | ')}</div>`:''}${s.genNotes?`<div style="margin-top:6px;font-size:12px;color:var(--gray-600);border-top:1px solid var(--gray-100);padding-top:6px;">${s.genNotes}</div>`:''}</div>`).join('')}
+    </div>`;
+}
+
+function clearAllData(){
+  if(!confirm('هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع.')) return;
+  localStorage.removeItem('candidate_eval_demo');
+  state.candidates=[];
+  state.submissions=[];
+  state.evaluators=[
+    {id:1,name:'مقيّم 1',role:'مدير القسم'},
+    {id:2,name:'مقيّم 2',role:'مطور أعمال'},
+    {id:3,name:'مقيّم 3',role:'أخصائية موارد بشرية'},
+    {id:4,name:'مقيّم 4',role:'الرئيس التنفيذي'},
+    {id:5,name:'مقيّم 5',role:'شريك'}
+  ];
+  renderCandidates();renderEvaluators();
+  saveToCloud();
+  toast('تم مسح جميع البيانات');
+}
+
+// ── LOCALSTORAGE PERSISTENCE
+
+
+
+
+
+// INIT
+document.getElementById('e-date').value=new Date().toISOString().split('T')[0];
+renderEvaluators();
+loadFromCloud();
+</script>
+</body>
+</html>
