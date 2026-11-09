@@ -525,7 +525,7 @@ dialog::backdrop{background:var(--scrim)}
 /* Demo storage: a tiny localStorage-backed stand-in for the hosted database. */
 (function(){if(window.claude)return;const K="crm.demo.";const subs={};
 function load(c){try{return JSON.parse(localStorage.getItem(K+c)||"{}")}catch(e){return{}}}
-function save(c,o){try{localStorage.setItem(K+c,JSON.stringify(o))}catch(e){}(subs[c]||[]).forEach(f=>emit(c,f))}
+function save(c,o){try{localStorage.setItem(K+c,JSON.stringify(o))}catch(e){}}
 function emit(c,f){const o=load(c);f({docs:Object.keys(o).map(id=>({id,data:()=>o[id]}))})}
 const db={collection:c=>({doc:id=>({set:d=>{const o=load(c);o[id]=d;save(c,o);return Promise.resolve()},delete:()=>{const o=load(c);delete o[id];save(c,o);return Promise.resolve()}}),onSnapshot:(f)=>{(subs[c]=subs[c]||[]).push(f);setTimeout(()=>emit(c,f),0);return()=>{}}})};
 window.claude={use:async n=>n==="db"?db:null};})();
