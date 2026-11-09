@@ -1,0 +1,308 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>فاحص الأهلية — قالب مفتوح المصدر</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap">
+<style>
+/* Layout: navy brand band with the firm logo, then one reading column: facts, a ruled form, the verdict, documents and the WhatsApp send */
+:root{
+  --band:#2A4085; --band-ink:#FFFFFF; --band-muted:#D3DAEE;
+  --paper:#F4F6FA; --sheet:#FFFFFF; --ink:#1E2A4A; --muted:#5B6478; --line:#DDE2EC;
+  --navy:#2A4085; --navy-soft:#E8ECF7; --gold:#B58C6B; --gold-ink:#86603F; --gold-soft:#F6EFE8;
+  --amber:#8A5A12; --amber-soft:#FBF1E0; --stop:#9B3B2E; --stop-soft:#F8E8E5;
+  --btn-bg:#2A4085; --btn-fg:#FFFFFF;
+  --font:Almarai,Tahoma,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --band:#1F2F66; --band-ink:#FFFFFF; --band-muted:#C3CCE6;
+  --paper:#0F1730; --sheet:#16204A; --ink:#E8ECF6; --muted:#A5AEC6; --line:#2C3A66;
+  --navy:#9DB1EC; --navy-soft:#1E2B5A; --gold:#C99D67; --gold-ink:#D8B184; --gold-soft:#2C2517;
+  --amber:#E2B160; --amber-soft:#33280F; --stop:#EC9284; --stop-soft:#3A2020;
+  --btn-bg:#C99D67; --btn-fg:#14204A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --band:#1F2F66; --band-ink:#FFFFFF; --band-muted:#C3CCE6;
+  --paper:#0F1730; --sheet:#16204A; --ink:#E8ECF6; --muted:#A5AEC6; --line:#2C3A66;
+  --navy:#9DB1EC; --navy-soft:#1E2B5A; --gold:#C99D67; --gold-ink:#D8B184; --gold-soft:#2C2517;
+  --amber:#E2B160; --amber-soft:#33280F; --stop:#EC9284; --stop-soft:#3A2020;
+  --btn-bg:#C99D67; --btn-fg:#14204A; color-scheme:dark}
+
+html{direction:rtl}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.85}
+.band{background:var(--band);color:var(--band-ink);border-bottom:3px solid var(--gold)}
+.in{max-width:660px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band .in{padding-block:22px 30px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top img{display:block;width:190px;height:auto}
+.chip{font-size:13px;font-weight:700;background:var(--gold);color:#1E2A4A;padding:5px 12px;border-radius:4px}
+h1{font-weight:800;font-size:clamp(25px,6vw,33px);line-height:1.5;margin:0;text-wrap:balance}
+.lede{margin:0;color:var(--band-muted);max-width:60ch;font-size:16px}
+main.in{padding-block:24px 48px;display:flex;flex-direction:column;gap:22px}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fact{background:var(--sheet);padding:12px 16px;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fact span{font-size:13px;color:var(--muted)}
+.fact strong{font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+#days{color:var(--gold-ink);font-weight:700}
+
+form{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);border-radius:10px}
+fieldset{border:0;margin:0;padding:20px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px;min-width:0}
+fieldset:first-child{border-top:0}
+legend{padding:0;font-weight:700;font-size:16.5px;line-height:1.7;display:flex;gap:12px;align-items:baseline}
+legend .n{flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold-ink);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.hint{margin:0;font-size:14px;color:var(--muted);padding-inline-start:40px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;padding-inline-start:40px}
+.opts label{position:relative;cursor:pointer}
+.opts input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.opts span{display:inline-block;padding:8px 16px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-size:15px;transition:border-color .15s,background .15s}
+.opts input:checked+span{border-color:var(--navy);background:var(--navy-soft);font-weight:700}
+.opts input:focus-visible+span{outline:2px solid var(--navy);outline-offset:2px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;padding-inline-start:40px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.wide{padding-inline-start:40px}
+.field label{font-size:14px;font-weight:700}
+input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%;box-sizing:border-box}
+input[type=text]:focus,input[type=tel]:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+
+.verdict{border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);background:var(--sheet)}
+.verdict h2{margin:0;font-weight:800;font-size:19px;line-height:1.6}
+.verdict p{margin:0}
+.verdict.ok{background:var(--navy-soft);border-color:var(--navy)} .verdict.ok h2{color:var(--navy)}
+.verdict.check{background:var(--amber-soft);border-color:var(--amber)} .verdict.check h2{color:var(--amber)}
+.verdict.no{background:var(--stop-soft);border-color:var(--stop)} .verdict.no h2{color:var(--stop)}
+.verdict ul{margin:4px 0 0;padding-inline-start:20px;font-size:15px}
+.verdict .after{font-size:14px;color:var(--muted)}
+
+.docs{background:var(--gold-soft);border:1px solid var(--gold);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.docs h3{margin:0;font-weight:800;font-size:16.5px}
+.docs ol{margin:0;padding-inline-start:22px}
+.docs small{color:var(--muted);font-size:14px}
+
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.consent input{margin-top:6px;accent-color:var(--navy);width:18px;height:18px;flex:none}
+.send{display:flex;flex-direction:column;gap:12px}
+.err{color:var(--stop);font-size:14px;margin:0}
+.btn{display:flex;justify-content:center;align-items:center;text-decoration:none;font-family:var(--font);font-weight:800;font-size:17px;background:var(--btn-bg);color:var(--btn-fg);border-radius:8px;padding:15px 18px;border:0;cursor:pointer}
+.btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.alt{font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.alt bdi{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;user-select:all}
+.ghost{font:inherit;font-size:13px;background:none;border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:3px 12px;cursor:pointer}
+.ghost:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.foot{font-size:12.5px;line-height:1.9;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;margin:0}
+@media (max-width:480px){.hint,.opts,.row,.field.wide{padding-inline-start:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="band">
+  <div class="in">
+    <div class="top">
+      <span style="font-weight:700;color:#fff">اسم شركتك</span>
+      <span class="chip">مراجعة أهلية مجانية</span>
+    </div>
+    <h1>هل يحق لك استرداد ضريبة القيمة المضافة عن عقار بعته؟</h1>
+    <p class="lede">أجب عن الأسئلة التالية لتظهر لك نتيجة مبدئية خلال دقيقة. بعد ذلك ترسل إجاباتك إلى فريق المكتب عبر واتساب، ونتولى مراجعة وضعك وإفادتك بالخطوة التالية.</p>
+  </div>
+</header>
+
+<main class="in">
+  <div class="facts">
+    <div class="fact"><span>الفترة المشمولة</span><strong>من 1 يناير 2018 إلى 4 أكتوبر 2020</strong></div>
+    <div class="fact"><span>آخر موعد لقيد الدعوى</span><strong>الأربعاء 11 نوفمبر 2026</strong><span id="daysline">المدة المتبقية: <b id="days">-</b> يوما</span></div>
+    <div class="fact"><span>صاحب الحق في الاسترداد</span><strong>البائع الفرد الذي سدد الضريبة</strong></div>
+  </div>
+
+  <form id="f" novalidate>
+    <fieldset>
+      <legend><span class="n">1</span>بأي صفة تم بيع العقار؟</legend>
+      <div class="opts">
+        <label><input type="radio" name="type" id="type-person" value="بصفتي الشخصية"><span>بصفتي الشخصية</span></label>
+        <label><input type="radio" name="type" id="type-company" value="عن طريق شركة أو مؤسسة"><span>عن طريق شركة أو مؤسسة</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="n">2</span>متى تم الإفراغ؟</legend>
+      <div class="opts">
+        <label><input type="radio" name="date" id="date-in" value="بين 1 يناير 2018 و4 أكتوبر 2020"><span>بين 1 يناير 2018 و4 أكتوبر 2020</span></label>
+        <label><input type="radio" name="date" id="date-before" value="قبل عام 2018"><span>قبل عام 2018</span></label>
+        <label><input type="radio" name="date" id="date-after" value="بعد 4 أكتوبر 2020"><span>بعد 4 أكتوبر 2020</span></label>
+        <label><input type="radio" name="date" id="date-unsure" value="لا أتذكر التاريخ بدقة"><span>لا أتذكر التاريخ بدقة</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="n">3</span>هل سددت ضريبة القيمة المضافة عن هذا البيع إلى الهيئة؟</legend>
+      <p class="hint">سواء سددتها بإفصاح طوعي، أو بعد تقييم من الهيئة، أو بقرار من اللجان الزكوية والضريبية.</p>
+      <div class="opts">
+        <label><input type="radio" name="paid" id="paid-yes" value="نعم"><span>نعم</span></label>
+        <label><input type="radio" name="paid" id="paid-no" value="لا"><span>لا</span></label>
+        <label><input type="radio" name="paid" id="paid-unsure" value="لا أعلم"><span>لا أعلم</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="n">4</span>هل سددت غرامات مرتبطة بهذه الضريبة؟</legend>
+      <div class="opts">
+        <label><input type="radio" name="fines" id="fines-yes" value="نعم"><span>نعم</span></label>
+        <label><input type="radio" name="fines" id="fines-no" value="لا"><span>لا</span></label>
+        <label><input type="radio" name="fines" id="fines-unsure" value="لا أعلم"><span>لا أعلم</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="n">5</span>كم عقارا بعت خلال اثني عشر شهرا متتالية في تلك الفترة؟</legend>
+      <div class="opts">
+        <label><input type="radio" name="count" id="count-one" value="عقار واحد"><span>عقار واحد</span></label>
+        <label><input type="radio" name="count" id="count-many" value="أكثر من عقار"><span>أكثر من عقار</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="n">6</span>هل خصمت ضريبة مدخلات مرتبطة بهذا العقار؟</legend>
+      <p class="hint">يحدث ذلك عادة إذا كان لديك تسجيل ضريبي، واسترددت من خلاله ضريبة دفعتها عند شراء العقار أو بنائه.</p>
+      <div class="opts">
+        <label><input type="radio" name="input" id="input-no" value="لا"><span>لا</span></label>
+        <label><input type="radio" name="input" id="input-yes" value="نعم"><span>نعم</span></label>
+        <label><input type="radio" name="input" id="input-unsure" value="لا أعلم"><span>لا أعلم</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="n">7</span>بيانات التواصل</legend>
+      <div class="row">
+        <div class="field"><label for="name">الاسم الكامل</label><input type="text" id="name" autocomplete="name"></div>
+        <div class="field"><label for="phone">رقم الجوال</label><input type="tel" id="phone" inputmode="tel" placeholder="05XXXXXXXX" dir="ltr" autocomplete="tel"></div>
+      </div>
+      <div class="field wide"><label for="value">قيمة البيع التقريبية بالريال (اختياري)</label><input type="text" id="value" inputmode="numeric" placeholder="مثال: 1,200,000"></div>
+    </fieldset>
+  </form>
+
+  <section class="verdict" id="verdict" aria-live="polite">
+    <h2>النتيجة المبدئية</h2>
+    <p>تظهر النتيجة هنا بعد الإجابة عن الأسئلة من 1 إلى 6.</p>
+  </section>
+
+  <section class="docs">
+    <h3>المستندات المطلوبة، وترفق في محادثة واتساب</h3>
+    <ol>
+      <li>صك الإفراغ أو عقد البيع</li>
+      <li>ما يثبت سداد الضريبة للهيئة، مثل سند السداد أو الإقرار أو قرار التقييم</li>
+      <li>ما يثبت سداد الغرامات المرتبطة، إن وجدت</li>
+    </ol>
+    <small>إذا لم تتوفر لديك جميع المستندات الآن، أرسل طلبك وسنساعدك في الحصول عليها.</small>
+  </section>
+
+  <div class="send" id="send">
+    <label class="consent" for="agree"><input type="checkbox" id="agree"><span>أوافق على استخدام بياناتي ومستنداتي لغرض دراسة طلبي فقط، وفق نظام حماية البيانات الشخصية.</span></label>
+    <p class="err" id="err" hidden></p>
+    <a class="btn" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">إرسال الطلب عبر واتساب</a>
+    <div class="alt">إذا لم يفتح واتساب، تواصل معنا على الرقم <bdi>05XXXXXXXX</bdi><button type="button" class="ghost" id="copyNum">نسخ الرقم</button><button type="button" class="ghost" id="copyMsg">نسخ الرسالة</button></div>
+  </div>
+
+  <p class="foot">النتيجة الظاهرة في هذه الصفحة مبدئية، وتعتمد على إجاباتك فقط، ولا تعد رأيا قانونيا. المرجع: الأمر الملكي رقم (54152) وتاريخ 5/7/1447هـ، والآليات والإجراءات الصادرة بقرار مجلس إدارة هيئة الزكاة والضريبة والجمارك المنشورة في 13 أكتوبر 2026. لا تحفظ هذه الصفحة أي بيانات، وتنتقل إجاباتك فقط عبر رسالة واتساب التي ترسلها بنفسك.</p>
+</main>
+
+<script>
+(function(){
+  var WA="966534130011";
+  var deadline=new Date("2026-11-11T23:59:59+03:00");
+  var d=Math.ceil((deadline-new Date())/86400000);
+  if(d>0){document.getElementById("days").textContent=String(d);} else {document.getElementById("daysline").textContent="انتهت المهلة";}
+
+  var f=document.getElementById("f"), v=document.getElementById("verdict"), wa=document.getElementById("wa"),
+      err=document.getElementById("err"), agree=document.getElementById("agree");
+  function val(n){var e=f.querySelector('input[name="'+n+'"]:checked');return e?e.value:"";}
+  function id(n){var e=f.querySelector('input[name="'+n+'"]:checked');return e?e.id:"";}
+  var Q=["type","date","paid","fines","count","input"];
+
+  function assess(){
+    for(var i=0;i<Q.length;i++){ if(!val(Q[i])) return null; }
+    var stop=[], check=[];
+    if(id("type")==="type-company") stop.push("المبادرة مخصصة للأفراد، ولا تشمل البيع عن طريق شركة أو مؤسسة.");
+    if(id("date")==="date-before"||id("date")==="date-after") stop.push("تاريخ الإفراغ خارج الفترة المشمولة بالمبادرة.");
+    if(id("paid")==="paid-no") stop.push("الاسترداد متاح لمن سدد الضريبة للهيئة. أما إذا كانت عليك ضريبة أو غرامات لم تسدد بعد، فقد تلغى وفق القرار، ويمكننا مراجعة ذلك معك.");
+    if(id("input")==="input-yes") stop.push("من خصم ضريبة المدخلات المرتبطة بالعقار لا يشمله هذا المسار.");
+    if(id("date")==="date-unsure") check.push("نحتاج إلى تاريخ الإفراغ كما هو مثبت في الصك، للتأكد من أنه ضمن الفترة.");
+    if(id("paid")==="paid-unsure") check.push("نحتاج إلى التأكد من سداد الضريبة للهيئة، ويظهر ذلك عادة في حسابك لدى الهيئة.");
+    if(id("count")==="count-many") check.push("بيع أكثر من عقار خلال سنة قد يخرجك من نطاق المبادرة إذا تجاوز مجموع القيم حد التسجيل الإلزامي، ونحتاج إلى قيم البيوع للتأكد.");
+    if(id("input")==="input-unsure") check.push("نحتاج إلى التأكد من عدم خصم ضريبة مدخلات مرتبطة بالعقار.");
+    if(stop.length) return {k:"no",t:"الشروط لا تنطبق عليك على الأرجح",lead:"بناء على إجاباتك:",items:stop.concat(check),label:"لا تنطبق الشروط على الأرجح"};
+    if(check.length) return {k:"check",t:"وضعك يحتاج إلى مراجعة قبل رفع الدعوى",lead:"إجاباتك تشير إلى احتمال الاستحقاق، وهناك نقاط نحتاج إلى التحقق منها:",items:check,label:"يحتاج إلى مراجعة"};
+    return {k:"ok",t:"تنطبق عليك الشروط مبدئيا",lead:"إجاباتك تتوافق مع شروط المبادرة. أرسل طلبك وأرفق المستندات، وسنتحقق منها ونجهز الدعوى قبل انتهاء المهلة.",items:[],label:"تنطبق الشروط مبدئيا"};
+  }
+
+  function message(r){
+    var L=[
+      "طلب مراجعة أهلية: استرداد ضريبة القيمة المضافة عن بيع عقار",
+      "",
+      "الاسم: "+document.getElementById("name").value.trim(),
+      "الجوال: "+document.getElementById("phone").value.trim(),
+      "صفة البيع: "+val("type"),
+      "تاريخ الإفراغ: "+val("date"),
+      "سداد الضريبة للهيئة: "+val("paid"),
+      "سداد غرامات مرتبطة: "+val("fines"),
+      "عدد العقارات المبيعة خلال 12 شهرا: "+val("count"),
+      "خصم ضريبة مدخلات: "+val("input")
+    ];
+    var amount=document.getElementById("value").value.trim();
+    if(amount) L.push("قيمة البيع التقريبية: "+amount+" ريال");
+    L.push("النتيجة المبدئية: "+(r?r.label:"-"));
+    L.push("");
+    L.push("سأرفق في هذه المحادثة: صك الإفراغ أو عقد البيع، وما يثبت سداد الضريبة"+(id("fines")==="fines-yes"?"، وما يثبت سداد الغرامات":"")+".");
+    return L.join("\n");
+  }
+
+  function problems(r){
+    var p=[];
+    if(!r) p.push("أكمل الإجابة عن الأسئلة من 1 إلى 6");
+    if(!document.getElementById("name").value.trim()) p.push("اكتب اسمك");
+    var ph=document.getElementById("phone").value.replace(/[\s-]/g,"").replace(/[٠-٩]/g,function(c){return String(c.charCodeAt(0)-1632);});
+    if(!/^(05\d{8}|\+?9665\d{8})$/.test(ph)) p.push("اكتب رقم جوال صحيحا يبدأ بـ 05");
+    if(!agree.checked) p.push("وافق على استخدام البيانات لدراسة الطلب");
+    return p;
+  }
+
+  function render(){
+    var r=assess();
+    if(r){
+      v.className="verdict "+r.k;
+      v.textContent="";
+      var h=document.createElement("h2"); h.textContent=r.t; v.appendChild(h);
+      var p=document.createElement("p"); p.textContent=r.lead; v.appendChild(p);
+      if(r.items.length){var ul=document.createElement("ul"); r.items.forEach(function(x){var li=document.createElement("li");li.textContent=x;ul.appendChild(li);}); v.appendChild(ul);}
+      if(r.k==="no"){var p2=document.createElement("p");p2.className="after";p2.textContent="إذا لم تكن متأكدا من إحدى الإجابات، أرسل طلبك وسنراجعه معك دون مقابل.";v.appendChild(p2);}
+    }
+    var pr=problems(r);
+    if(pr.length){wa.setAttribute("aria-disabled","true");wa.href="#";}
+    else{wa.setAttribute("aria-disabled","false");wa.href="https://wa.me/"+WA+"?text="+encodeURIComponent(message(r));}
+    if(!err.hidden){ if(pr.length) err.textContent="قبل الإرسال: "+pr.join("، ")+"."; else err.hidden=true; }
+    return pr;
+  }
+  function showProblems(){var pr=render(); if(pr.length){err.hidden=false;err.textContent="قبل الإرسال: "+pr.join("، ")+".";} return pr;}
+
+  f.addEventListener("input",render);
+  f.addEventListener("change",render);
+  f.addEventListener("submit",function(e){e.preventDefault();});
+  agree.addEventListener("change",render);
+  document.getElementById("send").addEventListener("pointerdown",function(e){
+    if(e.target.closest(".consent")||e.target.closest(".alt")) return;
+    showProblems();
+  });
+
+  function copy(text,btn,done){
+    var orig=btn.textContent;
+    var ok=function(){btn.textContent=done;setTimeout(function(){btn.textContent=orig;},1600);};
+    function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok();}catch(_){}document.body.removeChild(t);}
+    try{navigator.clipboard.writeText(text).then(ok,fallback);}catch(_){fallback();}
+  }
+  document.getElementById("copyNum").addEventListener("click",function(){copy("05XXXXXXXX",this,"تم النسخ");});
+  document.getElementById("copyMsg").addEventListener("click",function(){
+    if(showProblems().length) return;
+    copy(message(assess()),this,"تم نسخ الرسالة");
+  });
+  render();
+})();
+</script>
+
+</body></html>

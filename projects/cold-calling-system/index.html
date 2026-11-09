@@ -1,0 +1,506 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>نظام الاتصال البارد — قالب مفتوح المصدر</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a work queue that opens into one focused call screen. Navy ink, brass accent, warm neutrals. */
+:root{
+  --paper:#F7F5F1; --card:#FFFFFF; --ink:#141A24; --body:#3A4454; --muted:#737F91;
+  --line:#E2DDD4; --brass:#9C7A2E; --brass-soft:#F0E8D6;
+  --go:#1F7A4D; --go-soft:#E2F2E9; --stop:#A6342B; --stop-soft:#FAE6E3;
+  --warn:#8A6410; --warn-soft:#FBEFD6; --cool:#2B5C8A; --cool-soft:#E3EEF7;
+  --shadow:0 1px 2px rgba(20,26,36,.05),0 6px 20px rgba(20,26,36,.06);
+  --display:"Noto Kufi Arabic",system-ui,sans-serif;
+  --text:"IBM Plex Sans Arabic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#11151C; --card:#191F29; --ink:#F2EFE9; --body:#C3CAD6; --muted:#8C97A6;
+  --line:#2B333F; --brass:#D4AC5A; --brass-soft:#2A2418;
+  --go:#64C295; --go-soft:#16291F; --stop:#E8897E; --stop-soft:#2B1A17;
+  --warn:#DCB262; --warn-soft:#2A2214; --cool:#7FB4DE; --cool-soft:#15212D;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#11151C; --card:#191F29; --ink:#F2EFE9; --body:#C3CAD6; --muted:#8C97A6;
+  --line:#2B333F; --brass:#D4AC5A; --brass-soft:#2A2418;
+  --go:#64C295; --go-soft:#16291F; --stop:#E8897E; --stop-soft:#2B1A17;
+  --warn:#DCB262; --warn-soft:#2A2214; --cool:#7FB4DE; --cool-soft:#15212D;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--body);font-family:var(--text);margin:0;
+  font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%}
+[dir]{direction:rtl}
+h1,h2,h3,.kufi{font-family:var(--display);color:var(--ink);text-wrap:balance}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+a{color:var(--brass)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:4px}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topin{max-width:860px;margin:0 auto;padding:12px 16px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;color:var(--ink);font-size:17px;
+  letter-spacing:-.01em;margin-inline-end:auto}
+.brand small{display:block;font-family:var(--text);font-weight:400;font-size:11.5px;
+  color:var(--muted);letter-spacing:.04em}
+.stat{text-align:center;min-width:52px}
+.stat b{display:block;font-family:var(--display);font-size:18px;color:var(--ink);line-height:1.2}
+.stat span{font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+.bar{height:3px;background:var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;inset-block:0;inset-inline-start:0;background:var(--brass);
+  transition:width .4s ease}
+
+/* ---------- queue ---------- */
+.tools{display:flex;gap:8px;flex-wrap:wrap;padding-block:16px 10px}
+.search{flex:1 1 180px;min-width:0;padding:10px 12px;border:1px solid var(--line);
+  border-radius:9px;background:var(--card);color:var(--ink);font-size:14.5px}
+.search::placeholder{color:var(--muted)}
+select{padding:10px 12px;border:1px solid var(--line);border-radius:9px;
+  background:var(--card);color:var(--ink);font-size:14px;font-family:inherit;max-width:100%}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-block:2px 12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;padding:6px 12px;border-radius:99px;border:1px solid var(--line);
+  background:var(--card);color:var(--body);font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip b{font-weight:600;opacity:.65;margin-inline-start:4px;font-size:12px}
+
+.list{display:flex;flex-direction:column;gap:8px;padding-bottom:28px}
+.row{display:flex;align-items:center;gap:12px;width:100%;text-align:start;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
+.row:hover{border-color:var(--brass);transform:translateY(-1px)}
+.row .num{font-family:var(--display);font-size:12px;color:var(--muted);min-width:22px;
+  font-variant-numeric:tabular-nums}
+.row .who{flex:1 1 auto;min-width:0}
+.row .nm{font-family:var(--display);font-weight:700;color:var(--ink);font-size:15.5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .sub{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;margin-top:1px}
+.pill{flex:0 0 auto;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:99px;
+  white-space:nowrap}
+.p-new{background:var(--line);color:var(--muted)}
+.p-go{background:var(--go-soft);color:var(--go)}
+.p-stop{background:var(--stop-soft);color:var(--stop)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-cool{background:var(--cool-soft);color:var(--cool)}
+.flagdot{flex:0 0 auto;width:7px;height:7px;border-radius:99px;background:var(--warn)}
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty b{display:block;font-family:var(--display);color:var(--ink);font-size:16px;margin-bottom:6px}
+
+/* ---------- call screen ---------- */
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;
+  color:var(--muted);padding:14px 0 6px;font-size:14px;font-weight:500}
+.back:hover{color:var(--brass)}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px;box-shadow:var(--shadow)}
+.hero h1{margin:0;font-size:25px;line-height:1.3;letter-spacing:-.015em}
+.hero .lat{font-size:12.5px;color:var(--muted);margin-top:3px;direction:ltr;text-align:start}
+.hero .role{color:var(--brass);font-weight:600;font-size:15px;margin-top:10px}
+.hero .co{font-family:var(--display);color:var(--ink);font-size:16px;margin-top:2px}
+.metas{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.meta{font-size:11.5px;font-weight:500;background:var(--brass-soft);color:var(--brass);
+  padding:4px 9px;border-radius:6px}
+
+.dial{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--line);align-items:center}
+.tel{font-family:var(--display);font-size:21px;color:var(--ink);direction:ltr;
+  font-variant-numeric:tabular-nums;letter-spacing:.01em;
+  user-select:all;-webkit-user-select:all}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:9px;
+  border:1px solid var(--line);background:var(--card);color:var(--body);font-weight:600;font-size:13.5px}
+.btn:hover{border-color:var(--brass);color:var(--brass)}
+.btn-fill{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn-fill:hover{background:var(--brass);border-color:var(--brass);color:#fff}
+.nolink{color:var(--muted);font-size:13.5px}
+
+.warn{display:flex;gap:9px;align-items:flex-start;background:var(--warn-soft);
+  border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+  border-radius:10px;padding:11px 13px;margin-top:12px;font-size:13.5px;color:var(--warn)}
+.warn b{font-family:var(--display)}
+
+.sec{margin-top:16px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.sec>h2{margin:0 0 10px;font-size:12px;letter-spacing:.08em;color:var(--muted);
+  font-weight:700;text-transform:uppercase}
+.sec p{margin:0 0 10px}
+.sec p:last-child{margin-bottom:0}
+.sec .lbl{font-weight:600;color:var(--ink)}
+.why{border-inline-start:3px solid var(--brass);padding-inline-start:14px}
+ol.tips{margin:0;padding-inline-start:0;list-style:none;counter-reset:t;
+  display:flex;flex-direction:column;gap:11px}
+ol.tips li{counter-increment:t;display:flex;gap:11px;align-items:flex-start}
+ol.tips li::before{content:counter(t);flex:0 0 auto;width:22px;height:22px;border-radius:99px;
+  background:var(--brass-soft);color:var(--brass);font-family:var(--display);font-size:12px;
+  font-weight:700;display:grid;place-items:center;margin-top:2px}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--line);border-radius:10px;overflow:hidden}
+.fact{background:var(--card);padding:11px 13px}
+.fact span{display:block;font-size:11px;color:var(--muted);letter-spacing:.03em}
+.fact b{font-family:var(--display);color:var(--ink);font-size:14.5px;font-weight:500;
+  font-variant-numeric:tabular-nums}
+
+/* ---------- outcome form ---------- */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.opt{padding:12px 10px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--card);color:var(--body);font-weight:600;font-size:14px;text-align:center}
+.opt[aria-pressed="true"]{border-width:1.5px}
+.opt[aria-pressed="true"][data-k="go"]{background:var(--go-soft);border-color:var(--go);color:var(--go)}
+.opt[aria-pressed="true"][data-k="stop"]{background:var(--stop-soft);border-color:var(--stop);color:var(--stop)}
+.opt[aria-pressed="true"][data-k="warn"]{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.opt[aria-pressed="true"][data-k="cool"]{background:var(--cool-soft);border-color:var(--cool);color:var(--cool)}
+.opt[aria-pressed="true"][data-k="new"]{background:var(--line);border-color:var(--muted);color:var(--ink)}
+label.fl{display:block;font-size:12px;font-weight:600;color:var(--muted);
+  letter-spacing:.04em;margin:14px 0 6px}
+textarea,input[type="date"]{width:100%;padding:11px 12px;border:1px solid var(--line);
+  border-radius:10px;background:var(--paper);color:var(--ink);font-family:inherit;font-size:14.5px}
+textarea{min-height:88px;resize:vertical;line-height:1.6}
+.saverow{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.save{flex:1 1 160px;padding:14px;border-radius:11px;border:0;background:var(--ink);
+  color:var(--paper);font-family:var(--display);font-weight:700;font-size:15.5px}
+.save:hover{background:var(--brass);color:#fff}
+.save:disabled{opacity:.55;cursor:default}
+.note{font-size:12.5px;color:var(--muted)}
+.note.ok{color:var(--go);font-weight:600}
+.note.bad{color:var(--stop);font-weight:600}
+.nav{display:flex;gap:8px;margin:16px 0 32px}
+.nav button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);color:var(--body);font-weight:600;font-size:14px}
+.nav button:hover:not(:disabled){border-color:var(--brass);color:var(--brass)}
+.nav button:disabled{opacity:.4;cursor:default}
+.ro{background:var(--warn-soft);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+  border-radius:10px;padding:11px 13px;font-size:13.5px;margin-top:12px}
+@media (max-width:420px){
+  .hero h1{font-size:22px}
+  .tel{font-size:19px}
+}
+</style>
+
+<div dir="rtl">
+  <div class="top">
+    <div class="topin">
+      <div class="brand">برج أعمال (مثال)<small>قائمة الاتصال البارد — مندوب المبيعات</small></div>
+      <div class="stat"><b class="tnum" id="sDone">0</b><span>تم الاتصال</span></div>
+      <div class="stat"><b class="tnum" id="sGo">0</b><span>مهتم</span></div>
+      <div class="stat"><b class="tnum" id="sLeft">8</b><span>متبقي</span></div>
+    </div>
+    <div class="bar"><i id="pbar" style="width:0%"></i></div>
+  </div>
+
+  <main class="wrap">
+    <!-- ======= QUEUE ======= -->
+    <section id="vQueue">
+      <div class="tools">
+        <input class="search" id="q" type="search" placeholder="ابحث بالاسم أو الشركة أو القطاع…" autocomplete="off">
+        <select id="fSector"><option value="">كل القطاعات</option></select>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="list" id="list"></div>
+    </section>
+
+    <!-- ======= CALL ======= -->
+    <section id="vCall" hidden>
+      <button class="back" id="back">→ رجوع للقائمة</button>
+      <div id="callBody"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const LEADS = [{"id": "L001", "nameAr": "أحمد السالم", "nameEn": "Ahmed Alsalem", "titleAr": "المؤسس والشريك المدير", "titleEn": "Founder & Managing Partner", "companyAr": "مكتب أفق للمحاماة (مثال)", "companyEn": "Ufuq Law (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "مكاتب محاماة", "employees": "35", "areaFit": "300-450 م²", "signal": "نمو الفريق وتعيينات جديدة معلنة", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "مكتب أفق للمحاماة (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 1}, {"id": "L002", "nameAr": "سارة الحربي", "nameEn": "Sara Alharbi", "titleAr": "الرئيسة التنفيذية", "titleEn": "CEO", "companyAr": "شركة مدار للاستشارات (مثال)", "companyEn": "Madar Consulting (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "استشارات إدارية", "employees": "60", "areaFit": "500-700 م²", "signal": "افتتاح فرع جديد في الرياض", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "شركة مدار للاستشارات (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 2}, {"id": "L003", "nameAr": "خالد العتيبي", "nameEn": "Khalid Alotaibi", "titleAr": "المدير العام", "titleEn": "General Manager", "companyAr": "شركة نبض للتقنية (مثال)", "companyEn": "Nabd Tech (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "تطوير برمجيات", "employees": "80", "areaFit": "600-900 م²", "signal": "جولة تمويل معلنة حديثًا", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "شركة نبض للتقنية (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 3}, {"id": "L004", "nameAr": "نورة القحطاني", "nameEn": "Noura Alqahtani", "titleAr": "مديرة العمليات", "titleEn": "COO", "companyAr": "شركة رصيد للمحاسبة (مثال)", "companyEn": "Raseed Accounting (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "محاسبة ومراجعة", "employees": "45", "areaFit": "350-500 م²", "signal": "توسع في خدمات الزكاة والضريبة", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "شركة رصيد للمحاسبة (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 4}, {"id": "L005", "nameAr": "فهد الدوسري", "nameEn": "Fahad Aldosari", "titleAr": "الشريك المؤسس", "titleEn": "Co-Founder", "companyAr": "استوديو مساحة للتصميم (مثال)", "companyEn": "Masaha Studio (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "عمارة وتصميم", "employees": "25", "areaFit": "200-300 م²", "signal": "مشاريع حكومية جديدة", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "استوديو مساحة للتصميم (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 5}, {"id": "L006", "nameAr": "ريم الشهري", "nameEn": "Reem Alshehri", "titleAr": "مديرة تطوير الأعمال", "titleEn": "Head of Business Development", "companyAr": "شركة درع للأمن السيبراني (مثال)", "companyEn": "Dera Cyber (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "أمن سيبراني", "employees": "70", "areaFit": "500-800 م²", "signal": "توظيف مكثف في الربع الحالي", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "شركة درع للأمن السيبراني (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 6}, {"id": "L007", "nameAr": "عبدالله المطيري", "nameEn": "Abdullah Almutairi", "titleAr": "الرئيس التنفيذي", "titleEn": "CEO", "companyAr": "شركة وثاق لوساطة التأمين (مثال)", "companyEn": "Wathaq Insurance Brokers (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "وساطة تأمين", "employees": "40", "areaFit": "300-450 م²", "signal": "ترخيص جديد من الجهة المنظمة", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "شركة وثاق لوساطة التأمين (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 7}, {"id": "L008", "nameAr": "لمى الزهراني", "nameEn": "Lama Alzahrani", "titleAr": "مديرة الموارد البشرية", "titleEn": "HR Director", "companyAr": "شركة كفاءات للموارد البشرية (مثال)", "companyEn": "Kafaat HR (sample)", "domain": "example.com", "linkedin": "https://www.linkedin.com/", "phone": "+966500000000", "phonesExtra": [], "sector": "استشارات موارد بشرية", "employees": "55", "areaFit": "400-600 م²", "signal": "انتقال المقر خلال العام", "exp": "أكثر من 10 سنوات خبرة", "tenure": "في المنصب منذ 2021", "bg": "بيانات تجريبية لعرض طريقة عمل النظام. في الاستخدام الفعلي تُبنى هذه الخلفية من بحث عن صانع القرار.", "coDesc": "شركة كفاءات للموارد البشرية (مثال) — شركة افتراضية لأغراض العرض.", "why": "سبب مخصص لكل عميل يربط احتياجه الحالي بالعرض، يُكتب بعد البحث عن الشركة وإشارات نموها.", "tips": ["افتح بسؤال عن توسع المكتب لا بالسعر. المحامي يقدّر من يفهم عمله.", "استخدم كلمة «صك منفرد» بوضوح — الشريك يفهم قيمتها القانونية فورًا وهي أقوى ورقة عندك.", "لو قال «عندنا عقد إيجار ساري»، اسأل كم سنة باقية. التسليم الربع الرابع 2027، وهذا وقت كافٍ لانتهاء معظم العقود."], "flags": [], "order": 8}];
+
+const STATUSES = [
+  {v:"new",  t:"لم يتم الاتصال", k:"new"},
+  {v:"noans",t:"لا يرد",        k:"warn"},
+  {v:"call", t:"أعد الاتصال",   k:"warn"},
+  {v:"go",   t:"مهتم",          k:"go"},
+  {v:"meet", t:"تم الاجتماع",   k:"cool"},
+  {v:"no",   t:"غير مهتم",      k:"stop"},
+  {v:"wrong",t:"رقم خطأ",       k:"stop"},
+];
+const SMAP = Object.fromEntries(STATUSES.map(s=>[s.v,s]));
+
+const PROJECT = [
+  ["الموقع","شمال الرياض — حي النخيل"],
+  ["الواجهة","ثلاثة شوارع، واجهة شرقية على طريق الملك فهد"],
+  ["الإطلالة","مركز الملك عبدالله المالي (كافد)"],
+  ["المساحات","من 80 م² إلى 940 م²"],
+  ["السعر يبدأ من","1,802,500 ريال"],
+  ["الصكوك","صك منفرد لكل مكتب"],
+  ["المواقف","مواقف سيارات + مواقف إلكترونية"],
+  ["التسليم","الربع الرابع 2027"],
+];
+
+/* ---------- state ---------- */
+let state = {};            // id -> {status, notes, next, at}
+let db = null, canWrite = true, filter = "", sector = "", search = "";
+let current = null;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* local fallback so the page is never useless */
+const LS = "adwan_calls_v1";
+function lsRead(){ try{ return JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){ return {}; } }
+function lsWrite(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+
+/* ---------- render: queue ---------- */
+function stat(id){ return state[id]?.status || "new"; }
+
+function paintStats(){
+  const done = LEADS.filter(l=>stat(l.id)!=="new").length;
+  const go   = LEADS.filter(l=>["go","meet"].includes(stat(l.id))).length;
+  $("#sDone").textContent = done;
+  $("#sGo").textContent   = go;
+  $("#sLeft").textContent = LEADS.length - done;
+  $("#pbar").style.width  = (done/LEADS.length*100).toFixed(1)+"%";
+}
+
+function paintChips(){
+  const counts = {all:LEADS.length};
+  STATUSES.forEach(s=> counts[s.v]=LEADS.filter(l=>stat(l.id)===s.v).length);
+  const items = [{v:"",t:"الكل",n:counts.all}]
+    .concat(STATUSES.filter(s=>counts[s.v]>0||s.v==="new").map(s=>({v:s.v,t:s.t,n:counts[s.v]})));
+  $("#chips").innerHTML = items.map(i=>
+    `<button class="chip" data-f="${i.v}" aria-pressed="${filter===i.v}">${esc(i.t)}<b class="tnum">${i.n}</b></button>`
+  ).join("");
+}
+
+function visible(){
+  const q = search.trim().toLowerCase();
+  return LEADS.filter(l=>{
+    if(filter && stat(l.id)!==filter) return false;
+    if(sector && l.sector!==sector) return false;
+    if(!q) return true;
+    return [l.nameAr,l.nameEn,l.companyAr,l.companyEn,l.sector,l.titleAr]
+      .join(" ").toLowerCase().includes(q);
+  });
+}
+
+function paintList(){
+  const rows = visible();
+  if(!rows.length){
+    $("#list").innerHTML = `<div class="empty"><b>ما فيه نتائج</b>جرّب كلمة بحث أخرى أو ارجع لـ«الكل».</div>`;
+    return;
+  }
+  $("#list").innerHTML = rows.map(l=>{
+    const s = SMAP[stat(l.id)];
+    return `<button class="row" data-id="${l.id}">
+      <span class="num">${l.order}</span>
+      <span class="who">
+        <span class="nm">${esc(l.nameAr)}</span>
+        <span class="sub">${esc(l.titleAr)} · ${esc(l.companyAr)}</span>
+      </span>
+      ${l.flags.length?'<span class="flagdot" title="فيه تنبيه"></span>':""}
+      <span class="pill p-${s.k}">${esc(s.t)}</span>
+    </button>`;
+  }).join("");
+}
+
+function paintQueue(){ paintStats(); paintChips(); paintList(); }
+
+/* ---------- render: call ---------- */
+function openCall(id){
+  current = LEADS.find(l=>l.id===id);
+  if(!current) return;
+  const l = current, st = state[l.id] || {};
+  const cur = st.status || "new";
+
+  const phoneBlock = l.phone
+    ? `<span class="tel" id="tel">${esc(l.phone)}</span>
+       <button class="btn btn-fill" id="copyTel">نسخ الرقم</button>`
+    : `<span class="nolink">لا يوجد رقم جوال لهذا العميل — تواصل عبر لينكدإن أو هاتف المكتب.</span>`;
+
+  const extra = l.phonesExtra.length
+    ? `<div class="note" style="margin-top:8px">أرقام إضافية: <span class="tnum" style="direction:ltr;user-select:all">${l.phonesExtra.map(esc).join("  ·  ")}</span></div>` : "";
+
+  $("#callBody").innerHTML = `
+  <div class="hero">
+    <h1>${esc(l.nameAr)}</h1>
+    <div class="lat">${esc(l.nameEn)}</div>
+    <div class="role">${esc(l.titleAr)}</div>
+    <div class="co">${esc(l.companyAr)}</div>
+    <div class="metas">
+      <span class="meta">${esc(l.sector)}</span>
+      <span class="meta">${esc(l.employees)} موظف</span>
+      <span class="meta">المساحة المرشحة ${esc(l.areaFit)}</span>
+      ${l.exp?`<span class="meta">${esc(l.exp)}</span>`:""}
+    </div>
+    <div class="dial">
+      ${phoneBlock}
+      ${l.linkedin?`<a class="btn" href="${esc(l.linkedin)}" target="_blank" rel="noopener">حسابه في لينكدإن</a>`:""}
+      ${l.domain?`<a class="btn" href="https://${esc(l.domain)}" target="_blank" rel="noopener">موقع الشركة</a>`:""}
+    </div>
+    ${extra}
+    ${l.flags.map(f=>`<div class="warn"><b>تنبيه</b><span>${esc(f)}</span></div>`).join("")}
+  </div>
+
+  <div class="sec">
+    <h2>من هو</h2>
+    ${l.tenure?`<p><span class="lbl">منصبه:</span> ${esc(l.tenure)}</p>`:""}
+    ${l.bg?`<p><span class="lbl">خلفيته:</span> ${esc(l.bg)}</p>`:""}
+    ${l.coDesc?`<p><span class="lbl">شركته:</span> ${esc(l.coDesc)}</p>`:""}
+    ${l.signal?`<p><span class="lbl">سبب وجوده في القائمة:</span> ${esc(l.signal)}</p>`:""}
+  </div>
+
+  <div class="sec">
+    <h2>ليه ممكن يشتري</h2>
+    <p class="why">${esc(l.why)}</p>
+  </div>
+
+  <div class="sec">
+    <h2>نصائح للمكالمة</h2>
+    <ol class="tips">${l.tips.map(t=>`<li><span>${esc(t)}</span></li>`).join("")}</ol>
+  </div>
+
+  <div class="sec">
+    <h2>معلومات المشروع</h2>
+    <div class="facts">${PROJECT.map(([k,v])=>
+      `<div class="fact"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("")}</div>
+  </div>
+
+  <div class="sec">
+    <h2>نتيجة المكالمة</h2>
+    <div class="grid2" id="opts">${STATUSES.map(s=>
+      `<button class="opt" data-v="${s.v}" data-k="${s.k}" aria-pressed="${cur===s.v}">${esc(s.t)}</button>`
+    ).join("")}</div>
+
+    <label class="fl" for="notes">ملاحظات المكالمة</label>
+    <textarea id="notes" placeholder="وش قال؟ وش الخطوة القادمة؟">${esc(st.notes||"")}</textarea>
+
+    <label class="fl" for="next">موعد المتابعة</label>
+    <input type="date" id="next" value="${esc(st.next||"")}">
+
+    <div class="saverow">
+      <button class="save" id="saveBtn">حفظ</button>
+      <span class="note" id="saveMsg">${st.at?"آخر تحديث: "+esc(st.at):""}</span>
+    </div>
+    ${canWrite?"":`<div class="ro">الحفظ غير متاح بصلاحيتك الحالية. اطلب من محمد يرفع صلاحيتك إلى Contributor، وإلى ذلك الحين تُحفظ ملاحظاتك في هذا المتصفح فقط.</div>`}
+  </div>
+
+  <div class="nav">
+    <button id="prev">السابق</button>
+    <button id="next2">التالي ←</button>
+  </div>`;
+
+  $("#vQueue").hidden = true;
+  $("#vCall").hidden  = false;
+  window.scrollTo(0,0);
+  wireCall();
+}
+
+function wireCall(){
+  const l = current;
+  $("#opts").addEventListener("click", e=>{
+    const b = e.target.closest(".opt"); if(!b) return;
+    $("#opts").querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+  });
+
+  const copy = $("#copyTel");
+  if(copy) copy.addEventListener("click", async ()=>{
+    const t = l.phone;
+    try{ await navigator.clipboard.writeText(t); copy.textContent="تم النسخ ✓";
+         setTimeout(()=>copy.textContent="نسخ الرقم",1600); }
+    catch(e){ const r=document.createRange(); r.selectNodeContents($("#tel"));
+      const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      copy.textContent="حدّدنا الرقم — انسخه"; setTimeout(()=>copy.textContent="نسخ الرقم",2400); }
+  });
+
+  $("#saveBtn").addEventListener("click", save);
+  $("#prev").addEventListener("click", ()=>step(-1));
+  $("#next2").addEventListener("click", ()=>step(1));
+
+  const rows = visible(), i = rows.findIndex(x=>x.id===l.id);
+  $("#prev").disabled  = i<=0;
+  $("#next2").disabled = i<0 || i>=rows.length-1;
+}
+
+function step(d){
+  const rows = visible(), i = rows.findIndex(x=>x.id===current.id);
+  const n = rows[i+d]; if(n) openCall(n.id);
+}
+
+async function save(){
+  const btn=$("#saveBtn"), msg=$("#saveMsg");
+  const picked = $("#opts").querySelector('.opt[aria-pressed="true"]');
+  const rec = {
+    status: picked ? picked.dataset.v : "new",
+    notes : $("#notes").value.trim(),
+    next  : $("#next").value || "",
+    at    : new Date().toLocaleString("ar-SA",{dateStyle:"medium",timeStyle:"short"}),
+  };
+  btn.disabled=true; msg.className="note"; msg.textContent="جاري الحفظ…";
+  state[current.id]=rec; lsWrite(); paintStats();
+
+  if(db && canWrite){
+    try{
+      await db.collection("calls").doc(current.id).set(rec);
+      msg.className="note ok"; msg.textContent="تم الحفظ ✓";
+    }catch(e){
+      if(e && e.code==="invalid_argument"){
+        canWrite=false;
+        msg.className="note bad"; msg.textContent="ما عندك صلاحية حفظ — حفظناها في هذا المتصفح.";
+      }else{
+        msg.className="note bad"; msg.textContent="تعذّر الحفظ على السيرفر — محفوظة في هذا المتصفح.";
+      }
+    }
+  }else{
+    msg.className="note ok"; msg.textContent="محفوظة في هذا المتصفح ✓";
+  }
+  btn.disabled=false;
+  setTimeout(()=>{ if(msg.textContent.includes("تم الحفظ")) msg.className="note",
+    msg.textContent="آخر تحديث: "+rec.at; },2200);
+}
+
+/* ---------- wiring ---------- */
+$("#back").addEventListener("click", ()=>{
+  $("#vCall").hidden=true; $("#vQueue").hidden=false; current=null;
+  paintQueue(); window.scrollTo(0,0);
+});
+$("#list").addEventListener("click", e=>{
+  const r=e.target.closest(".row"); if(r) openCall(r.dataset.id);
+});
+$("#chips").addEventListener("click", e=>{
+  const c=e.target.closest(".chip"); if(!c) return;
+  filter=c.dataset.f; paintChips(); paintList();
+});
+$("#q").addEventListener("input", e=>{ search=e.target.value; paintList(); });
+$("#fSector").addEventListener("change", e=>{ sector=e.target.value; paintList(); });
+
+/* sector filter options */
+(function(){
+  const counts={};
+  LEADS.forEach(l=>counts[l.sector]=(counts[l.sector]||0)+1);
+  $("#fSector").insertAdjacentHTML("beforeend",
+    Object.entries(counts).sort((a,b)=>b[1]-a[1])
+      .map(([s,n])=>`<option value="${esc(s)}">${esc(s)} (${n})</option>`).join(""));
+})();
+
+state = lsRead();
+paintQueue();
+
+/* ---------- live store ---------- */
+(async ()=>{
+  try{
+    const user = await window.claude?.use?.("user");
+    if(user){ const w = await user.can?.("data.write"); if(w===false) canWrite=false; }
+    db = await window.claude?.use?.("db");
+    if(!db) return;
+    db.collection("calls").onSnapshot(snap=>{
+      snap.docs.forEach(d=>{ const v=d.data(); if(v) state[d.id]=v; });
+      lsWrite(); paintStats();
+      if($("#vQueue").hidden===false) paintQueue();
+    }, err=>{ if(err?.code==="invalid_argument") canWrite=false; });
+  }catch(e){}
+})();
+</script>
+
+</body></html>

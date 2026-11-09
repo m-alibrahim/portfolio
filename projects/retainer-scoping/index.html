@@ -1,0 +1,398 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Retainer Scoping and Usage Control</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<style>
+/* Layout: a bilingual report read on screen. Contents column at the start side, one text column, tables and figures with captions. */
+:root{
+  --paper:#fbfaf7; --ink:#1d2330; --muted:#636a78; --rule:#cfd2d8; --hair:#e6e7ea;
+  --navy:#0D1F3C; --accent:#a8842f; --mark:#f1ead6; --chart-muted:#a7adb8;
+  --serif:"PT Serif",Georgia,"Times New Roman",serif;
+  --sans:"Libre Franklin","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#14171d; --ink:#e3e5ea; --muted:#9aa1ad; --rule:#3a404c; --hair:#2a2f38;
+  --navy:#b9c7e3; --accent:#d1b16a; --mark:#2c2716; --chart-muted:#596171; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#14171d; --ink:#e3e5ea; --muted:#9aa1ad; --rule:#3a404c; --hair:#2a2f38;
+  --navy:#b9c7e3; --accent:#d1b16a; --mark:#2c2716; --chart-muted:#596171; color-scheme:dark}
+:root[lang="ar"]{--serif:"Noto Naskh Arabic","PT Serif",Tahoma,serif;--sans:"IBM Plex Sans Arabic","Libre Franklin",Tahoma,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6}
+:root[lang="ar"] body{line-height:1.9;font-size:17.5px}
+:root[lang="ar"] .en,:root[lang="en"] .ar{display:none!important}
+.page{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 60px}
+header.top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;padding-block:18px 10px;border-bottom:2px solid var(--navy);font-family:var(--sans);font-size:13px}
+header.top .firm{font-weight:600;letter-spacing:.8px;color:var(--navy)}
+:root[lang="en"] header.top .firm{text-transform:uppercase;letter-spacing:1.2px}
+header.top .sp{flex:1}
+header.top button{font:inherit;font-size:13px;background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+header.top button:hover{color:var(--ink)}
+header.top button.lang{color:var(--ink);font-weight:600;text-decoration:none;border:1px solid var(--rule);padding:2px 10px}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-top:28px}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:20px;align-self:start;font-family:var(--sans);font-size:13px;line-height:1.5}
+.toc p{color:var(--muted);font-size:11px;margin:0 0 8px;letter-spacing:.6px}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc a{display:block;padding:4px 10px;color:var(--muted);text-decoration:none;border-inline-start:2px solid transparent}
+.toc a.cur{color:var(--ink);border-inline-start-color:var(--accent)}
+main{max-width:740px;min-width:0}
+section{padding-bottom:36px;margin-bottom:36px;border-bottom:1px solid var(--hair);scroll-margin-top:16px}
+.kicker{font-family:var(--sans);font-size:12px;color:var(--accent);letter-spacing:.5px;margin-bottom:4px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1.2;color:var(--navy);margin:6px 0 10px;text-wrap:balance}
+:root[lang="ar"] h1{line-height:1.5}
+h2{font-family:var(--sans);font-weight:600;font-size:22px;color:var(--navy);margin:0 0 12px;text-wrap:balance}
+h2 .n{color:var(--accent);margin-inline-end:8px}
+h3{font-family:var(--sans);font-weight:600;font-size:16px;margin:22px 0 6px}
+p{margin:0 0 12px}
+.sub{font-style:italic;color:var(--muted);font-size:19px;max-width:36em}
+:root[lang="ar"] .sub{font-style:normal}
+.meta{font-family:var(--sans);font-size:14px;margin-top:22px;border-top:1px solid var(--rule)}
+.meta div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px;padding:7px 0;border-bottom:1px solid var(--hair)}
+.meta span{color:var(--muted)}
+.note{font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:14px}
+.ps{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:12px 0;font-size:19px;margin:14px 0 6px}
+blockquote{margin:16px 0;padding-inline-start:16px;border-inline-start:2px solid var(--accent);font-style:italic}
+:root[lang="ar"] blockquote{font-style:normal}
+.tw{overflow-x:auto;margin:10px 0 4px}
+table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:14px;line-height:1.5}
+thead th{text-align:start;font-weight:600;padding:7px 8px;border-top:1.5px solid var(--ink);border-bottom:1px solid var(--ink);vertical-align:bottom}
+td{padding:6px 8px;border-bottom:1px solid var(--hair);vertical-align:top}
+td:first-child{min-width:5.5em}
+tbody tr:last-child td{border-bottom:1.5px solid var(--ink)}
+.r{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cap{font-family:var(--sans);font-size:13px;color:var(--muted);margin:4px 0 18px}
+.cap b{color:var(--ink);font-weight:600}
+.ev{font-family:var(--sans);font-size:12px;color:var(--muted);font-variant:small-caps;letter-spacing:.3px}
+:root[lang="ar"] .ev::before{content:"["}:root[lang="ar"] .ev::after{content:"]"}
+details{border-bottom:1px solid var(--hair);font-family:var(--sans);font-size:15px}
+details:first-of-type{border-top:1.5px solid var(--ink)}
+details:last-of-type{border-bottom:1.5px solid var(--ink)}
+summary{cursor:pointer;padding:9px 0;display:flex;gap:12px;align-items:baseline;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-weight:600;color:var(--accent);width:12px;flex:none}
+details[open] summary::before{content:"\2212"}
+summary .h{flex:1}
+summary .v{font-size:13px;color:var(--muted)}
+details[open] summary .v{color:var(--ink);font-weight:600}
+details .body{padding-block:0 12px;padding-inline-start:24px;font-size:14px}
+.links{font-family:var(--sans);font-size:13px;margin:6px 0}
+.links button{font:inherit;background:none;border:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0;margin-inline-end:14px}
+.fig{margin:14px 0 4px}
+.cv{position:relative;height:250px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+@media (max-width:640px){.two{grid-template-columns:minmax(0,1fr)}}
+.seg{font-family:var(--sans);font-size:13px;display:inline-flex;border:1px solid var(--rule);margin:4px 0 10px}
+.seg button{font:inherit;background:none;border:none;padding:5px 12px;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--navy);color:var(--paper)}
+.sens{font-family:var(--sans);font-size:14px;margin:10px 0}
+.sens label{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sens input{flex:1;min-width:160px;accent-color:var(--accent)}
+.sens output{font-weight:600;min-width:46px;font-variant-numeric:tabular-nums}
+mark{background:var(--mark);color:inherit;padding:0 2px}
+.present section{display:none;border:none}
+.present section.cur{display:block;min-height:70vh}
+.pnav{display:none;font-family:var(--sans);font-size:14px;justify-content:space-between;margin-top:20px;border-top:1px solid var(--hair);padding-top:12px}
+.present .pnav{display:flex}
+.pnav button{font:inherit;background:none;border:1px solid var(--rule);color:var(--ink);padding:6px 14px;cursor:pointer}
+footer{font-family:var(--sans);font-size:13px;color:var(--muted)}
+ul,ol{padding-inline-start:22px;margin:0 0 12px}
+</style>
+
+<div class="page">
+<header class="top">
+  <span class="firm"><span class="en">Your Law Firm</span><span class="ar">شركة المحاماة</span></span>
+  <span style="color:var(--muted)"><span class="en">Business Transformation Plan, v1.0</span><span class="ar">خطة تحول الأعمال، الإصدار 1.0</span></span>
+  <span class="sp"></span>
+  <button class="lang" id="langBtn" lang="ar">العربية</button>
+  <button id="mode" aria-pressed="false"></button>
+  <button id="theme"></button>
+</header>
+
+<div class="grid" id="root">
+<nav class="toc" aria-label="Contents"><p><span class="en">CONTENTS</span><span class="ar">المحتويات</span></p><ol id="toc"></ol></nav>
+<main>
+
+<section id="overview" data-en="Overview" data-ar="نظرة عامة">
+ <div class="en">
+  <div class="kicker">OPERATIONAL EXCELLENCE CONSULTANT PROGRAMME</div>
+  <h1>Retainer Scoping and Usage Control</h1>
+  <p class="sub">Pricing annual legal retainers on what clients actually use, and keeping it that way.</p>
+  <div class="meta">
+    <div><span>Prepared by</span>Mohammed Al-Ibrahim, Business Development Manager</div>
+    <div><span>Sponsor</span>Firm Owner / CEO</div>
+    <div><span>Date</span>2 November 2026</div>
+  </div>
+  <h3>In short</h3>
+  <p>Our open annual retainers were using half as much work again as they were paid for. We now scope each client before pricing, contract by service line with a cap, invoice anything above the cap, and record every request. The effort-to-fee ratio has fallen from 1.50 to 1.12. This plan proposes a second wave to close the remaining gap and stop over-cap invoices being disputed.</p>
+ </div>
+ <div class="ar">
+  <div class="kicker">برنامج مستشار التميز التشغيلي</div>
+  <h1>تحديد نطاق عقود الرعاية وضبط استهلاكها</h1>
+  <p class="sub">تسعير عقود الرعاية القانونية السنوية على ما يستهلكه العميل فعلا، والمحافظة على ذلك.</p>
+  <div class="meta">
+    <div><span>إعداد</span>م‍حمد الإبراهيم، مدير تطوير الأعمال</div>
+    <div><span>الراعي</span>مالك المكتب / الرئيس التنفيذي</div>
+    <div><span>التاريخ</span>2 نوفمبر 2026</div>
+  </div>
+  <h3>باختصار</h3>
+  <p>كانت عقود الرعاية السنوية المفتوحة تستهلك نصف العمل زيادة على ما ندفع مقابله. اليوم نحصر احتياج كل عميل قبل التسعير، ونتعاقد ببنود لكل منها سقف، ونفوتر ما يتجاوز السقف، ونسجل كل طلب. نزلت نسبة الجهد إلى الأتعاب من 1.50 إلى 1.12. وتقترح هذه الخطة موجة ثانية لإغلاق الفجوة المتبقية وإيقاف الاعتراض على فواتير التجاوز.</p>
+ </div>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">Measure</span><span class="ar">المقياس</span></th><th class="r">2025</th><th class="r"><span class="en">Q3 2026</span><span class="ar">الربع الثالث 2026</span></th><th class="r"><span class="en">Target Jun 2027</span><span class="ar">المستهدف يونيو 2027</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">Effort-to-fee ratio</span><span class="ar">نسبة الجهد إلى الأتعاب</span></td><td class="r">1.50</td><td class="r">1.12</td><td class="r"><span class="en">1.00 or lower</span><span class="ar">1.00 أو أقل</span></td></tr>
+      <tr><td><span class="en">Requests linked to a contract line</span><span class="ar">طلبات مرتبطة ببند</span></td><td class="r">66%</td><td class="r">94%</td><td class="r"><span class="en">98% or more</span><span class="ar">98% أو أكثر</span></td></tr>
+      <tr><td><span class="en">Over-cap invoices disputed</span><span class="ar">فواتير تجاوز معترض عليها</span></td><td class="r"><span class="en">n/a</span><span class="ar">لا ينطبق</span></td><td class="r">21%</td><td class="r"><span class="en">5% or lower</span><span class="ar">5% أو أقل</span></td></tr>
+      <tr><td><span class="en">Proposal win rate</span><span class="ar">نسبة توقيع العروض</span></td><td class="r">17%</td><td class="r">43%</td><td class="r"><span class="en">not targeted</span><span class="ar">غير مستهدفة</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><span class="en">The problem is real; the figures are illustrative so that the firm's and clients' data stay confidential. The main client is called Client H. Each figure's evidence type is marked in small capitals.</span><span class="ar">المشكلة حقيقية، والأرقام توضيحية حفاظا على سرية الشركة والعملاء. يسمى العميل الرئيسي "العميل (ح)". ونوع الدليل على كل رقم مذكور بين قوسين.</span></p>
+  <div class="pnav"><span></span><button data-go="1"><span class="en">Next: The trigger</span><span class="ar">التالي: المحفز</span></button></div>
+</section>
+
+<section id="trigger" data-en="1 The trigger" data-ar="1 المحفز">
+  <h2><span class="n">1</span><span class="en">The trigger</span><span class="ar">المحفز</span></h2>
+ <div class="en">
+  <p>In January 2025 we signed an open retainer with Client H, a holding company with eleven subsidiaries, at SAR 25,000 a month. Nobody wrote down what that fee covered. By June the account team was averaging 52-hour weeks and raising it in every weekly meeting.</p>
+  <p>On 15 September 2025 the manager responsible for the account resigned. His exit interview said the workload "did not match any contract". On 12 October the CEO approved a project charter, on one condition: measure the problem before choosing a fix.</p>
+  <blockquote>"We are not asking to pay less. We want to know what we are paying for."<br><span class="note" style="font-style:normal">Several client coordinators, in different words, during the health-check interviews</span></blockquote>
+ </div>
+ <div class="ar">
+  <p>ف‍ي يناير 2025 وقعنا عقد رعاية مفتوحا مع العميل (ح)، وهو شركة قابضة تتبعها إحدى عشرة شركة، مقابل 25 ألف ريال شهريا. لم يكتب أحد ما الذي تغطيه هذه الأتعاب. وبحلول يونيو صار فريق العميل يعمل 52 ساعة ف‍ي الأسبوع ف‍ي المتوسط، ويطرح ذلك ف‍ي كل اجتماع أسبوعي.</p>
+  <p>ف‍ي 15 سبتمبر 2025 استقال المدير المسؤول عن العميل، وذكر ف‍ي مقابلة الخروج أن حجم العمل "لا يتناسب مع أي عقد". وفي 12 أكتوبر اعتمد الرئيس التنفيذي ميثاق المشروع بشرط واحد: أن نقيس المشكلة قبل أن نختار الحل.</p>
+  <blockquote>"لا نطلب أن ندفع أقل، نريد أن نعرف ما الذي ندفع مقابله."<br><span class="note">أكثر من منسق لدى العملاء، بصيغ مختلفة، خلال مقابلات الفحص</span></blockquote>
+ </div>
+  <div class="pnav"><button data-go="0"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="2"><span class="en">Next: The problem</span><span class="ar">التالي: المشكلة</span></button></div>
+</section>
+
+<section id="problem" data-en="2 The problem" data-ar="2 المشكلة">
+  <h2><span class="n">2</span><span class="en">The problem, measured</span><span class="ar">المشكلة بالأرقام</span></h2>
+  <div class="ps"><span class="en">Between January and September 2025, our nine open retainers used 3,150 lawyer-hours against 2,100 hours priced into their fees, a 50% overrun, and 34% of requests could not be traced to any contracted service line, leaving about SAR 304,500 of work unpriced.</span><span class="ar">بين يناير وسبتمبر 2025، استهلكت عقود الرعاية المفتوحة التسعة 3,150 ساعة عمل مقابل 2,100 ساعة مسعرة ف‍ي أتعابها، أي بزيادة 50%، ولم يمكن ربط 34% من الطلبات بأي بند متعاقد عليه، مما ترك عملا غير مسعر بنحو 304,500 ريال.</span></div>
+  <p class="cap"><span class="en">Place, period, measure, gap and impact, with no solution named.</span><span class="ar">المكان والفترة والمقياس والفجوة والأثر، دون ذكر أي حل.</span> <span class="ev"><span class="en">baseline</span><span class="ar">خط أساس</span></span></p>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">Measure</span><span class="ar">المقياس</span></th><th class="r"><span class="en">All retainers</span><span class="ar">كل العقود</span></th><th class="r"><span class="en">Client H</span><span class="ar">العميل (ح)</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">Priced hours / hours used</span><span class="ar">الساعات المسعرة / المستهلكة</span></td><td class="r">2,100 / 3,150</td><td class="r">776 / 1,236</td></tr>
+      <tr><td><span class="en">Effort-to-fee ratio</span><span class="ar">نسبة الجهد إلى الأتعاب</span></td><td class="r">1.50</td><td class="r">1.59</td></tr>
+      <tr><td><span class="en">Requests with no contract line</span><span class="ar">طلبات بلا بند</span></td><td class="r"><span class="en">401 of 1,180</span><span class="ar">401 من 1,180</span></td><td class="r"><span class="en">157 of 412</span><span class="ar">157 من 412</span></td></tr>
+      <tr><td><span class="en">People sending requests</span><span class="ar">أشخاص يرسلون طلبات</span></td><td class="r"><span class="en">n/a</span><span class="ar">لا ينطبق</span></td><td class="r">47</td></tr>
+      <tr><td><span class="en">Unpriced work (SAR)</span><span class="ar">العمل غير المسعر (ريال)</span></td><td class="r">304,500</td><td class="r">133,400</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap"><b><span class="en">Table 1.</span><span class="ar">جدول 1.</span></b> <span class="en">Baseline, January to September 2025. A second lawyer re-classified 30 random requests and agreed on 26.</span><span class="ar">خط الأساس، يناير إلى سبتمبر 2025. أعاد محام ثان تصنيف 30 طلبا عشوائيا واتفق ف‍ي 26 منها.</span></p>
+  <div class="pnav"><button data-go="1"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="3"><span class="en">Next: Causes</span><span class="ar">التالي: الأسباب</span></button></div>
+</section>
+
+<section id="causes" data-en="3 Causes" data-ar="3 الأسباب">
+  <h2><span class="n">3</span><span class="en">Six hypotheses, tested</span><span class="ar">ست فرضيات، مختبرة بالأرقام</span></h2>
+  <p><span class="en">Open each line to see what was measured. Three hypotheses were supported. Three were rejected, including the one most people in the firm believed.</span><span class="ar">افتح كل سطر لترى ما الذي قسناه. ثبتت ثلاث فرضيات، ورفضت ثلاث، ومنها الفرضية التي كان يصدقها أغلب من ف‍ي الشركة.</span></p>
+  <div class="links"><button id="openAll"><span class="en">Open all</span><span class="ar">افتح الكل</span></button><button id="closeAll"><span class="en">Close all</span><span class="ar">أغلق الكل</span></button></div>
+  <div id="hyps"></div>
+  <p class="cap" style="margin-top:8px"><b><span class="en">Table 2.</span><span class="ar">جدول 2.</span></b> <span class="en">First-wave hypothesis tests, 2025 data.</span><span class="ar">اختبار فرضيات الموجة الأولى، بيانات 2025.</span></p>
+  <div class="two">
+    <div class="fig"><div class="cv"><canvas id="cPareto"></canvas></div><p class="cap"><b><span class="en">Figure 1.</span><span class="ar">شكل 1.</span></b> <span class="en">The 401 unlinked requests by type. Three types make up 86%.</span><span class="ar">الطلبات الـ401 غير المرتبطة حسب النوع. ثلاثة أنواع تمثل 86%.</span></p></div>
+    <div class="fig"><div class="cv"><canvas id="cScope"></canvas></div><p class="cap"><b><span class="en">Figure 2.</span><span class="ar">شكل 2.</span></b> <span class="en">Client H: what the price implied against what was used.</span><span class="ar">العميل (ح): ما افترضه السعر مقابل ما استهلك فعلا.</span></p></div>
+  </div>
+  <p><span class="en">The problem was not the lawyers, the client or the price. We were pricing something whose size we did not know, taking it in through doors we had not counted, and keeping no record of what went out.</span><span class="ar">المشكلة لم تكن ف‍ي المحامين ولا ف‍ي العميل ولا ف‍ي السعر. كنا نسعر شيئا لا نعرف حجمه، ونستقبله من أبواب لم نعدها، ولا نسجل ما يخرج منا.</span></p>
+  <div class="pnav"><button data-go="2"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="4"><span class="en">Next: First wave</span><span class="ar">التالي: الموجة الأولى</span></button></div>
+</section>
+
+<section id="wave1" data-en="4 First wave" data-ar="4 الموجة الأولى">
+  <h2><span class="n">4</span><span class="en">What we changed in 2026</span><span class="ar">ما الذي غيرناه ف‍ي 2026</span></h2>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">Countermeasure</span><span class="ar">الإجراء</span></th><th><span class="en">Cause</span><span class="ar">السبب</span></th><th><span class="en">Live from</span><span class="ar">منذ</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en"><b>Legal health check before pricing.</b> A 44-question questionnaire across eight areas, a document review, then a needs report.</span><span class="ar"><b>الفحص القانوني قبل التسعير.</b> استبيان من 44 سؤالا ف‍ي ثمانية محاور، ثم مراجعة المستندات، ثم تقرير احتياج.</span></td><td><span class="en">Need unknown</span><span class="ar">احتياج غير معروف</span></td><td><span class="en">Jan 2026</span><span class="ar">يناير 2026</span></td></tr>
+      <tr><td><span class="en"><b>Line-item contract.</b> Each service a separate line with a yearly cap, for a fixed monthly fee.</span><span class="ar"><b>عقد البنود.</b> كل خدمة بند مستقل بسقف سنوي، مقابل اشتراك شهري ثابت.</span></td><td><span class="en">Need unknown</span><span class="ar">احتياج غير معروف</span></td><td><span class="en">Jan 2026</span><span class="ar">يناير 2026</span></td></tr>
+      <tr><td><span class="en"><b>Over-cap pricing.</b> Work above a line's cap is invoiced separately.</span><span class="ar"><b>تسعير التجاوز.</b> ما يزيد على سقف البند يفوتر منفصلا.</span></td><td><span class="en">Need unknown</span><span class="ar">احتياج غير معروف</span></td><td><span class="en">Jan 2026</span><span class="ar">يناير 2026</span></td></tr>
+      <tr><td><span class="en"><b>Usage tracker.</b> Every request recorded against a line and an entity.</span><span class="ar"><b>أداة تتبع الاستهلاك.</b> كل طلب يسجل على بند وكيان.</span></td><td><span class="en">No record</span><span class="ar">لا سجل</span></td><td><span class="en">Apr 2026</span><span class="ar">أبريل 2026</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap"><b><span class="en">Table 3.</span><span class="ar">جدول 3.</span></b> <span class="en">First-wave countermeasures. Piloted with Client H, then applied to all nine retainers and every new one. Total cost SAR 47,320.</span><span class="ar">إجراءات الموجة الأولى. جربت مع العميل (ح) ثم طبقت على العقود التسعة وكل عقد جديد. التكلفة 47,320 ريالا.</span></p>
+  <p><span class="en">We looked at hiring two more lawyers (SAR 420,000 a year), buying a practice-management system (SAR 220,000) and raising every fee by 30%. Each was more expensive or did not touch the causes the data supported.</span><span class="ar">درسنا توظيف محاميين إضافيين (420 ألف ريال سنويا)، وشراء نظام لإدارة المكاتب (220 ألف ريال)، ورفع كل الأتعاب 30%. كل منها إما أغلى أو لا يعالج الأسباب التي أثبتتها البيانات.</span></p>
+  <div class="pnav"><button data-go="3"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="5"><span class="en">Next: Results</span><span class="ar">التالي: النتائج</span></button></div>
+</section>
+
+<section id="results" data-en="5 Results" data-ar="5 النتائج">
+  <h2><span class="n">5</span><span class="en">Results so far</span><span class="ar">النتائج حتى الآن</span></h2>
+  <div class="seg" role="group"><button id="vH" class="on"><span class="en">Client H pilot</span><span class="ar">تجربة العميل (ح)</span></button><button id="vA"><span class="en">All retainers, Q3 2026</span><span class="ar">كل العقود، الربع الثالث 2026</span></button></div>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">Measure</span><span class="ar">المقياس</span></th><th class="r"><span class="en">Before</span><span class="ar">قبل</span></th><th class="r"><span class="en">After</span><span class="ar">بعد</span></th></tr></thead>
+    <tbody id="res"></tbody>
+  </table></div>
+  <p class="cap" id="resCap"></p>
+  <div class="fig"><div class="cv"><canvas id="cRun"></canvas></div><p class="cap"><b><span class="en">Figure 3.</span><span class="ar">شكل 3.</span></b> <span class="en">Share of Client H requests linked to a contract line, by week, January to June 2026. Target 95%, median 87%. The tracker went live in week 14.</span><span class="ar">نسبة طلبات العميل (ح) المرتبطة ببند أسبوعيا، يناير إلى يونيو 2026. المستهدف 95% والوسيط 87%. بدأ العمل بالأداة ف‍ي الأسبوع 14.</span></p></div>
+  <div class="two">
+    <div class="fig"><div class="cv" style="height:210px"><canvas id="cRatio"></canvas></div><p class="cap"><b><span class="en">Figure 4.</span><span class="ar">شكل 4.</span></b> <span class="en">Effort-to-fee ratio.</span><span class="ar">نسبة الجهد إلى الأتعاب.</span></p></div>
+    <div class="fig"><div class="cv" style="height:210px"><canvas id="cConv"></canvas></div><p class="cap"><b><span class="en">Figure 5.</span><span class="ar">شكل 5.</span></b> <span class="en">Proposal win rate: 2 of 12 open retainers in 2025, 6 of 14 scoped retainers in 2026.</span><span class="ar">نسبة توقيع العروض: 2 من 12 عقدا مفتوحا ف‍ي 2025، و6 من 14 عقدا محدد النطاق ف‍ي 2026.</span></p></div>
+  </div>
+  <p><span class="en">One client in nine did not renew; it preferred an open retainer. Revenue was also stronger in Q2 2026 for other reasons, and a new lawyer joined in March, so we judge the project by the effort-to-fee ratio rather than total revenue.</span><span class="ar">عميل واحد من تسعة لم يجدد لأنه فضل العقد المفتوح. وكان الإيراد أقوى ف‍ي الربع الثاني 2026 لأسباب أخرى، وانضم محام جديد ف‍ي مارس، لذلك نقيس المشروع بنسبة الجهد إلى الأتعاب لا بإجمالي الإيراد.</span></p>
+  <div class="pnav"><button data-go="4"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="6"><span class="en">Next: Second wave</span><span class="ar">التالي: الموجة الثانية</span></button></div>
+</section>
+
+<section id="wave2" data-en="6 Second wave" data-ar="6 الموجة الثانية">
+  <h2><span class="n">6</span><span class="en">The second wave</span><span class="ar">الموجة الثانية</span></h2>
+  <p><span class="en">In Q3 2026 clients disputed <mark>4 of 19</mark> over-cap invoices. In three cases the client said it did not know the cap had been passed; in three the request came from someone without authority. The tracker records usage but alerts nobody, and the invoice is the first notice the client gets.</span><span class="ar">ف‍ي الربع الثالث 2026 اعترض العملاء على <mark>4 من 19</mark> فاتورة تجاوز. ف‍ي ثلاث حالات قال العميل إنه لم يعلم بتجاوز السقف، وفي ثلاث جاء الطلب من شخص غير مخول. الأداة تسجل الاستهلاك ولا تنبه أحدا، والفاتورة هي أول إشعار يصل للعميل.</span></p>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">Verified cause</span><span class="ar">السبب المثبت</span></th><th><span class="en">Countermeasure</span><span class="ar">الإجراء</span></th><th><span class="en">Owner</span><span class="ar">المالك</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">Requests from people without authority (38% disputed vs 9% from the coordinator)</span><span class="ar">طلبات من غير مخولين (38% اعتراض مقابل 9% من المنسق)</span></td><td><span class="en"><b>Requester matrix:</b> one named requester and a deputy per entity</span><span class="ar"><b>مصفوفة المفوضين:</b> مفوض مسمى وبديل لكل كيان</span></td><td><span class="en">Account manager</span><span class="ar">مدير الحساب</span></td></tr>
+      <tr><td><span class="en">No warning before an overage (0 of 19 alerted)</span><span class="ar">لا تنبيه قبل التجاوز (0 من 19)</span></td><td><span class="en"><b>Alerts</b> at 80% and 100% of each line, and a monthly statement</span><span class="ar"><b>تنبيهات</b> عند 80% و100% من كل بند، وكشف شهري</span></td><td><span class="en">M. Al-Ibrahim</span><span class="ar">م. الإبراهيم</span></td></tr>
+      <tr><td><span class="en">Lines priced by count, not effort (large requests: 18% of count, 46% of hours)</span><span class="ar">البنود مسعرة بالعدد لا بالجهد (الطلبات الكبيرة: 18% من العدد و46% من الساعات)</span></td><td><span class="en"><b>Size rating</b> on every request; renewal priced on weighted units</span><span class="ar"><b>تصنيف الحجم</b> لكل طلب؛ والتجديد يسعر بالوحدات الموزونة</span></td><td><span class="en">Head of Legal</span><span class="ar">مدير الإدارة القانونية</span></td></tr>
+      <tr><td><span class="en">Both of the above</span><span class="ar">السببان معا</span></td><td><span class="en"><b>Quarterly usage review</b> with the client coordinator</span><span class="ar"><b>مراجعة ربعية للاستهلاك</b> مع منسق العميل</span></td><td><span class="en">Account manager</span><span class="ar">مدير الحساب</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap"><b><span class="en">Table 4.</span><span class="ar">جدول 4.</span></b> <span class="en">Second-wave countermeasures. Cost SAR 45,320 in year one.</span><span class="ar">إجراءات الموجة الثانية. التكلفة 45,320 ريالا ف‍ي السنة الأولى.</span></p>
+  <h3><span class="en">Pilot and gates</span><span class="ar">التجربة والبوابات</span></h3>
+  <p><span class="en">Twelve weeks with Client H and Client M, from 10 January to 1 April 2027. The criteria were fixed on 15 December 2026 and will not change.</span><span class="ar">اثنا عشر أسبوعا مع العميل (ح) والعميل (م)، من 10 يناير إلى 1 أبريل 2027. ثبتت المعايير ف‍ي 15 ديسمبر 2026 ولن تتغير.</span></p>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">Gate</span><span class="ar">البوابة</span></th><th><span class="en">Date</span><span class="ar">التاريخ</span></th><th><span class="en">Criterion</span><span class="ar">المعيار</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">Gate 0</span><span class="ar">البوابة 0</span></td><td><span class="en">15 Dec 2026</span><span class="ar">15 ديسمبر 2026</span></td><td><span class="en">Charter and budget approved</span><span class="ar">اعتماد الميثاق والميزانية</span></td></tr>
+      <tr><td><span class="en">Gate 1</span><span class="ar">البوابة 1</span></td><td><span class="en">7 Jan 2027</span><span class="ar">7 يناير 2027</span></td><td><span class="en">Matrix signed; alerts working; rating agreement 85% or more</span><span class="ar">المصفوفة موقعة؛ التنبيهات تعمل؛ اتفاق التصنيف 85% أو أكثر</span></td></tr>
+      <tr><td><b><span class="en">Gate 3</span><span class="ar">البوابة 3</span></b></td><td><b><span class="en">8 Apr 2027</span><span class="ar">8 أبريل 2027</span></b></td><td><span class="en">Named requesters 90%+; every request rated; every overage alerted; disputes 5% or less; ratio 1.05 or less; response time 2.2 days or less; satisfaction 4.0 or more</span><span class="ar">مفوضون 90% فأكثر؛ كل طلب مصنف؛ كل تجاوز سبقه تنبيه؛ اعتراضات 5% أو أقل؛ نسبة 1.05 أو أقل؛ استجابة 2.2 يوم أو أقل؛ رضا 4.0 أو أكثر</span></td></tr>
+      <tr><td><span class="en">Gate 4</span><span class="ar">البوابة 4</span></td><td><span class="en">30 Jun 2027</span><span class="ar">30 يونيو 2027</span></td><td><span class="en">All retainers on the new terms; handover to Head of Legal</span><span class="ar">كل العقود على الشروط الجديدة؛ التسليم لمدير الإدارة القانونية</span></td></tr>
+      <tr><td><span class="en">Day 91</span><span class="ar">اليوم 91</span></td><td><span class="en">29 Sep 2027</span><span class="ar">29 سبتمبر 2027</span></td><td><span class="en">KPIs held for three months</span><span class="ar">ثبات المؤشرات ثلاثة أشهر</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap"><b><span class="en">Table 5.</span><span class="ar">جدول 5.</span></b> <span class="en">Gates. We stop if subsidiaries escalate more than three refused requests in two weeks, if response time exceeds 2.4 days for two weeks, or immediately on any client data incident.</span><span class="ar">البوابات. نتوقف إذا صعدت الشركات التابعة أكثر من ثلاثة طلبات مرفوضة خلال أسبوعين، أو تجاوز زمن الاستجابة 2.4 يوم أسبوعين، وفورا عند أي حادثة تخص بيانات العملاء.</span></p>
+  <div class="pnav"><button data-go="5"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="7"><span class="en">Next: Value</span><span class="ar">التالي: القيمة</span></button></div>
+</section>
+
+<section id="value" data-en="7 Value" data-ar="7 القيمة">
+  <h2><span class="n">7</span><span class="en">Value and sensitivity</span><span class="ar">القيمة والحساسية</span></h2>
+  <p><span class="en">Costs are fixed. Move the slider to see what happens to the return if benefits come in lower or higher than forecast.</span><span class="ar">التكاليف ثابتة. حرك المؤشر لترى ما يحدث للعائد إذا جاءت الفوائد أقل أو أكثر من المتوقع.</span></p>
+  <div class="sens"><label for="b"><span class="en">Benefits as a share of forecast</span><span class="ar">الفوائد كنسبة من المتوقع</span> <input type="range" id="b" min="40" max="120" step="5" value="100"> <output id="bo">100%</output></label>
+  <div class="links"><button data-b="70"><span class="en">30% lower</span><span class="ar">أقل 30%</span></button><button data-b="100"><span class="en">Forecast</span><span class="ar">المتوقع</span></button></div></div>
+  <div class="tw"><table>
+    <thead><tr><th></th><th class="r"><span class="en">Cost</span><span class="ar">التكلفة</span></th><th class="r"><span class="en">Cash / year</span><span class="ar">النقد السنوي</span></th><th class="r"><span class="en">ROI</span><span class="ar">العائد</span></th><th class="r"><span class="en">Payback</span><span class="ar">الاسترداد</span></th></tr></thead>
+    <tbody id="roi"></tbody>
+  </table></div>
+  <p class="cap"><b><span class="en">Table 6.</span><span class="ar">جدول 6.</span></b> <span class="en">ROI = (cash benefit − cost) ÷ cost. Only cash counts. Lawyer time released and the higher win rate are reported separately and left out.</span><span class="ar">العائد = (النقد − التكلفة) ÷ التكلفة. النقد وحده يحسب، أما وقت المحامين المحرر وارتفاع نسبة التوقيع فيذكران منفصلين.</span> <span class="ev"><span class="en">forecast</span><span class="ar">توقع</span></span></p>
+  <p><span class="en">Over-cap invoicing counts as cash because the work was already being done at our cost. We now get paid for it.</span><span class="ar">تحسب فوترة التجاوز نقدا لأن العمل كان ينجز أصلا على حسابنا، والفرق أننا صرنا نتقاضى مقابله.</span></p>
+  <div class="pnav"><button data-go="6"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="8"><span class="en">Next: Control</span><span class="ar">التالي: الضبط</span></button></div>
+</section>
+
+<section id="control" data-en="8 Control" data-ar="8 الضبط">
+  <h2><span class="n">8</span><span class="en">Keeping it in place</span><span class="ar">كيف نحافظ عليه</span></h2>
+  <div class="tw"><table>
+    <thead><tr><th><span class="en">What we watch</span><span class="ar">ما نراقبه</span></th><th><span class="en">Limit</span><span class="ar">الحد</span></th><th><span class="en">Owner</span><span class="ar">المالك</span></th><th><span class="en">Reaction</span><span class="ar">رد الفعل</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">Effort-to-fee ratio per contract</span><span class="ar">نسبة الجهد إلى الأتعاب لكل عقد</span></td><td><span class="en">&gt; 1.10 for two months</span><span class="ar">&gt; 1.10 لشهرين</span></td><td><span class="en">Process owner</span><span class="ar">مالك العملية</span></td><td><span class="en">Review with client; reprice the line at renewal</span><span class="ar">مراجعة مع العميل؛ إعادة تسعير البند عند التجديد</span></td></tr>
+      <tr><td><span class="en">Requests from outside the matrix</span><span class="ar">طلبات من خارج المصفوفة</span></td><td><span class="en">&gt; 10% in a week</span><span class="ar">&gt; 10% ف‍ي أسبوع</span></td><td><span class="en">Account manager</span><span class="ar">مدير الحساب</span></td><td><span class="en">Call the coordinator; update the matrix</span><span class="ar">اتصال بالمنسق؛ تحديث المصفوفة</span></td></tr>
+      <tr><td><span class="en">Overage without an alert</span><span class="ar">تجاوز دون تنبيه</span></td><td><span class="en">Any</span><span class="ar">أي حالة</span></td><td><span class="en">Project lead</span><span class="ar">قائد المشروع</span></td><td><span class="en">Hold the invoice until the client is told</span><span class="ar">تعليق الفاتورة حتى يبلغ العميل</span></td></tr>
+      <tr><td><span class="en">Disputed invoices</span><span class="ar">فواتير معترض عليها</span></td><td><span class="en">&gt; 10% in a month</span><span class="ar">&gt; 10% ف‍ي شهر</span></td><td><span class="en">Finance</span><span class="ar">المالية</span></td><td><span class="en">Review each dispute at the monthly meeting</span><span class="ar">مراجعة كل اعتراض ف‍ي الاجتماع الشهري</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap"><b><span class="en">Table 7.</span><span class="ar">جدول 7.</span></b> <span class="en">Control plan (extract).</span><span class="ar">خطة الضبط (مقتطف).</span></p>
+  <p><span class="en">The rules live in the system rather than in anyone's memory: the matrix and alert terms become a standard schedule in the retainer template, and the tracker will not save a request without a line, entity, size and named requester. The Head of Legal takes over the process on 30 June 2027, and Finance signs off realised cash on 30 December 2027.</span><span class="ar">القواعد ف‍ي النظام لا ف‍ي ذاكرة أحد: مصفوفة المفوضين وشروط التنبيه ملحق ثابت ف‍ي نموذج عقد الرعاية، والأداة لا تحفظ طلبا دون بند وكيان وحجم ومفوض. يستلم مدير الإدارة القانونية العملية ف‍ي 30 يونيو 2027، وتوقع المالية على النقد المحقق ف‍ي 30 ديسمبر 2027.</span></p>
+  <div class="pnav"><button data-go="7"><span class="en">Previous</span><span class="ar">السابق</span></button><button data-go="0"><span class="en">Back to overview</span><span class="ar">العودة للبداية</span></button></div>
+</section>
+
+<footer><span class="en">Your Law Firm, Riyadh. Prepared by Mohammed Al-Ibrahim. Figures illustrative.</span><span class="ar">شركة المحاماة، الرياض. إعداد م‍حمد الإبراهيم. الأرقام توضيحية.</span></footer>
+</main>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){
+const DEFAULT_LANG='en';
+let L=DEFAULT_LANG;
+try{const s=localStorage.getItem('lang');if(s==='ar'||s==='en')L=s}catch(e){}
+const T={en:{present:'Present one section at a time',full:'Show the full page',theme:'Switch light/dark',other:'العربية',otherLang:'ar',months:' months',
+ hyps:[['H1. The need was unknown at pricing','Supported','The price implied 89 services for the year; Client H used 412. Contracts 20 against 64, advice 30 against 171, government transactions 20 against 58.'],
+ ['H2. Many requesters, no single entry point','Supported','Subsidiaries with more than three requesters: 131 of 227 requests unlinked (58%). Three or fewer: 26 of 185 (14%).'],
+ ['H3. No record linked to contract lines','Supported','Retainers with any usage record: 0 of 9.'],
+ ['H4. Lawyers are slow','Rejected','Contract review took 3.1 hours on average for retainer clients (n = 88) and 3.0 for others (n = 61). Advice: 1.4 against 1.5.'],
+ ['H5. The client abuses the retainer','Rejected','A second lawyer reviewed 30 unlinked requests; 27 were legitimate business needs.'],
+ ['H6. Our fee is below market','Rejected','Client H pays SAR 25,000 a month; three competing quotes for similar scope ranged from SAR 22,000 to 30,000.']],
+ res:{h:{rows:[['Effort-to-fee ratio','1.59','1.08'],['Requests linked to a line','62%','94%'],['People sending requests','47','31'],['Lawyer weekly hours','52','44'],['Over-cap revenue (SAR)','0','48,000 in 6 months']],cap:'<b>Table 8.</b> Client H, 2025 baseline against the January to June 2026 pilot.'},
+  a:{rows:[['Effort-to-fee ratio','1.50','1.12'],['Requests linked to a line','66%','94%'],['Over-cap revenue (SAR)','0','61,000 in Q3'],['Clients renewing','n/a','8 of 9']],cap:'<b>Table 8.</b> All nine retainers, 2025 baseline against Q3 2026.'}},
+ roi:['First wave (done)','Second wave (proposed)','Programme'],
+ ch:{pareto:['Phone/WhatsApp advice','Unnamed entities','Gov. transactions','Letters','Other'],req:'Requests',cum:'Cumulative %',scope:['Advice','Contracts','Gov.','Letters','Studies','Cases'],implied:'Implied by price',used:'Used',linked:'Linked %',target:'Target',median:'Median',week:'Week',ratio:['2025','Pilot','Q3 2026','Target'],conv:['Open, 2025','Scoped, 2026']}},
+ ar:{present:'عرض قسم واحد ف‍ي كل مرة',full:'عرض الصفحة كاملة',theme:'تبديل المظهر',other:'English',otherLang:'en',months:' شهر',
+ hyps:[['ف1. الاحتياج غير معروف عند التسعير','ثبتت','افترض السعر ضمنيا 89 خدمة ف‍ي السنة، واستهلك العميل (ح) 412. العقود 20 مقابل 64، والاستشارات 30 مقابل 171، والمعاملات الحكومية 20 مقابل 58.'],
+ ['ف2. طلبات كثيرة بلا مدخل واحد','ثبتت','الشركات التي يطلب منها أكثر من ثلاثة أشخاص: 131 من 227 طلبا بلا بند (58%). ثلاثة أو أقل: 26 من 185 (14%).'],
+ ['ف3. لا سجل مرتبط بالبنود','ثبتت','العقود التي لديها أي سجل استهلاك: 0 من 9.'],
+ ['ف4. المحامون بطيئون','رفضت','مراجعة العقد استغرقت 3.1 ساعة ف‍ي المتوسط لعملاء الرعاية (88 طلبا) و3.0 لغيرهم (61 طلبا). الاستشارة: 1.4 مقابل 1.5.'],
+ ['ف5. العميل يسيء استخدام العقد','رفضت','راجع محام ثان 30 طلبا بلا بند، فكان 27 منها احتياجا تجاريا مشروعا.'],
+ ['ف6. أتعابنا أقل من السوق','رفضت','يدفع العميل (ح) 25,000 ريال شهريا، وثلاثة عروض منافسة لنطاق مشابه بين 22,000 و30,000.']],
+ res:{h:{rows:[['نسبة الجهد إلى الأتعاب','1.59','1.08'],['طلبات مرتبطة ببند','62%','94%'],['أشخاص يرسلون طلبات','47','31'],['ساعات المحامي الأسبوعية','52','44'],['إيراد التجاوز (ريال)','0','48,000 خلال 6 أشهر']],cap:'<b>جدول 8.</b> العميل (ح)، خط أساس 2025 مقابل تجربة يناير إلى يونيو 2026.'},
+  a:{rows:[['نسبة الجهد إلى الأتعاب','1.50','1.12'],['طلبات مرتبطة ببند','66%','94%'],['إيراد التجاوز (ريال)','0','61,000 ف‍ي الربع الثالث'],['العملاء المجددون','لا ينطبق','8 من 9']],cap:'<b>جدول 8.</b> العقود التسعة، خط أساس 2025 مقابل الربع الثالث 2026.'}},
+ roi:['الموجة الأولى (منفذة)','الموجة الثانية (مقترحة)','البرنامج'],
+ ch:{pareto:['استشارات هاتف وواتساب','كيانات غير مسماة','معاملات حكومية','خطابات','أخرى'],req:'الطلبات',cum:'التراكمي %',scope:['استشارات','عقود','حكومية','خطابات','دراسات','قضايا'],implied:'المفترض ف‍ي السعر',used:'المستهلك',linked:'المرتبطة %',target:'المستهدف',median:'الوسيط',week:'الأسبوع',ratio:['2025','التجربة','الربع 3 2026','المستهدف'],conv:['مفتوحة 2025','محددة 2026']}}};
+
+const root=document.documentElement;
+const secs=[...document.querySelectorAll('main section')];
+const toc=document.getElementById('toc');
+let cur=0,present=false,view='h',pct=100;
+function buildToc(){toc.innerHTML='';secs.forEach((s,i)=>{const li=document.createElement('li');const a=document.createElement('a');a.href='#'+s.id;a.textContent=s.dataset[L];a.onclick=e=>{e.preventDefault();go(i)};li.appendChild(a);toc.appendChild(li)});mark(cur)}
+function mark(i){cur=i;[...toc.querySelectorAll('a')].forEach((l,j)=>l.classList.toggle('cur',j===i));secs.forEach((s,j)=>s.classList.toggle('cur',j===i))}
+function go(i){i=(i+secs.length)%secs.length;mark(i);if(present)window.scrollTo({top:0});else secs[i].scrollIntoView({block:'start'});try{history.replaceState(null,'','#'+secs[i].id)}catch(e){}}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.go)));
+const io=new IntersectionObserver(es=>{if(present)return;es.forEach(e=>{if(e.isIntersecting)mark(secs.indexOf(e.target))})},{rootMargin:'-30% 0px -60% 0px'});
+secs.forEach(s=>io.observe(s));
+const mode=document.getElementById('mode'),theme=document.getElementById('theme'),langBtn=document.getElementById('langBtn');
+mode.onclick=()=>{present=!present;document.getElementById('root').classList.toggle('present',present);mode.setAttribute('aria-pressed',present);labels();go(cur);setTimeout(()=>charts.forEach(c=>c.resize()),30)};
+theme.onclick=()=>{const d=getComputedStyle(root).colorScheme.includes('dark');root.setAttribute('data-theme',d?'light':'dark');build()};
+langBtn.onclick=()=>{setLang(T[L].otherLang)};
+document.addEventListener('keydown',e=>{if(!present||e.target.tagName==='INPUT')return;const fwd=L==='ar'?'ArrowLeft':'ArrowRight',back=L==='ar'?'ArrowRight':'ArrowLeft';
+ if(e.key===fwd||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}if(e.key===back||e.key==='PageUp'){e.preventDefault();go(cur-1)}});
+function labels(){mode.textContent=present?T[L].full:T[L].present;theme.textContent=T[L].theme;langBtn.textContent=T[L].other;langBtn.lang=T[L].otherLang}
+
+const hw=document.getElementById('hyps');
+function hyps(){const open=[...hw.querySelectorAll('details')].map(d=>d.open);hw.innerHTML='';
+ T[L].hyps.forEach((h,i)=>{const d=document.createElement('details');d.open=!!open[i];d.innerHTML='<summary><span class="h">'+h[0]+'</span><span class="v">'+h[1]+'</span></summary><div class="body">'+h[2]+'</div>';hw.appendChild(d)})}
+document.getElementById('openAll').onclick=()=>hw.querySelectorAll('details').forEach(d=>d.open=true);
+document.getElementById('closeAll').onclick=()=>hw.querySelectorAll('details').forEach(d=>d.open=false);
+
+function res(k){view=k;const R=T[L].res[k];document.getElementById('res').innerHTML=R.rows.map(r=>'<tr><td>'+r[0]+'</td><td class="r">'+r[1]+'</td><td class="r">'+r[2]+'</td></tr>').join('');document.getElementById('resCap').innerHTML=R.cap;
+ document.getElementById('vH').classList.toggle('on',k==='h');document.getElementById('vA').classList.toggle('on',k==='a')}
+document.getElementById('vH').onclick=()=>res('h');document.getElementById('vA').onclick=()=>res('a');
+
+const W=[[47320,240000],[45320,126000],[92640,366000]];
+const f=n=>Math.round(n).toLocaleString('en-US');
+function roi(p){pct=p;document.getElementById('bo').textContent=p+'%';const k=p/100;
+ document.getElementById('roi').innerHTML=W.map((w,i)=>{const b=w[1]*k,R=(b-w[0])/w[0]*100,P=w[0]/(b/12);return '<tr'+(i==2?' style="font-weight:600"':'')+'><td>'+T[L].roi[i]+'</td><td class="r">'+f(w[0])+'</td><td class="r">'+f(b)+'</td><td class="r">'+Math.round(R)+'%</td><td class="r">'+P.toFixed(1)+T[L].months+'</td></tr>'}).join('')}
+const sl=document.getElementById('b');sl.oninput=()=>roi(+sl.value);
+document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{sl.value=b.dataset.b;roi(+sl.value)});
+
+let charts=[];
+const t=n=>getComputedStyle(root).getPropertyValue(n).trim();
+function build(){if(!window.Chart)return;charts.forEach(c=>c.destroy());charts=[];const C=T[L].ch,rtl=L==='ar';
+ const ink=t('--navy'),acc=t('--accent'),mu=t('--chart-muted'),grid=t('--hair'),tx=t('--muted');
+ Chart.defaults.font.family=rtl?'"IBM Plex Sans Arabic",Tahoma,sans-serif':'"Libre Franklin",Arial,sans-serif';Chart.defaults.font.size=12;Chart.defaults.color=tx;
+ const leg={position:'bottom',rtl:rtl,labels:{boxWidth:10,boxHeight:10}};
+ const tip={rtl:rtl,textDirection:rtl?'rtl':'ltr'};
+ const sc=o=>Object.assign({x:{reverse:rtl,grid:{display:false}},y:{position:rtl?'right':'left',beginAtZero:true,grid:{color:grid}}},o||{});
+ const pl={legend:leg,tooltip:tip};
+ charts.push(new Chart(cPareto,{data:{labels:C.pareto,datasets:[
+  {type:'bar',label:C.req,data:[164,108,72,37,20],backgroundColor:[ink,ink,ink,mu,mu],order:2},
+  {type:'line',label:C.cum,data:[40.9,67.8,85.8,95,100],borderColor:acc,backgroundColor:acc,yAxisID:'y1',order:1,borderWidth:1.5,pointRadius:2.5}]},
+  options:{maintainAspectRatio:false,plugins:pl,scales:sc({y1:{position:rtl?'left':'right',min:0,max:100,grid:{display:false},ticks:{callback:v=>v+'%'}}})}}));
+ charts.push(new Chart(cScope,{type:'bar',data:{labels:C.scope,datasets:[{label:C.implied,data:[30,20,20,10,5,4],backgroundColor:mu},{label:C.used,data:[171,64,58,41,6,3],backgroundColor:ink}]},options:{maintainAspectRatio:false,plugins:pl,scales:sc()}}));
+ const wk=[62,64,66,70,71,74,76,78,80,81,83,85,86,88,90,91,92,93,94,93,95,94,96,95,94,95];
+ charts.push(new Chart(cRun,{type:'line',data:{labels:wk.map((_,i)=>i+1),datasets:[{label:C.linked,data:wk,borderColor:ink,backgroundColor:ink,pointRadius:2,borderWidth:1.5},{label:C.target,data:wk.map(()=>95),borderColor:acc,pointRadius:0,borderWidth:1.2},{label:C.median,data:wk.map(()=>87),borderColor:mu,borderDash:[4,3],pointRadius:0,borderWidth:1}]},
+  options:{maintainAspectRatio:false,plugins:pl,scales:sc({x:{reverse:rtl,grid:{display:false},title:{display:true,text:C.week}},y:{position:rtl?'right':'left',min:50,max:100,grid:{color:grid},ticks:{callback:v=>v+'%'}}})}}));
+ charts.push(new Chart(cRatio,{type:'bar',data:{labels:C.ratio,datasets:[{data:[1.5,1.08,1.12,1.0],backgroundColor:[mu,ink,ink,acc]}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tip},scales:sc({y:{position:rtl?'right':'left',min:0,max:1.6,grid:{color:grid}}})}}));
+ charts.push(new Chart(cConv,{type:'bar',data:{labels:C.conv,datasets:[{data:[17,43],backgroundColor:[mu,ink]}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tip},scales:sc({y:{position:rtl?'right':'left',min:0,max:50,grid:{color:grid},ticks:{callback:v=>v+'%'}}})}}));
+}
+
+function setLang(l){L=l;try{localStorage.setItem('lang',l)}catch(e){}
+ root.setAttribute('lang',l);root.setAttribute('dir',l==='ar'?'rtl':'ltr');
+ document.title=l==='ar'?'تحديد نطاق عقود الرعاية وضبط استهلاكها':'Retainer Scoping and Usage Control';
+ labels();buildToc();hyps();res(view);roi(pct);build()}
+setLang(L);
+const hi=secs.findIndex(s=>s.id===location.hash.slice(1));if(hi>0){mark(hi);setTimeout(()=>secs[hi].scrollIntoView(),50)}
+window.addEventListener('hashchange',()=>{const k=secs.findIndex(s=>s.id===location.hash.slice(1));if(k>=0&&k!==cur)go(k)});
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',build)}catch(e){}
+})();
+</script>
+
+</body></html>

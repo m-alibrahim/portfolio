@@ -1,0 +1,1705 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>متابعة عملاء تطوير الأعمال</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+
+<style>
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --surface-2:#F8FAFC; --hover:#F1F4F8;
+  --line:#E2E7EE; --line-2:#CBD4E0;
+  --text:#0D1F3C; --text-2:#34445C; --muted:#6B7A90;
+  --accent:#0D1F3C; --accent-ink:#FFFFFF; --accent-soft:#E7ECF4;
+  --gold:#C9A84C; --gold-ink:#8A6A1E; --gold-soft:#F7F0DC;
+  --ok:#1D6F52; --ok-soft:#E3F2EA;
+  --warn:#A8620A; --warn-soft:#FDF1DD;
+  --bad:#B23A2F; --bad-soft:#FBEAE8;
+  --info:#1B5E8C; --info-soft:#E5EFF7;
+  --shadow-sm:0 1px 2px rgba(13,31,60,.06);
+  --shadow:0 18px 40px -16px rgba(13,31,60,.30);
+  --scrim:rgba(13,31,60,.28);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1220; --surface:#101B2E; --surface-2:#0D1727; --hover:#16233A;
+    --line:#1F2E47; --line-2:#2C4163;
+    --text:#E7ECF3; --text-2:#C3CEDD; --muted:#8C9CB4;
+    --accent:#DCE5F2; --accent-ink:#0A1220; --accent-soft:#1B2A44;
+    --gold:#D9BE6A; --gold-ink:#E3C877; --gold-soft:#2C2515;
+    --ok:#7BC9A3; --ok-soft:#12291F;
+    --warn:#E6AE5C; --warn-soft:#2E2210;
+    --bad:#E58A7E; --bad-soft:#321816;
+    --info:#86BCE3; --info-soft:#12263A;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+    --shadow:0 18px 40px -16px rgba(0,0,0,.8);
+    --scrim:rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1220; --surface:#101B2E; --surface-2:#0D1727; --hover:#16233A;
+  --line:#1F2E47; --line-2:#2C4163;
+  --text:#E7ECF3; --text-2:#C3CEDD; --muted:#8C9CB4;
+  --accent:#DCE5F2; --accent-ink:#0A1220; --accent-soft:#1B2A44;
+  --gold:#D9BE6A; --gold-ink:#E3C877; --gold-soft:#2C2515;
+  --ok:#7BC9A3; --ok-soft:#12291F;
+  --warn:#E6AE5C; --warn-soft:#2E2210;
+  --bad:#E58A7E; --bad-soft:#321816;
+  --info:#86BCE3; --info-soft:#12263A;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow:0 18px 40px -16px rgba(0,0,0,.8);
+  --scrim:rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{
+  direction:rtl;color:var(--text);
+  font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.app{display:flex;min-height:100vh}
+.side{
+  position:sticky;top:0;height:100vh;flex:0 0 228px;width:228px;
+  background:var(--surface);border-inline-start:1px solid var(--line);
+  display:flex;flex-direction:column;padding:14px 10px;gap:14px;z-index:30;
+  transition:width .18s ease, flex-basis .18s ease;
+}
+.side-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 4px}
+.logo-full{display:block;height:34px;width:auto;background:#fff;border-radius:6px;padding:3px 6px}
+.logo-mark{display:none;width:34px;height:34px;border-radius:50%;background:#fff}
+.icon-btn{
+  display:inline-grid;place-items:center;width:32px;height:32px;border-radius:8px;
+  border:1px solid transparent;background:transparent;color:var(--muted);
+}
+.icon-btn:hover{background:var(--hover);color:var(--text)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{
+  display:flex;align-items:center;gap:11px;width:100%;
+  border:0;background:transparent;border-radius:8px;padding:9px 10px;
+  color:var(--text-2);font-weight:500;text-align:start;white-space:nowrap;
+}
+.nav button svg{flex:0 0 18px;color:var(--muted)}
+.nav button:hover{background:var(--hover)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--text);font-weight:600}
+.nav button[aria-current="page"] svg{color:var(--text)}
+.nav .count{font-style:normal;margin-inline-start:auto;font-size:11.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav .count.hot{color:var(--bad)}
+.side-foot{margin-top:auto;font-size:11.5px;color:var(--muted);padding:6px 8px;line-height:1.5}
+.side-foot b{display:block;color:var(--text-2);font-weight:600;margin-bottom:2px}
+.app.collapsed .side{flex-basis:64px;width:64px}
+.app.collapsed .logo-full,.app.collapsed .nav span,.app.collapsed .nav .count,.app.collapsed .side-foot{display:none}
+.app.collapsed .logo-mark{display:block}
+.app.collapsed .side-top{flex-direction:column}
+.app.collapsed .nav button{justify-content:center;padding:10px 0}
+
+.main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.top{
+  position:sticky;top:0;z-index:20;background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;padding:10px 24px;
+}
+.menu-btn{display:none}
+.search-trigger{
+  display:flex;align-items:center;gap:10px;flex:0 1 460px;min-width:0;
+  background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  padding:7px 12px;color:var(--muted);text-align:start;
+}
+.search-trigger:hover{border-color:var(--line-2)}
+.search-trigger span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+kbd{font-family:inherit;font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;color:var(--muted);background:var(--surface-2)}
+.spacer{flex:1}
+.quick{position:relative}
+.menu{
+  position:absolute;inset-inline-end:0;top:calc(100% + 6px);min-width:200px;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);
+  padding:6px;z-index:50;
+}
+.menu button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;border-radius:7px;padding:8px 10px;text-align:start;color:var(--text)}
+.menu button:hover{background:var(--hover)}
+.menu button small{margin-inline-start:auto;color:var(--muted)}
+
+.page{padding-inline:24px;padding-block:22px 60px;max-width:1360px;width:100%}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px 20px;margin-bottom:18px}
+.page-head h1{font-family:"Noto Kufi Arabic",sans-serif;font-size:21px;font-weight:600;margin:0;line-height:1.35}
+.page-head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.head-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ---------- controls ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:7px 13px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text-2);font-weight:500;white-space:nowrap;
+}
+.btn:hover{border-color:var(--line-2);color:var(--text)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{opacity:.92}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--hover)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:4px 10px;font-size:12.5px}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:2px}
+.seg button{border:0;background:transparent;border-radius:7px;padding:5px 12px;color:var(--muted);font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm);font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--text-2);border-radius:999px;padding:4px 11px;font-size:12.5px}
+.chip:hover{border-color:var(--line-2)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.field-in,.page select,.drawer select,.dlg select{
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;min-width:0;
+}
+.field-in:hover,.page select:hover{border-color:var(--line-2)}
+.filterbar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:14px}
+.filterbar .field-in{min-width:220px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;border:1px solid transparent}
+.pill.neutral{background:var(--surface-2);border-color:var(--line);color:var(--text-2)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--info-soft);color:var(--info)}
+.pill.gold{background:var(--gold-soft);color:var(--gold-ink)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 8px}
+.dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)} .dot.ok{background:var(--ok)}
+.avatar{
+  display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;
+  background:var(--accent-soft);color:var(--text);font-size:11px;font-weight:600;flex:0 0 24px;
+}
+.muted{color:var(--muted)}
+.link{border:0;background:transparent;padding:0;color:var(--text);font-weight:600;text-align:start}
+.link:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- today ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px}
+.kpi span{display:block;font-size:12.5px;color:var(--muted)}
+.kpi b{display:block;font-family:"Noto Kufi Arabic",sans-serif;font-size:21px;font-weight:600;margin-top:3px;font-variant-numeric:tabular-nums}
+.kpi small{color:var(--muted);font-size:12px}
+.focus{
+  display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r);padding:12px 15px;margin-bottom:16px;color:var(--text-2)
+}
+.focus b{color:var(--text)}
+.focus .tag{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--gold-ink);background:var(--gold-soft);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 15px;border-bottom:1px solid var(--line)}
+.panel-h h2{font-size:14.5px;font-weight:600;margin:0}
+.panel-h .muted{font-size:12.5px}
+.rowlist{display:flex;flex-direction:column}
+.rowlist > *{border-bottom:1px solid var(--line)}
+.rowlist > *:last-child{border-bottom:0}
+.frow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:11px 15px;text-align:start;border:0;background:transparent;width:100%}
+.frow:hover{background:var(--hover)}
+.frow .t{font-weight:600}
+.frow .s{color:var(--muted);font-size:12.5px;grid-column:1 / 2}
+.frow .r{grid-row:1 / 3;grid-column:2;display:flex;flex-direction:column;align-items:flex-end;gap:4px;justify-content:center}
+.empty-s{padding:22px 15px;color:var(--muted);text-align:center;font-size:13px}
+.act-row{display:flex;gap:10px;padding:10px 15px;align-items:flex-start}
+.act-row .when{flex:0 0 70px;color:var(--muted);font-size:12px;padding-top:1px}
+.act-row .what{flex:1;min-width:0}
+.act-row .what b{font-weight:600}
+.act-row .what p{margin:1px 0 0;color:var(--text-2);font-size:13px;overflow-wrap:anywhere}
+
+/* ---------- tasks ---------- */
+.task{display:flex;align-items:center;gap:10px;padding:8px 15px}
+.task input[type=checkbox]{width:17px;height:17px;accent-color:var(--ok);flex:0 0 17px;cursor:pointer}
+.task .tt{flex:1;min-width:0}
+.task .tt input{width:100%;border:0;background:transparent;padding:3px 0;font-weight:500}
+.task .tt input:focus{outline:none;border-bottom:1px solid var(--gold)}
+.task.done .tt input{text-decoration:line-through;color:var(--muted)}
+.task .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.task input[type=date]{border:1px solid transparent;background:transparent;border-radius:6px;padding:2px 4px;font-size:12.5px;color:var(--muted)}
+.task input[type=date]:hover{border-color:var(--line)}
+.task.late input[type=date]{color:var(--bad);font-weight:600}
+.task select{font-size:12px;padding:2px 6px}
+.task .x{opacity:0;transition:opacity .12s}
+.task:hover .x,.task:focus-within .x{opacity:1}
+.addtask{display:flex;gap:8px;padding:10px 15px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.addtask input.title{flex:1 1 220px}
+.tgroup-h{display:flex;align-items:center;gap:8px;padding:9px 15px;background:var(--surface-2);border-bottom:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--text-2)}
+.tgroup-h.bad{color:var(--bad)}
+
+/* ---------- board ---------- */
+.board-wrap{overflow-x:auto;padding-bottom:10px;margin-inline:-4px}
+.board{display:flex;gap:12px;align-items:flex-start;padding:2px 4px;min-width:min-content}
+.col{flex:0 0 268px;width:268px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;max-height:calc(100vh - 250px)}
+.col-h{padding:11px 12px 9px;border-bottom:1px solid var(--line)}
+.col-h .n{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:600}
+.col-h .n span.c{font-size:12px;color:var(--muted);font-weight:600;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:0 8px}
+.col-h .v{font-size:12px;color:var(--muted);margin-top:2px}
+.col-b{padding:8px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;min-height:70px}
+.col.over{border-color:var(--gold);background:var(--gold-soft)}
+.col.unset .col-h .n{color:var(--warn)}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:10px 11px;
+  cursor:grab;text-align:start;display:flex;flex-direction:column;gap:6px;
+}
+.card:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
+.card.dragging{opacity:.45}
+.card .c1{display:flex;align-items:center;gap:6px;font-weight:600;justify-content:space-between}
+.card .c1 .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .c2{color:var(--text-2);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .c3{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px}
+.card .val{font-weight:600;font-variant-numeric:tabular-nums}
+.card .nx{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:baseline;border-top:1px dashed var(--line);padding-top:6px}
+.card .nx b{font-weight:500;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.card .nx .late{color:var(--bad);font-weight:600}
+.card .idle{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.card .idle.warn{color:var(--warn)} .card .idle.bad{color:var(--bad)}
+.dropcol{flex:0 0 150px;width:150px;border:1.5px dashed var(--line-2);border-radius:12px;padding:16px 12px;text-align:center;color:var(--muted);font-size:12.5px;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;min-height:120px}
+.dropcol b{font-size:13.5px}
+.dropcol.won b{color:var(--ok)} .dropcol.lost b{color:var(--bad)}
+.dropcol.over.won{background:var(--ok-soft);border-color:var(--ok)}
+.dropcol.over.lost{background:var(--bad-soft);border-color:var(--bad)}
+.dropcol .c{font-variant-numeric:tabular-nums}
+
+.strip{display:flex;flex-wrap:wrap;gap:6px 22px;margin-bottom:14px;color:var(--muted);font-size:13px}
+.strip b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;margin-inline-start:4px}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table.tbl{width:100%;border-collapse:collapse;min-width:900px}
+.tbl th{text-align:start;font-size:12px;font-weight:600;color:var(--muted);padding:9px 14px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
+.tbl td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover{background:var(--hover)}
+.tbl td.sub{color:var(--muted);font-size:12.5px}
+.tbl .main-c b{display:block;font-weight:600}
+.tbl .main-c small{color:var(--muted);font-size:12px}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:60}
+.drawer{
+  position:fixed;top:0;bottom:0;inset-inline-end:0;width:min(560px,100vw);z-index:70;
+  background:var(--surface);border-inline-start:1px solid var(--line);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;
+}
+.dr-h{padding:14px 18px 12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.dr-h .row{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.dr-h .crumb{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.dr-h input.title{font-family:"Noto Kufi Arabic",sans-serif;font-size:18px;font-weight:600;border:1px solid transparent;border-radius:7px;padding:3px 6px;margin-inline:-6px;background:transparent;width:calc(100% + 12px)}
+.dr-h input.title:hover{border-color:var(--line)}
+.dr-b{flex:1;overflow-y:auto;padding:14px 18px 28px;display:flex;flex-direction:column;gap:18px}
+.props{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;align-items:center}
+.props label{color:var(--muted);font-size:12.5px}
+.props input,.props select,.props textarea{width:100%;border:1px solid transparent;background:transparent;border-radius:7px;padding:5px 8px}
+.props input:hover,.props select:hover,.props textarea:hover{border-color:var(--line);background:var(--surface-2)}
+.props input:focus,.props textarea:focus{border-color:var(--line-2);background:var(--surface);outline:none}
+.sec h3{font-size:13px;font-weight:600;margin:0 0 8px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--text-2)}
+.sec h3 .muted{font-weight:400;font-size:12px}
+.insight{display:flex;gap:10px;background:var(--warn-soft);color:var(--text-2);border-radius:9px;padding:10px 12px;font-size:13px}
+.insight.bad{background:var(--bad-soft)}
+.insight.ok{background:var(--ok-soft)}
+.insight b.tag{font-size:10.5px;letter-spacing:.06em;color:var(--warn);white-space:nowrap}
+.insight.bad b.tag{color:var(--bad)} .insight.ok b.tag{color:var(--ok)}
+.next-box{display:grid;grid-template-columns:1fr 150px;gap:8px}
+.next-box input{border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--surface-2)}
+.logger{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface-2)}
+.types{display:flex;gap:5px;flex-wrap:wrap}
+.types button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 11px;font-size:12.5px;color:var(--text-2)}
+.types button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.logger textarea{border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--surface);min-height:52px;resize:vertical}
+.logger .row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.logger input[type=date]{border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--surface)}
+.timeline{position:relative;display:flex;flex-direction:column;gap:12px;padding-inline-start:18px}
+.timeline::before{content:"";position:absolute;inset-inline-start:5px;top:6px;bottom:6px;width:1px;background:var(--line)}
+.tl{position:relative}
+.tl::before{content:"";position:absolute;inset-inline-start:-17px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--surface);border:2px solid var(--line-2)}
+.tl.stage::before{border-color:var(--gold)}
+.tl .h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-size:12.5px}
+.tl .h b{font-size:13px}
+.tl .h .d{color:var(--muted)}
+.tl p{margin:2px 0 0;color:var(--text-2);overflow-wrap:anywhere;white-space:pre-wrap}
+.tl .rm{border:0;background:transparent;color:var(--muted);font-size:11.5px;padding:0;margin-inline-start:auto;opacity:0}
+.tl:hover .rm{opacity:1}
+.mini-list{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mini-list > *{border-bottom:1px solid var(--line)}
+.mini-list > *:last-child{border-bottom:0}
+.mini{display:flex;align-items:center;gap:10px;padding:9px 12px;width:100%;border:0;background:var(--surface);text-align:start}
+button.mini:hover{background:var(--hover)}
+.mini .grow{flex:1;min-width:0}
+.mini .grow b{display:block;font-weight:600}
+.mini .grow small{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.person-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:var(--surface-2)}
+.person-form input{border:1px solid var(--line);border-radius:7px;padding:6px 9px;background:var(--surface)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px}
+
+/* ---------- contracts ---------- */
+.contract{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.contract.is-late{border-color:var(--bad)}
+.c-head{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;padding:13px 16px}
+.c-name{display:flex;flex-direction:column;gap:2px;min-width:200px}
+.c-name b{font-size:15px}
+.c-name small{color:var(--muted)}
+.c-figs{display:flex;gap:22px;flex-wrap:wrap;margin-inline-start:auto;font-size:12px;color:var(--muted)}
+.c-figs div{display:flex;flex-direction:column}
+.c-figs b{font-size:14.5px;color:var(--text);font-variant-numeric:tabular-nums}
+.bar{height:4px;background:var(--surface-2)}
+.bar > span{display:block;height:100%;background:var(--gold)}
+.c-meta{display:flex;flex-wrap:wrap;gap:10px 14px;padding:10px 16px;border-top:1px solid var(--line);background:var(--surface-2)}
+.c-meta label{display:flex;flex-direction:column;gap:3px;font-size:11.5px;color:var(--muted);font-weight:600;flex:1 1 150px}
+.c-meta input,.c-meta select{border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:var(--surface);font-size:13px;font-weight:400;color:var(--text)}
+.pay{width:100%;border-collapse:collapse;min-width:720px}
+.pay th{text-align:start;font-size:11.5px;color:var(--muted);font-weight:600;padding:7px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pay td{padding:6px 12px;border-bottom:1px solid var(--line)}
+.pay tr:last-child td{border-bottom:0}
+.pay input{border:1px solid transparent;border-radius:6px;padding:4px 7px;background:transparent;width:100%}
+.pay input:hover{border-color:var(--line)}
+.pay input[type=checkbox]{width:16px;height:16px;accent-color:var(--ok)}
+.pay tr.overdue td.due input{color:var(--bad);font-weight:600}
+.pay tr.paid{background:var(--ok-soft)}
+.c-foot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 16px;border-top:1px solid var(--line)}
+.c-warn{padding:8px 16px;border-top:1px solid var(--line);color:var(--bad);font-size:12.5px}
+
+/* ---------- dialogs & palette ---------- */
+dialog{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:14px;padding:0;box-shadow:var(--shadow);width:min(560px,94vw)}
+dialog::backdrop{background:var(--scrim)}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dlg-h h3{margin:0;font-size:15.5px;font-weight:600}
+.dlg-b{padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;max-height:68vh;overflow-y:auto}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld.wide{grid-column:1 / -1}
+.fld > span{font-size:12.5px;color:var(--muted);font-weight:500}
+.fld input,.fld select,.fld textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface-2);width:100%}
+.fld textarea{min-height:64px;resize:vertical}
+.fld.check{flex-direction:row;align-items:center;gap:8px}
+.fld.check input{width:16px;height:16px;accent-color:var(--gold)}
+.fld small{color:var(--muted);font-size:11.5px}
+.dlg-f{display:flex;gap:8px;padding:12px 18px;border-top:1px solid var(--line);background:var(--surface-2);border-radius:0 0 14px 14px}
+#palette{width:min(620px,94vw);margin-top:10vh}
+.pal-in{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.pal-in input{flex:1;border:0;background:transparent;font-size:15.5px;outline:none}
+.pal-res{max-height:56vh;overflow-y:auto;padding:6px}
+.pal-g{font-size:11.5px;color:var(--muted);font-weight:600;padding:8px 10px 4px}
+.pal-i{display:flex;gap:10px;align-items:center;width:100%;border:0;background:transparent;border-radius:8px;padding:8px 10px;text-align:start}
+.pal-i[aria-selected="true"],.pal-i:hover{background:var(--hover)}
+.pal-i .grow{flex:1;min-width:0}
+.pal-i .grow b{display:block;font-weight:600}
+.pal-i .grow small{color:var(--muted);font-size:12px}
+.toast{position:fixed;bottom:22px;inset-inline-start:50%;transform:translateX(50%);background:var(--text);color:var(--bg);padding:9px 16px;border-radius:9px;font-size:13px;z-index:90;box-shadow:var(--shadow)}
+.loading{padding:60px 0;text-align:center;color:var(--muted)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1080px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid2{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .side{position:fixed;inset-block:0;inset-inline-start:0;transform:translateX(100%);transition:transform .2s ease;box-shadow:var(--shadow);width:240px}
+  .app.nav-open .side{transform:none}
+  .app.collapsed .side{width:240px;flex-basis:240px}
+  .app.collapsed .logo-full,.app.collapsed .nav span,.app.collapsed .nav .count,.app.collapsed .side-foot{display:revert}
+  .app.collapsed .logo-mark{display:none}
+  #collapse{display:none}
+  .menu-btn{display:inline-grid}
+  .top{padding:10px 16px}
+  .search-trigger kbd{display:none}
+  .page{padding-inline:16px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .props{grid-template-columns:1fr}
+  .next-box{grid-template-columns:1fr}
+  .dlg-b{grid-template-columns:1fr}
+  .col{max-height:none}
+}
+@media print{
+  .side,.top,.drawer,.scrim,.head-actions,.filterbar,.c-foot,.c-meta,.no-print{display:none!important}
+  .page{padding:0;max-width:none}
+  body,html{background:#fff}
+  .tbl-wrap{overflow:visible;border-color:#999}
+  table.tbl,.pay{min-width:0}
+  .contract{break-inside:avoid}
+  input,select{border:0!important;background:transparent!important;-webkit-appearance:none;appearance:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="القائمة الرئيسية">
+    <div class="side-top">
+      <span style="font-weight:700;letter-spacing:.08em">اسم شركتك</span>
+      <span style="font-weight:700;letter-spacing:.08em">اسم شركتك</span>
+      <button class="icon-btn" id="collapse" aria-label="طي القائمة" title="طي القائمة">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg>
+      </button>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-view="today"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span>اليوم</span><em class="count" id="n-today"></em></button>
+      <button data-view="deals"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/></svg><span>الفرص</span><em class="count" id="n-deals"></em></button>
+      <button data-view="accounts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v15"/><path d="M15 10h3a2 2 0 0 1 2 2v9M3 21h18M8 8h3M8 12h3M8 16h3"/></svg><span>العملاء</span><em class="count" id="n-accounts"></em></button>
+      <button data-view="contracts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><span>التعاقدات والتحصيل</span><em class="count" id="n-contracts"></em></button>
+      <button data-view="tasks"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m8 12 3 3 5-6"/></svg><span>المهام</span><em class="count" id="n-tasks"></em></button>
+    </nav>
+    <div class="side-foot"><b>إدارة تطوير الأعمال</b><span id="sync">جاري الاتصال…</span></div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="القائمة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <button class="search-trigger" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <span>ابحث عن عميل، شخص، فرصة، مهمة…</span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="spacer"></div>
+      <div class="quick">
+        <button class="btn primary" id="quickBtn" aria-haspopup="true" aria-expanded="false">+ جديد</button>
+        <div class="menu" id="quickMenu" hidden>
+          <button data-q="deal">فرصة جديدة <small>N</small></button>
+          <button data-q="account">عميل جديد</button>
+          <button data-q="task">مهمة <small>T</small></button>
+          <button data-q="act">تسجيل نشاط</button>
+        </div>
+      </div>
+    </header>
+    <main class="page" id="page"><div class="loading">جاري تحميل البيانات…</div></main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="تفاصيل"></aside>
+
+<dialog id="palette" aria-label="بحث">
+  <div class="pal-in">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="palInput" placeholder="اكتب اسم عميل، شخص، رقم جوال، فرصة، مهمة…" autocomplete="off">
+    <kbd>Esc</kbd>
+  </div>
+  <div class="pal-res" id="palRes"></div>
+</dialog>
+
+<dialog id="formDlg"><form method="dialog" id="formEl"></form></dialog>
+
+<dialog id="wonDlg">
+  <form method="dialog" id="wonForm">
+    <div class="dlg-h"><h3>تفاصيل التعاقد</h3><button type="button" class="icon-btn" data-close aria-label="إغلاق">✕</button></div>
+    <div class="dlg-b">
+      <p class="fld wide muted" id="wonWho" style="margin:0"></p>
+      <label class="fld wide"><span>قيمة التعاقد (ر.س) *</span><input id="w-amount" type="number" min="0" step="500" required></label>
+      <label class="fld"><span>تاريخ التعاقد</span><input id="w-date" type="date"></label>
+      <label class="fld"><span>طريقة السداد</span>
+        <select id="w-terms"><option>دفعة واحدة</option><option selected>مقدم ومؤخر</option><option>دفعات متعددة</option></select>
+      </label>
+      <label class="fld" id="w-advWrap"><span>نسبة المقدم %</span><input id="w-adv" type="number" min="1" max="99" value="50"></label>
+      <label class="fld" id="w-cntWrap" hidden><span>عدد الدفعات</span><input id="w-count" type="number" min="2" max="24" value="3"></label>
+      <small class="fld wide muted">يُنشأ جدول سداد مبدئي تقدر تعدّل مبالغه وتواريخه من صفحة التعاقدات.</small>
+    </div>
+    <div class="dlg-f"><button type="submit" class="btn primary">حفظ ونقل للتعاقدات</button><button type="button" class="btn" data-close>إلغاء</button></div>
+  </form>
+</dialog>
+
+<dialog id="lostDlg">
+  <form method="dialog" id="lostForm">
+    <div class="dlg-h"><h3>لم يتم التعاقد</h3><button type="button" class="icon-btn" data-close aria-label="إغلاق">✕</button></div>
+    <div class="dlg-b">
+      <p class="fld wide muted" id="lostWho" style="margin:0"></p>
+      <label class="fld wide"><span>سبب شائع</span>
+        <select id="l-pick">
+          <option value="">— اختر —</option>
+          <option>الأتعاب أعلى من ميزانية العميل</option>
+          <option>اختار مكتبًا آخر</option>
+          <option>تأجيل الموضوع</option>
+          <option>عالج الموضوع داخليًا</option>
+          <option>لم يستجب بعد المتابعة</option>
+          <option>خارج نطاق خدماتنا</option>
+        </select>
+      </label>
+      <label class="fld wide"><span>السبب *</span><input id="l-reason" required maxlength="200"></label>
+      <label class="fld"><span>تاريخ القرار</span><input id="l-date" type="date"></label>
+    </div>
+    <div class="dlg-f"><button type="submit" class="btn primary">حفظ</button><button type="button" class="btn" data-close>إلغاء</button></div>
+  </form>
+</dialog>
+
+<datalist id="dl-accounts"></datalist>
+<datalist id="dl-owners"></datalist>
+<datalist id="dl-services"></datalist>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* Demo storage: a tiny localStorage-backed stand-in for the hosted database. */
+(function(){if(window.claude)return;const K="crm.demo.";const subs={};
+function load(c){try{return JSON.parse(localStorage.getItem(K+c)||"{}")}catch(e){return{}}}
+function save(c,o){try{localStorage.setItem(K+c,JSON.stringify(o))}catch(e){}(subs[c]||[]).forEach(f=>emit(c,f))}
+function emit(c,f){const o=load(c);f({docs:Object.keys(o).map(id=>({id,data:()=>o[id]}))})}
+const db={collection:c=>({doc:id=>({set:d=>{const o=load(c);o[id]=d;save(c,o);return Promise.resolve()},delete:()=>{const o=load(c);delete o[id];save(c,o);return Promise.resolve()}}),onSnapshot:(f)=>{(subs[c]=subs[c]||[]).push(f);setTimeout(()=>emit(c,f),0);return()=>{}}})};
+window.claude={use:async n=>n==="db"?db:null};})();
+</script><script>
+/* ================= constants ================= */
+const STAGES = [
+  {id:"s1", name:"تواصل أولي"},
+  {id:"s2", name:"اجتماع واستشارة"},
+  {id:"s3", name:"دراسة الملف والمستندات"},
+  {id:"s4", name:"عرض أتعاب مقدّم"},
+  {id:"s5", name:"تفاوض"}
+];
+const WON = "won", LOST = "lost";
+const STAGE_NAME = Object.assign({"": "بحاجة لتحديد المرحلة", won:"تم التعاقد", lost:"لم يتم التعاقد"},
+  Object.fromEntries(STAGES.map(s => [s.id, s.name])));
+const KINDS = ["فرد","شركة","جهة حكومية"];
+const SERVICES = ["قضايا","تحصيل","تأسيس شركات","عقود واتفاقيات","استشارات","تركات","إجراءات حكومية","رعاية سنوية"];
+const BASE_OWNERS = ["مسؤول 1","مسؤول 2","مسؤول 3"];
+const ACT_TYPES = ["اتصال","اجتماع","واتساب","بريد","عرض أتعاب","ملاحظة"];
+const DEAL_PRI = ["عالية","متوسطة","منخفضة"];
+const TASK_PRI = ["عاجلة","عالية","متوسطة","منخفضة"];
+const TERMS = ["دفعة واحدة","مقدم ومؤخر","دفعات متعددة"];
+const COLD_WARN = 7, COLD_BAD = 14;
+
+/* ================= state ================= */
+const S = {accounts:[], deals:[], acts:[], todos:[]};
+let db = null, live = false, loaded = false;
+let pendingRender = false, rafId = 0;
+const ui = {
+  view: "today", drawer: null, dealMode: "board", dealScope: "open", owner: "الكل",
+  q: "", kind: "الكل", showDone: false, actType: "اتصال", confirmDel: null, boardScroll: 0
+};
+try { const v = localStorage.getItem("crm.view"); if (v) ui.view = v; } catch (e) {}
+try { const o = localStorage.getItem("crm.owner"); if (o) ui.owner = o; } catch (e) {}
+try { if (localStorage.getItem("crm.collapsed") === "1") document.getElementById("app").classList.add("collapsed"); } catch (e) {}
+
+/* ================= helpers ================= */
+const $ = id => document.getElementById(id);
+function h(tag, props, ...kids){
+  const e = document.createElement(tag);
+  if (props) for (const k in props){
+    const v = props[k];
+    if (v == null || v === false) continue;
+    if (k === "class") e.className = v;
+    else if (k === "text") e.textContent = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.slice(2), v);
+    else if (k === "style") e.style.cssText = v;
+    else if (["value","checked","disabled","draggable","hidden","selected"].includes(k)) e[k] = v;
+    else e.setAttribute(k, v === true ? "" : v);
+  }
+  kids.flat(Infinity).forEach(c => { if (c == null || c === false) return; e.append(c.nodeType ? c : String(c)); });
+  return e;
+}
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const today = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const nowISO = () => new Date().toISOString();
+const money = n => new Intl.NumberFormat("en-US").format(Math.round(Number(n) || 0));
+const sar = n => money(n) + " ر.س";
+const dFmt = new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn", {day:"numeric", month:"short"});
+const fmtDate = s => { if (!s) return ""; const d = new Date(s.slice(0,10) + "T12:00:00"); return isNaN(d) ? s : dFmt.format(d); };
+const days = (a, b) => Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 86400000);
+function ago(s){
+  if (!s) return "—";
+  const n = days(s.slice(0,10), today());
+  if (n <= 0) return "اليوم";
+  if (n === 1) return "أمس";
+  if (n === 2) return "قبل يومين";
+  if (n <= 10) return "قبل " + n + " أيام";
+  return "قبل " + n + " يومًا";
+}
+function dueLabel(s){
+  if (!s) return "";
+  const n = days(today(), s);
+  if (n === 0) return "اليوم";
+  if (n === 1) return "غدًا";
+  if (n === -1) return "متأخر يومًا";
+  if (n < 0) return "متأخر " + (-n) + " أيام";
+  return fmtDate(s);
+}
+const initials = name => { const w = (name || "؟").trim().split(/\s+/); return (w[0] === "أبو" && w[1] ? w[1] : w[0])[0]; };
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.hidden = true, 2200);
+}
+const byId = (col, id) => S[col].find(x => x.id === id);
+const accountOf = d => byId("accounts", d.account);
+const accName = id => { const a = byId("accounts", id); return a ? a.name : "—"; };
+function owners(){
+  const s = new Set(BASE_OWNERS);
+  S.deals.forEach(d => (d.owners || []).forEach(o => o && s.add(o)));
+  S.todos.forEach(t => t.owner && s.add(t.owner));
+  return [...s];
+}
+
+/* ================= derived ================= */
+const isOpen = d => d.stage !== WON && d.stage !== LOST;
+function dealActs(d){ return S.acts.filter(a => a.deal === d.id); }
+function lastTouch(d){
+  let best = (d.stageAt || d.createdAt || "").slice(0, 10);
+  dealActs(d).forEach(a => { if (a.date > best) best = a.date; });
+  return best;
+}
+function idleDays(d){ const l = lastTouch(d); return l ? days(l, today()) : 0; }
+function coldLevel(d){
+  if (!isOpen(d)) return "";
+  const n = idleDays(d);
+  return n >= COLD_BAD ? "bad" : n >= COLD_WARN ? "warn" : "";
+}
+const overdue = d => d.nextDate && d.nextDate < today();
+function accLastContact(a){
+  let best = "";
+  S.acts.forEach(x => { if (x.account === a.id && x.date > best) best = x.date; });
+  return best;
+}
+function accStatus(a){
+  const ds = S.deals.filter(d => d.account === a.id);
+  if (ds.some(d => d.stage === WON)) return ["عميل متعاقد", "ok"];
+  if (ds.some(isOpen)) return ["فرصة قائمة", "info"];
+  if (ds.length) return ["لم يتعاقد", "bad"];
+  return ["بدون فرص", "neutral"];
+}
+function needsFollow(d){
+  if (!isOpen(d)) return null;
+  if (overdue(d)) return ["موعد المتابعة " + dueLabel(d.nextDate), "bad", 3];
+  if (d.nextDate === today()) return ["متابعة اليوم", "warn", 2];
+  const c = coldLevel(d);
+  if (c === "bad") return ["بدون نشاط " + idleDays(d) + " يومًا", "bad", 1];
+  if (!d.next) return ["لا يوجد إجراء قادم", "warn", 0];
+  return null;
+}
+const paidSum = d => (d.payments || []).filter(p => p.paid).reduce((a, p) => a + (Number(p.amount) || 0), 0);
+const planSum = d => (d.payments || []).reduce((a, p) => a + (Number(p.amount) || 0), 0);
+const remainingOf = d => Math.max(0, (Number(d.contractAmount) || 0) - paidSum(d));
+const latePays = d => (d.payments || []).filter(p => !p.paid && p.due && p.due < today());
+function nextPay(d){
+  const up = (d.payments || []).filter(p => !p.paid && p.due).sort((a, b) => a.due < b.due ? -1 : 1);
+  return up[0] || null;
+}
+const taskLate = t => !t.done && t.due && t.due < today();
+
+/* ================= persistence ================= */
+const NORM = {
+  accounts: (id, v) => ({id, name: v.name || "", kind: v.kind || "", phone: v.phone || "", email: v.email || "",
+    acquired: !!v.acquired, notes: v.notes || "", contacts: Array.isArray(v.contacts) ? v.contacts : [],
+    createdAt: v.createdAt || "", updatedAt: v.updatedAt || ""}),
+  deals: (id, v) => ({id, account: v.account || "", title: v.title || "", service: v.service || "",
+    value: v.value == null || v.value === "" ? null : Number(v.value), stage: v.stage || "", prevStage: v.prevStage || "",
+    stageAt: v.stageAt || "", owners: Array.isArray(v.owners) ? v.owners : [], priority: v.priority || "متوسطة",
+    next: v.next || "", nextDate: v.nextDate || "", desc: v.desc || "", reason: v.reason || "", lostDate: v.lostDate || "",
+    contractAmount: v.contractAmount == null ? null : Number(v.contractAmount), contractDate: v.contractDate || "",
+    terms: v.terms || "مقدم ومؤخر", payments: Array.isArray(v.payments) ? v.payments.map(p => ({
+      id: p.id || uid("p"), label: p.label || "", amount: Number(p.amount) || 0, due: p.due || "",
+      paid: !!p.paid, paidDate: p.paidDate || "", invoice: p.invoice || ""})) : [],
+    createdAt: v.createdAt || "", updatedAt: v.updatedAt || ""}),
+  acts: (id, v) => ({id, type: v.type || "ملاحظة", text: v.text || "", date: v.date || "", account: v.account || "",
+    deal: v.deal || "", createdAt: v.createdAt || ""}),
+  todos: (id, v) => ({id, title: v.title || "", due: v.due || "", priority: v.priority || "متوسطة", owner: v.owner || "",
+    done: !!v.done, doneAt: v.doneAt || "", account: v.account || "", deal: v.deal || "", createdAt: v.createdAt || ""})
+};
+function setSync(msg){ $("sync").textContent = msg; }
+function stamp(){ setSync("محفوظ · " + new Date().toLocaleTimeString("ar-SA", {hour:"2-digit", minute:"2-digit"})); }
+function put(col, obj){
+  obj.updatedAt = nowISO();
+  if (!obj.createdAt) obj.createdAt = obj.updatedAt;
+  if (!live) return;
+  const data = Object.assign({}, obj); delete data.id;
+  db.collection(col).doc(obj.id).set(JSON.parse(JSON.stringify(data)))
+    .then(stamp).catch(e => { setSync("تعذّر الحفظ — تحقق من الاتصال"); });
+}
+function remove(col, id){
+  S[col] = S[col].filter(x => x.id !== id);
+  if (live) db.collection(col).doc(id).delete().then(stamp).catch(() => {});
+}
+function add(col, obj){ S[col].push(obj); put(col, obj); return obj; }
+
+/* debounced field binding that always writes to the freshest object */
+const timers = {};
+function bind(col, id, key, el, opts){
+  opts = opts || {};
+  const evt = opts.evt || "input";
+  el.addEventListener(evt, () => {
+    const o = byId(col, id); if (!o) return;
+    let v = el.type === "checkbox" ? el.checked : el.value;
+    if (opts.num) v = v === "" ? null : Number(v);
+    o[key] = v;
+    const k = col + id + key;
+    clearTimeout(timers[k]);
+    const fire = () => { const f = byId(col, id); if (f){ f[key] = v; if (opts.after) opts.after(f); put(col, f); } if (opts.render) render(true); };
+    if (evt === "input" && !opts.now) timers[k] = setTimeout(fire, 600); else fire();
+  });
+  return el;
+}
+
+/* ================= rendering core ================= */
+function schedule(){ cancelAnimationFrame(rafId); rafId = requestAnimationFrame(() => render(false)); }
+function typing(){
+  const a = document.activeElement;
+  if (!a) return false;
+  if (a.id === "palInput") return false;
+  const t = a.tagName, ty = (a.type || "").toLowerCase();
+  if (t === "TEXTAREA") return true;
+  if (t === "INPUT" && !["checkbox","radio","button","submit"].includes(ty)) return !!a.closest("#page,#drawer");
+  return false;
+}
+document.addEventListener("focusout", () => { if (pendingRender) setTimeout(() => { if (pendingRender && !typing()) render(true); }, 60); });
+
+function render(force){
+  if (!force && typing()){ pendingRender = true; return; }
+  pendingRender = false;
+  const y = window.scrollY;
+  renderNav();
+  refreshLists();
+  const page = $("page");
+  const bw = page.querySelector(".board-wrap"); if (bw) ui.boardScroll = bw.scrollLeft;
+  page.innerHTML = "";
+  if (!loaded){ page.append(h("div", {class:"loading", text:"جاري تحميل البيانات…"})); return; }
+  if (!live && !S.accounts.length){
+    page.append(h("div", {class:"loading", text:"تعذّر الوصول لقاعدة البيانات في هذا العرض. افتح الرابط وأنت مسجّل دخول في حسابك."}));
+  }
+  ({today: pageToday, deals: pageDeals, accounts: pageAccounts, contracts: pageContracts, tasks: pageTasks}[ui.view] || pageToday)(page);
+  const nbw = page.querySelector(".board-wrap"); if (nbw) nbw.scrollLeft = ui.boardScroll;
+  window.scrollTo(0, y);
+  renderDrawer();
+}
+
+function renderNav(){
+  document.querySelectorAll("#nav button").forEach(b => b.setAttribute("aria-current", b.dataset.view === ui.view ? "page" : "false"));
+  const lateT = S.todos.filter(t => taskLate(t) || (!t.done && t.due === today())).length;
+  const follow = S.deals.filter(needsFollow).length;
+  const n1 = $("n-today"); n1.textContent = (lateT + follow) || ""; n1.className = "count" + (lateT + follow ? " hot" : "");
+  $("n-deals").textContent = S.deals.filter(isOpen).length || "";
+  $("n-accounts").textContent = S.accounts.length || "";
+  const lp = S.deals.filter(d => d.stage === WON && latePays(d).length).length;
+  const n4 = $("n-contracts"); n4.textContent = lp || ""; n4.className = "count" + (lp ? " hot" : "");
+  $("n-tasks").textContent = S.todos.filter(t => !t.done).length || "";
+}
+function refreshLists(){
+  const fill = (id, arr) => { const d = $(id); d.innerHTML = ""; arr.forEach(v => d.append(h("option", {value: v}))); };
+  fill("dl-accounts", S.accounts.map(a => a.name).sort());
+  fill("dl-owners", owners());
+  const sv = new Set(SERVICES); S.deals.forEach(d => d.service && sv.add(d.service));
+  fill("dl-services", [...sv]);
+}
+function go(view){
+  ui.view = view;
+  try { localStorage.setItem("crm.view", view); } catch (e) {}
+  $("app").classList.remove("nav-open");
+  window.scrollTo(0, 0);
+  render(true);
+}
+
+/* ================= shared widgets ================= */
+function pageHead(title, sub, ...actions){
+  return h("div", {class:"page-head"},
+    h("div", null, h("h1", {text: title}), sub ? h("p", {text: sub}) : null),
+    h("div", {class:"head-actions"}, actions));
+}
+function setOwner(o){ ui.owner = o; try { localStorage.setItem("crm.owner", o); } catch (e) {} render(true); }
+function ownerChips(countFn){
+  const list = ["الكل", ...owners()];
+  if (ui.owner !== "الكل" && !list.includes(ui.owner)) list.push(ui.owner);
+  return h("div", {class:"chips", role:"group", "aria-label":"المسؤول"},
+    h("span", {class:"muted", style:"font-size:12.5px;align-self:center", text:"المسؤول:"}),
+    list.map(o => {
+      const n = countFn ? countFn(o) : null;
+      if (countFn && o !== "الكل" && !n && ui.owner !== o) return null;
+      return h("button", {class:"chip", "aria-pressed": String(ui.owner === o), onclick: () => setOwner(o)},
+        o, n != null ? h("span", {class:"num", style:"opacity:.7;margin-inline-start:6px", text: n}) : null);
+    }));
+}
+function accOwners(a){
+  const s2 = new Set();
+  S.deals.forEach(d => { if (d.account === a.id) (d.owners || []).forEach(o => o && s2.add(o)); });
+  return [...s2];
+}
+const ownsAcc = (a, o) => o === "الكل" || accOwners(a).includes(o);
+const ownsDeal = (d, o) => o === "الكل" || (d.owners || []).includes(o);
+function stagePill(st){
+  if (st === WON) return h("span", {class:"pill ok", text: STAGE_NAME[WON]});
+  if (st === LOST) return h("span", {class:"pill bad", text: STAGE_NAME[LOST]});
+  if (!st) return h("span", {class:"pill warn", text:"بدون مرحلة"});
+  return h("span", {class:"pill neutral", text: STAGE_NAME[st]});
+}
+function priPill(p){
+  const cls = p === "عاجلة" ? "bad" : p === "عالية" ? "warn" : "neutral";
+  return h("span", {class:"pill " + cls, text: p});
+}
+function ownerAv(name){ return name ? h("span", {class:"avatar", title: name, text: initials(name)}) : null; }
+
+function actRow(a, showWho){
+  const d = a.deal ? byId("deals", a.deal) : null;
+  return h("div", {class:"act-row"},
+    h("div", {class:"when", text: fmtDate(a.date)}),
+    h("div", {class:"what"},
+      h("div", null, h("b", {text: a.type}), showWho ? [" · ", h("button", {class:"link", text: accName(a.account), onclick: () => openDrawer("account", a.account)})] : null,
+        d ? h("span", {class:"muted", text: " · " + d.title}) : null),
+      a.text ? h("p", {text: a.text}) : null));
+}
+
+function logger(accountId, dealId){
+  const wrap = h("div", {class:"logger no-print"});
+  const types = h("div", {class:"types"});
+  ACT_TYPES.forEach(t => types.append(h("button", {type:"button", "aria-pressed": String(ui.actType === t), text: t,
+    onclick: () => { ui.actType = t; types.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.textContent === t))); }})));
+  const txt = h("textarea", {placeholder:"وش صار؟ (اختياري)", "aria-label":"تفاصيل النشاط"});
+  const dt = h("input", {type:"date", value: today(), "aria-label":"تاريخ النشاط"});
+  let dealSel = null;
+  if (!dealId){
+    const open = S.deals.filter(d => d.account === accountId);
+    if (open.length){
+      dealSel = h("select", {"aria-label":"الفرصة"}, h("option", {value:"", text:"بدون ربط بفرصة"}),
+        open.map(d => h("option", {value: d.id, text: d.title})));
+    }
+  }
+  const btn = h("button", {type:"button", class:"btn primary sm", text:"تسجيل", onclick: () => {
+    const a = {id: uid("a"), type: ui.actType, text: txt.value.trim(), date: dt.value || today(), account: accountId,
+      deal: dealId || (dealSel ? dealSel.value : ""), createdAt: nowISO()};
+    add("acts", a);
+    txt.value = "";
+    toast("تم تسجيل النشاط");
+    render(true);
+  }});
+  wrap.append(types, txt, h("div", {class:"row"}, h("div", {style:"display:flex;gap:8px;flex-wrap:wrap"}, dt, dealSel), btn));
+  return wrap;
+}
+
+function timeline(list){
+  if (!list.length) return h("div", {class:"empty-s", text:"لا يوجد نشاط مسجّل بعد."});
+  const sorted = list.slice().sort((a, b) => (b.date + b.createdAt).localeCompare(a.date + a.createdAt));
+  return h("div", {class:"timeline"}, sorted.map(a => {
+    const d = a.deal ? byId("deals", a.deal) : null;
+    return h("div", {class:"tl" + (a.type === "المرحلة" ? " stage" : "")},
+      h("div", {class:"h"}, h("span", {class:"d", text: fmtDate(a.date)}), h("b", {text: a.type}),
+        d && ui.drawer && ui.drawer.kind === "account" ? h("span", {class:"muted", text:"· " + d.title}) : null,
+        h("button", {class:"rm", type:"button", text:"حذف", onclick: () => { remove("acts", a.id); render(true); }})),
+      a.text ? h("p", {text: a.text}) : null);
+  }));
+}
+
+function taskRow(t, opts){
+  opts = opts || {};
+  const row = h("div", {class:"task" + (t.done ? " done" : "") + (taskLate(t) ? " late" : "")});
+  const cb = h("input", {type:"checkbox", checked: t.done, "aria-label":"إنجاز المهمة", onchange: () => {
+    const o = byId("todos", t.id); if (!o) return;
+    o.done = cb.checked; o.doneAt = o.done ? today() : "";
+    put("todos", o);
+    if (o.done && (o.account || o.deal)){
+      add("acts", {id: uid("a"), type: "مهمة منجزة", text: o.title, date: today(), account: o.account || (o.deal ? (byId("deals", o.deal) || {}).account : ""), deal: o.deal || "", createdAt: nowISO()});
+    }
+    render(true);
+  }});
+  const title = bind("todos", t.id, "title", h("input", {value: t.title, "aria-label":"عنوان المهمة"}));
+  const meta = h("div", {class:"meta"});
+  if (!opts.hideLink && (t.account || t.deal)){
+    const acc = t.account || (t.deal ? (byId("deals", t.deal) || {}).account : "");
+    if (acc) meta.append(h("button", {class:"pill neutral", type:"button", text: accName(acc), onclick: () => openDrawer("account", acc)}));
+  }
+  if (t.priority && t.priority !== "متوسطة") meta.append(priPill(t.priority));
+  if (t.owner && !opts.compact) meta.append(ownerAv(t.owner));
+  meta.append(bind("todos", t.id, "due", h("input", {type:"date", value: t.due, "aria-label":"تاريخ المهمة"}), {evt:"change", render:true}));
+  meta.append(h("button", {class:"icon-btn x", type:"button", "aria-label":"حذف المهمة", text:"✕", onclick: () => { remove("todos", t.id); render(true); }}));
+  row.append(cb, h("div", {class:"tt"}, title), meta);
+  return row;
+}
+function quickTask(ctx, placeholder){
+  const inp = h("input", {class:"field-in title", placeholder: placeholder || "أضف مهمة واضغط Enter…", "aria-label":"مهمة جديدة"});
+  const dt = h("input", {class:"field-in", type:"date", value: ctx.due || "", "aria-label":"التاريخ"});
+  const pr = h("select", {"aria-label":"الأولوية"}, TASK_PRI.map(p => h("option", {value:p, text:p, selected: p === "متوسطة"})));
+  const submit = () => {
+    const v = inp.value.trim(); if (!v) return;
+    add("todos", {id: uid("t"), title: v, due: dt.value, priority: pr.value, owner: ctx.owner || "", done: false, doneAt: "",
+      account: ctx.account || "", deal: ctx.deal || "", createdAt: nowISO()});
+    inp.value = ""; render(true);
+    setTimeout(() => { const n = document.querySelector("[data-qt='" + (ctx.key || "x") + "']"); if (n) n.focus(); }, 0);
+  };
+  inp.dataset.qt = ctx.key || "x";
+  inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); submit(); } });
+  return h("div", {class:"addtask no-print"}, inp, dt, pr, h("button", {class:"btn sm", type:"button", text:"إضافة", onclick: submit}));
+}
+
+/* ================= page: today ================= */
+function pageToday(page){
+  const hr = new Date().getHours();
+  const greet = hr < 12 ? "صباح الخير" : "مساء الخير";
+  const longDate = new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn", {weekday:"long", day:"numeric", month:"long"}).format(new Date());
+  page.append(pageHead(greet, longDate));
+  page.append(h("div", {class:"filterbar"}, ownerChips()));
+  const O = ui.owner;
+  const dealOk = d => ownsDeal(d, O);
+  const taskOk = t => O === "الكل" || t.owner === O || (t.deal && ownsDeal(byId("deals", t.deal) || {}, O) && !t.owner);
+
+  const open = S.deals.filter(d => isOpen(d) && dealOk(d));
+  const openVal = open.reduce((a, d) => a + (Number(d.value) || 0), 0);
+  const month = today().slice(0, 7);
+  const wonMonth = S.deals.filter(d => d.stage === WON && dealOk(d) && (d.contractDate || "").slice(0, 7) === month);
+  const wonVal = wonMonth.reduce((a, d) => a + (Number(d.contractAmount) || 0), 0);
+  const remain = S.deals.filter(d => d.stage === WON && dealOk(d)).reduce((a, d) => a + remainingOf(d), 0);
+  page.append(h("div", {class:"kpis"},
+    h("div", {class:"kpi"}, h("span", {text:"الفرص المفتوحة"}), h("b", {text: open.length})),
+    h("div", {class:"kpi"}, h("span", {text:"قيمة الفرص المفتوحة"}), h("b", {text: sar(openVal)}),
+      h("small", {text: open.filter(d => !d.value).length ? open.filter(d => !d.value).length + " فرص بدون قيمة" : ""})),
+    h("div", {class:"kpi"}, h("span", {text:"تعاقدات هذا الشهر"}), h("b", {text: sar(wonVal)}), h("small", {text: wonMonth.length + " تعاقد"})),
+    h("div", {class:"kpi"}, h("span", {text:"المتبقي للتحصيل"}), h("b", {text: sar(remain)}))
+  ));
+
+  const follow = open.map(d => [d, needsFollow(d)]).filter(x => x[1]).sort((a, b) => b[1][2] - a[1][2] || idleDays(b[0]) - idleDays(a[0]));
+  const lateTasks = S.todos.filter(t => taskLate(t) && taskOk(t));
+  const todayTasks = S.todos.filter(t => !t.done && t.due === today() && taskOk(t));
+  const cold = open.filter(d => coldLevel(d) === "bad").length;
+  const parts = [];
+  if (lateTasks.length) parts.push(h("b", {text: lateTasks.length + " مهام متأخرة"}));
+  if (todayTasks.length) parts.push(h("b", {text: todayTasks.length + " مهام اليوم"}));
+  const od = open.filter(overdue).length;
+  if (od) parts.push(h("b", {text: od + " فرص تجاوزت موعد متابعتها"}));
+  if (cold) parts.push(h("b", {text: cold + " فرص بدأت تبرد"}));
+  page.append(h("div", {class:"focus"}, h("span", {class:"tag", text:"تركيز اليوم"}),
+    h("div", null, parts.length ? parts.flatMap((p, i) => i ? ["، ", p] : [p]) : "ما فيه شي متأخر — وقت مناسب للتواصل مع عملاء جدد.")));
+
+  const left = h("section", {class:"panel"},
+    h("div", {class:"panel-h"}, h("h2", {text:"تحتاج متابعة"}), h("span", {class:"muted", text: follow.length + " فرصة"})),
+    h("div", {class:"rowlist"}, follow.length ? follow.slice(0, 10).map(([d, why]) => {
+      const a = accountOf(d);
+      const c = a && a.contacts && a.contacts[0];
+      return h("button", {class:"frow", type:"button", onclick: () => openDrawer("deal", d.id)},
+        h("span", {class:"t", text: (a ? a.name : "—") + (c ? " — " + (c.title ? c.title + " " : "") + c.name : "")}),
+        h("span", {class:"s", text: d.title + (d.next ? " · التالي: " + d.next : "")}),
+        h("span", {class:"r"}, h("span", {class:"pill " + why[1], text: why[0]}), h("span", {class:"muted", style:"font-size:12px", text: STAGE_NAME[d.stage] + " · آخر نشاط " + ago(lastTouch(d))})));
+    }) : h("div", {class:"empty-s", text:"كل الفرص عليها إجراء قادم ومتابعة في وقتها."})));
+
+  const tasks = [...lateTasks, ...todayTasks].sort((a, b) => (a.due || "").localeCompare(b.due || ""));
+  const right = h("section", {class:"panel"},
+    h("div", {class:"panel-h"}, h("h2", {text:"مهام اليوم"}), h("button", {class:"btn ghost sm", type:"button", text:"كل المهام", onclick: () => go("tasks")})),
+    quickTask({due: today(), key:"today", owner: O !== "الكل" ? O : ""}, "مهمة لليوم…"),
+    h("div", {class:"rowlist"}, tasks.length ? tasks.map(t => taskRow(t, {compact:true})) : h("div", {class:"empty-s", text:"لا توجد مهام لليوم."})));
+
+  page.append(h("div", {class:"grid2"}, left, right));
+
+  const recent = S.acts.filter(a => O === "الكل" || (a.deal ? ownsDeal(byId("deals", a.deal) || {}, O) : S.deals.some(d => d.account === a.account && ownsDeal(d, O)))).sort((a, b) => (b.date + b.createdAt).localeCompare(a.date + a.createdAt)).slice(0, 8);
+  page.append(h("section", {class:"panel", style:"margin-top:16px"},
+    h("div", {class:"panel-h"}, h("h2", {text:"آخر النشاطات"})),
+    h("div", {class:"rowlist"}, recent.length ? recent.map(a => actRow(a, true)) : h("div", {class:"empty-s", text:"سجّل أول نشاط من ملف أي فرصة أو عميل."}))));
+}
+
+/* ================= page: deals ================= */
+function filteredDeals(){
+  const q = ui.q.trim();
+  return S.deals.filter(d => {
+    if (ui.dealScope === "open" ? !isOpen(d) : d.stage !== LOST) return false;
+    if (ui.owner !== "الكل" && !(d.owners || []).includes(ui.owner)) return false;
+    if (q){
+      const a = accountOf(d);
+      const hay = [d.title, d.service, d.next, d.desc, d.reason, a && a.name].join(" ");
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+function pageDeals(page){
+  const scopeSeg = h("div", {class:"seg", role:"group", "aria-label":"النطاق"},
+    [["open","المفتوحة"],["lost","لم يتم التعاقد"]].map(([k, l]) => h("button", {type:"button", "aria-pressed": String(ui.dealScope === k), text: l,
+      onclick: () => { ui.dealScope = k; render(true); }})));
+  const modeSeg = ui.dealScope === "open" ? h("div", {class:"seg", role:"group", "aria-label":"طريقة العرض"},
+    [["board","لوحة"],["list","قائمة"]].map(([k, l]) => h("button", {type:"button", "aria-pressed": String(ui.dealMode === k), text: l,
+      onclick: () => { ui.dealMode = k; render(true); }}))) : null;
+  page.append(pageHead("الفرص", "من أول تواصل حتى التعاقد — اسحب البطاقة لتغيير مرحلتها.", scopeSeg, modeSeg,
+    h("button", {class:"btn", type:"button", text:"طباعة", onclick: () => { const m = ui.dealMode; ui.dealMode = "list"; render(true); setTimeout(() => { window.print(); ui.dealMode = m; render(true); }, 50); }}),
+    h("button", {class:"btn primary", type:"button", text:"+ فرصة", onclick: () => formDeal()})));
+
+  const search = h("input", {class:"field-in", type:"search", placeholder:"فلترة بالاسم أو الخدمة…", value: ui.q, "aria-label":"فلترة الفرص", id:"dealFilter"});
+  search.addEventListener("input", () => { ui.q = search.value; clearTimeout(timers.q); timers.q = setTimeout(() => { render(true); const s = $("dealFilter"); if (s){ s.focus(); s.setSelectionRange(s.value.length, s.value.length); } }, 250); });
+  page.append(h("div", {class:"filterbar no-print"}, search, ownerChips(o => S.deals.filter(d => (ui.dealScope === "open" ? isOpen(d) : d.stage === LOST) && ownsDeal(d, o)).length)));
+
+  const list = filteredDeals();
+  if (ui.dealScope === "lost") return lostList(page, list);
+
+  const val = list.reduce((a, d) => a + (Number(d.value) || 0), 0);
+  const withVal = list.filter(d => d.value);
+  page.append(h("div", {class:"strip"},
+    h("span", null, "الفرص", h("b", {text: list.length})),
+    h("span", null, "القيمة المتوقعة", h("b", {text: sar(val)})),
+    h("span", null, "متوسط الفرصة", h("b", {text: withVal.length ? sar(val / withVal.length) : "—"})),
+    h("span", null, "بدأت تبرد", h("b", {text: list.filter(d => coldLevel(d)).length})),
+    h("span", null, "متوسط مدة الإغلاق", h("b", {text: avgCycle()}))));
+
+  if (ui.dealMode === "list") return dealTable(page, list);
+  page.append(board(list));
+}
+function avgCycle(){
+  const won = S.deals.filter(d => d.stage === WON && d.contractDate && d.createdAt);
+  if (!won.length) return "—";
+  const avg = won.reduce((a, d) => a + Math.max(0, days(d.createdAt.slice(0, 10), d.contractDate)), 0) / won.length;
+  return Math.round(avg) + " يومًا";
+}
+
+let dragId = null;
+function board(list){
+  const cols = [];
+  const unset = list.filter(d => !d.stage);
+  if (unset.length) cols.push({id:"", name: STAGE_NAME[""], items: unset, unset: true});
+  STAGES.forEach(s => cols.push({id: s.id, name: s.name, items: list.filter(d => d.stage === s.id)}));
+  const b = h("div", {class:"board"});
+  cols.forEach(c => {
+    const sum = c.items.reduce((a, d) => a + (Number(d.value) || 0), 0);
+    const body = h("div", {class:"col-b"}, c.items
+      .sort((x, y) => (x.nextDate || "9999").localeCompare(y.nextDate || "9999"))
+      .map(dealCard));
+    const col = h("div", {class:"col" + (c.unset ? " unset" : ""), "data-stage": c.id},
+      h("div", {class:"col-h"}, h("div", {class:"n"}, h("span", {text: c.name}), h("span", {class:"c", text: c.items.length})),
+        h("div", {class:"v", text: sum ? sar(sum) : "—"})), body);
+    dropTarget(col, c.id);
+    b.append(col);
+  });
+  const wonN = S.deals.filter(d => d.stage === WON).length, lostN = S.deals.filter(d => d.stage === LOST).length;
+  const won = h("div", {class:"dropcol won"}, h("b", {text:"تم التعاقد"}), h("span", {text:"اسحب الفرصة هنا"}),
+    h("button", {class:"btn ghost sm", type:"button", text: wonN + " في التعاقدات", onclick: () => go("contracts")}));
+  const lost = h("div", {class:"dropcol lost"}, h("b", {text:"لم يتم التعاقد"}), h("span", {text:"اسحب الفرصة هنا"}),
+    h("button", {class:"btn ghost sm", type:"button", text: lostN + " في الأرشيف", onclick: () => { ui.dealScope = "lost"; render(true); }}));
+  dropTarget(won, WON); dropTarget(lost, LOST);
+  b.append(won, lost);
+  return h("div", {class:"board-wrap"}, b);
+}
+function dropTarget(el, stage){
+  el.addEventListener("dragover", e => { if (!dragId) return; e.preventDefault(); el.classList.add("over"); });
+  el.addEventListener("dragleave", e => { if (!el.contains(e.relatedTarget)) el.classList.remove("over"); });
+  el.addEventListener("drop", e => { e.preventDefault(); el.classList.remove("over"); const id = dragId; dragId = null; if (id) moveDeal(id, stage); });
+}
+function dealCard(d){
+  const a = accountOf(d);
+  const c = coldLevel(d);
+  const n = idleDays(d);
+  const card = h("div", {class:"card", draggable: true, tabindex:"0", role:"button", "aria-label": (a ? a.name : "") + " — " + d.title,
+    onclick: () => openDrawer("deal", d.id),
+    onkeydown: e => { if (e.key === "Enter") openDrawer("deal", d.id); }},
+    h("div", {class:"c1"}, h("span", {class:"nm", text: a ? a.name : "—"}), a && a.acquired ? h("span", {class:"pill gold", text:"مستقطب"}) : null),
+    h("div", {class:"c2", text: d.title}),
+    h("div", {class:"c3"}, h("span", {class:"val", text: d.value ? sar(d.value) : ""}),
+      h("span", {style:"display:flex;gap:3px"}, (d.owners || []).slice(0, 2).map(ownerAv))),
+    h("div", {class:"idle " + c}, c ? h("span", {class:"dot " + c}) : null, "آخر نشاط " + ago(lastTouch(d)) + (n >= 1 ? " · " + n + " يوم في المرحلة" : "")),
+    d.next || d.nextDate ? h("div", {class:"nx"}, h("span", {text:"التالي"}), h("b", {text: d.next || "—"}),
+      d.nextDate ? h("span", {class: overdue(d) ? "late" : "", text: dueLabel(d.nextDate)}) : null) : null);
+  card.addEventListener("dragstart", e => { dragId = d.id; card.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", d.id); } catch (x) {} });
+  card.addEventListener("dragend", () => { card.classList.remove("dragging"); document.querySelectorAll(".over").forEach(x => x.classList.remove("over")); });
+  return card;
+}
+function dealTable(page, list){
+  const rows = list.slice().sort((a, b) => (a.nextDate || "9999").localeCompare(b.nextDate || "9999"));
+  page.append(h("div", {class:"tbl-wrap"}, h("table", {class:"tbl"},
+    h("thead", null, h("tr", null, ["العميل","الفرصة","المرحلة","القيمة","المسؤول","الإجراء القادم","الموعد","آخر نشاط"].map(t => h("th", {text: t})))),
+    h("tbody", null, rows.map(d => {
+      const a = accountOf(d), c = coldLevel(d);
+      return h("tr", {onclick: () => openDrawer("deal", d.id)},
+        h("td", {class:"main-c"}, h("b", {text: a ? a.name : "—"}), a && a.kind ? h("small", {text: a.kind}) : null),
+        h("td", {text: d.title}),
+        h("td", null, stagePill(d.stage)),
+        h("td", {class:"num", text: d.value ? sar(d.value) : "—"}),
+        h("td", {class:"sub", text: (d.owners || []).join("، ")}),
+        h("td", {text: d.next || "—"}),
+        h("td", null, d.nextDate ? h("span", {class: overdue(d) ? "pill bad" : "pill neutral", text: dueLabel(d.nextDate)}) : "—"),
+        h("td", null, h("span", {style:"display:inline-flex;gap:6px;align-items:center"}, c ? h("span", {class:"dot " + c}) : null, ago(lastTouch(d)))));
+    })))));
+  if (!rows.length) page.append(h("div", {class:"empty-s", text:"لا توجد فرص مطابقة."}));
+}
+function lostList(page, list){
+  if (!list.length){ page.append(h("div", {class:"panel"}, h("div", {class:"empty-s", text:"لا توجد فرص في أرشيف «لم يتم التعاقد»."}))); return; }
+  const reasons = {};
+  list.forEach(d => { const k = d.reason || "بدون سبب"; reasons[k] = (reasons[k] || 0) + 1; });
+  page.append(h("div", {class:"strip"}, Object.entries(reasons).sort((a, b) => b[1] - a[1]).map(([k, v]) => h("span", null, k, h("b", {text: v})))));
+  page.append(h("div", {class:"tbl-wrap"}, h("table", {class:"tbl"},
+    h("thead", null, h("tr", null, ["العميل","الفرصة","السبب","التاريخ","المسؤول","القيمة",""].map(t => h("th", {text: t})))),
+    h("tbody", null, list.map(d => {
+      const a = accountOf(d);
+      return h("tr", {onclick: () => openDrawer("deal", d.id)},
+        h("td", {class:"main-c"}, h("b", {text: a ? a.name : "—"})),
+        h("td", {text: d.title}),
+        h("td", {text: d.reason || "—"}),
+        h("td", {class:"sub", text: fmtDate(d.lostDate)}),
+        h("td", {class:"sub", text: (d.owners || []).join("، ")}),
+        h("td", {class:"num", text: d.value ? sar(d.value) : "—"}),
+        h("td", null, h("button", {class:"btn sm no-print", type:"button", text:"إرجاع للمتابعة", onclick: e => { e.stopPropagation(); setStage(d.id, d.prevStage && d.prevStage !== LOST && d.prevStage !== WON ? d.prevStage : "s1"); }})));
+    })))));
+}
+
+/* ================= stage changes ================= */
+let pendingStage = null;
+function moveDeal(id, stage){
+  const d = byId("deals", id); if (!d || d.stage === stage) return;
+  if (stage === WON){
+    pendingStage = id;
+    const a = accountOf(d);
+    $("wonWho").textContent = (a ? a.name : "") + " — " + d.title;
+    $("w-amount").value = d.contractAmount || d.value || "";
+    $("w-date").value = d.contractDate || today();
+    $("w-terms").value = TERMS.includes(d.terms) ? d.terms : "مقدم ومؤخر";
+    syncTerms();
+    $("wonDlg").showModal();
+    return;
+  }
+  if (stage === LOST){
+    pendingStage = id;
+    const a = accountOf(d);
+    $("lostWho").textContent = (a ? a.name : "") + " — " + d.title;
+    $("l-reason").value = d.reason || ""; $("l-pick").value = ""; $("l-date").value = today();
+    $("lostDlg").showModal();
+    return;
+  }
+  setStage(id, stage);
+}
+function setStage(id, stage, extra){
+  const d = byId("deals", id); if (!d) return;
+  if (d.stage !== stage) d.prevStage = d.stage;
+  d.stage = stage; d.stageAt = today();
+  if (extra) Object.assign(d, extra);
+  put("deals", d);
+  add("acts", {id: uid("a"), type:"المرحلة", text: "انتقلت إلى: " + STAGE_NAME[stage], date: today(), account: d.account, deal: d.id, createdAt: nowISO()});
+  toast("المرحلة: " + STAGE_NAME[stage]);
+  render(true);
+}
+function syncTerms(){ const t = $("w-terms").value; $("w-advWrap").hidden = t !== "مقدم ومؤخر"; $("w-cntWrap").hidden = t !== "دفعات متعددة"; }
+$("w-terms").addEventListener("change", syncTerms);
+$("l-pick").addEventListener("change", e => { if (e.target.value) $("l-reason").value = e.target.value; });
+$("wonForm").addEventListener("submit", () => {
+  const total = Number($("w-amount").value) || 0;
+  const terms = $("w-terms").value, date = $("w-date").value || today();
+  setStage(pendingStage, WON, {contractAmount: total, contractDate: date, terms,
+    payments: buildSchedule(total, terms, date, Number($("w-adv").value), Number($("w-count").value))});
+  pendingStage = null;
+});
+$("lostForm").addEventListener("submit", () => {
+  setStage(pendingStage, LOST, {reason: $("l-reason").value.trim(), lostDate: $("l-date").value || today()});
+  pendingStage = null;
+});
+document.querySelectorAll("dialog [data-close]").forEach(b => b.addEventListener("click", () => { b.closest("dialog").close(); pendingStage = null; render(true); }));
+function buildSchedule(total, terms, start, advPct, count){
+  start = start || today();
+  const P = (label, amount, due) => ({id: uid("p"), label, amount, due, paid: false, paidDate: "", invoice: ""});
+  if (terms === "دفعة واحدة") return [P("الدفعة الكاملة", total, start)];
+  if (terms === "دفعات متعددة"){
+    const n = Math.max(2, Math.min(24, Number(count) || 3)), per = Math.round(total / n);
+    return Array.from({length: n}, (_, i) => P("الدفعة " + (i + 1) + " من " + n, i === n - 1 ? total - per * (n - 1) : per, i === 0 ? start : ""));
+  }
+  const pct = Math.max(1, Math.min(99, Number(advPct) || 50)), adv = Math.round(total * pct / 100);
+  return [P("دفعة مقدمة (" + pct + "%)", adv, start), P("دفعة مؤخرة (" + (100 - pct) + "%)", total - adv, "")];
+}
+
+/* ================= page: accounts ================= */
+function pageAccounts(page){
+  page.append(pageHead("العملاء", "الأفراد والشركات والجهات الحكومية، وصنّاع القرار فيها.",
+    h("button", {class:"btn primary", type:"button", text:"+ عميل", onclick: () => formAccount()})));
+  const search = h("input", {class:"field-in", type:"search", placeholder:"فلترة بالاسم أو الجوال أو صانع القرار…", value: ui.q, id:"accFilter", "aria-label":"فلترة العملاء"});
+  search.addEventListener("input", () => { ui.q = search.value; clearTimeout(timers.q); timers.q = setTimeout(() => { render(true); const s = $("accFilter"); if (s){ s.focus(); s.setSelectionRange(s.value.length, s.value.length); } }, 250); });
+  const kinds = h("div", {class:"chips"}, ["الكل", ...KINDS, "مستقطب"].map(k =>
+    h("button", {class:"chip", "aria-pressed": String(ui.kind === k), text: k, onclick: () => { ui.kind = k; render(true); }})));
+  page.append(h("div", {class:"filterbar"}, search, kinds));
+  page.append(h("div", {class:"filterbar"}, ownerChips(o => S.accounts.filter(a => ownsAcc(a, o)).length)));
+
+  const q = ui.q.trim();
+  const list = S.accounts.filter(a => {
+    if (!ownsAcc(a, ui.owner)) return false;
+    if (ui.kind === "مستقطب" ? !a.acquired : (ui.kind !== "الكل" && a.kind !== ui.kind)) return false;
+    if (q){
+      const hay = [a.name, a.phone, a.email, ...(a.contacts || []).map(c => c.name + " " + c.title + " " + c.phone)].join(" ");
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  }).sort((x, y) => (accLastContact(y) || "").localeCompare(accLastContact(x) || "") || x.name.localeCompare(y.name, "ar"));
+
+  if (!list.length){ page.append(h("div", {class:"panel"}, h("div", {class:"empty-s", text: S.accounts.length ? (ui.owner !== "الكل" ? "لا يوجد عملاء مرتبطون بـ" + ui.owner + " بهذا الفلتر." : "لا يوجد عملاء مطابقون.") : "أضف أول عميل."}))); return; }
+  page.append(h("div", {class:"tbl-wrap"}, h("table", {class:"tbl"},
+    h("thead", null, h("tr", null, ["العميل","صانع القرار","المسؤول","الجوال","الحالة","الفرص المفتوحة","القيمة","آخر تواصل"].map(t => h("th", {text: t})))),
+    h("tbody", null, list.map(a => {
+      const ds = S.deals.filter(d => d.account === a.id);
+      const open = ds.filter(isOpen);
+      const st = accStatus(a);
+      const c = (a.contacts || [])[0];
+      return h("tr", {onclick: () => openDrawer("account", a.id)},
+        h("td", {class:"main-c"}, h("b", null, a.name, a.acquired ? [" ", h("span", {class:"pill gold", text:"مستقطب"})] : null), h("small", {text: a.kind || "النوع غير محدد"})),
+        h("td", null, c ? [h("div", {text: c.name}), c.title ? h("small", {class:"muted", text: c.title}) : null] : h("span", {class:"muted", text:"—"})),
+        h("td", null, (() => { const ow = accOwners(a); return ow.length ? h("span", {style:"display:inline-flex;gap:4px;align-items:center;flex-wrap:wrap"}, ow.map(o => h("span", {class:"pill " + (o === ui.owner ? "info" : "neutral"), text: o}))) : h("span", {class:"muted", text:"—"}); })()),
+        h("td", {class:"num sub", text: (c && c.phone) || a.phone || "—"}),
+        h("td", null, h("span", {class:"pill " + st[1], text: st[0]})),
+        h("td", {class:"num", text: open.length || "—"}),
+        h("td", {class:"num", text: open.reduce((s, d) => s + (Number(d.value) || 0), 0) ? sar(open.reduce((s, d) => s + (Number(d.value) || 0), 0)) : "—"}),
+        h("td", {class:"sub", text: ago(accLastContact(a))}));
+    })))));
+}
+
+/* ================= page: contracts ================= */
+function pageContracts(page){
+  const list = S.deals.filter(d => d.stage === WON && (ui.owner === "الكل" || (d.owners || []).includes(ui.owner)))
+    .sort((a, b) => (b.contractDate || "").localeCompare(a.contractDate || ""));
+  const total = list.reduce((a, d) => a + (Number(d.contractAmount) || 0), 0);
+  const paid = list.reduce((a, d) => a + paidSum(d), 0);
+  page.append(pageHead("التعاقدات والتحصيل", "كل فرصة تنتقل هنا تلقائيًا عند «تم التعاقد».",
+    h("button", {class:"btn", type:"button", text:"طباعة كشف التحصيل", onclick: () => window.print()})));
+  page.append(h("div", {class:"filterbar no-print"}, ownerChips(o => S.deals.filter(d => d.stage === WON && ownsDeal(d, o)).length)));
+  page.append(h("div", {class:"kpis"},
+    h("div", {class:"kpi"}, h("span", {text:"إجمالي التعاقدات"}), h("b", {text: sar(total)}), h("small", {text: list.length + " تعاقد"})),
+    h("div", {class:"kpi"}, h("span", {text:"المحصّل"}), h("b", {text: sar(paid)}), h("small", {text: total ? Math.round(paid / total * 100) + "% من الإجمالي" : ""})),
+    h("div", {class:"kpi"}, h("span", {text:"المتبقي"}), h("b", {text: sar(Math.max(0, total - paid))})),
+    h("div", {class:"kpi"}, h("span", {text:"عقود بدفعات متأخرة"}), h("b", {style: list.filter(d => latePays(d).length).length ? "color:var(--bad)" : "", text: list.filter(d => latePays(d).length).length}))));
+  if (!list.length){ page.append(h("div", {class:"panel"}, h("div", {class:"empty-s", text:"لا توجد تعاقدات بعد — اسحب أي فرصة إلى «تم التعاقد»."}))); return; }
+  list.forEach(d => page.append(contractCard(d)));
+}
+function contractCard(d){
+  const a = accountOf(d);
+  const total = Number(d.contractAmount) || 0, paid = paidSum(d), late = latePays(d), np = nextPay(d);
+  const pct = total ? Math.min(100, Math.round(paid / total * 100)) : 0;
+  const status = late.length ? ["متأخر " + late.length + " دفعة", "bad"] : (total && paid >= total ? ["مسدد بالكامل", "ok"] : ["قيد التحصيل", "info"]);
+  const payBody = h("tbody");
+  (d.payments || []).forEach(p => {
+    const tr = h("tr", {class: p.paid ? "paid" : (p.due && p.due < today() ? "overdue" : "")});
+    const upd = (key, el, evt, num) => {
+      el.addEventListener(evt, () => {
+        const f = byId("deals", d.id); if (!f) return;
+        const pp = f.payments.find(x => x.id === p.id); if (!pp) return;
+        pp[key] = el.type === "checkbox" ? el.checked : (num ? Number(el.value) || 0 : el.value);
+        if (key === "paid"){ pp.paidDate = pp.paid ? (pp.paidDate || today()) : ""; }
+        clearTimeout(timers["p" + p.id + key]);
+        const go2 = () => { put("deals", f); if (evt === "change") render(true); };
+        if (evt === "input") timers["p" + p.id + key] = setTimeout(go2, 600); else go2();
+      });
+      return el;
+    };
+    tr.append(
+      h("td", null, upd("label", h("input", {value: p.label, "aria-label":"بيان الدفعة"}), "input")),
+      h("td", {style:"width:140px"}, upd("amount", h("input", {type:"number", value: p.amount, class:"num", "aria-label":"المبلغ"}), "input", true)),
+      h("td", {class:"due", style:"width:150px"}, upd("due", h("input", {type:"date", value: p.due, "aria-label":"الاستحقاق"}), "change")),
+      h("td", {style:"width:70px;text-align:center"}, upd("paid", h("input", {type:"checkbox", checked: p.paid, "aria-label":"تم السداد"}), "change")),
+      h("td", {style:"width:150px"}, upd("paidDate", h("input", {type:"date", value: p.paidDate, "aria-label":"تاريخ السداد"}), "change")),
+      h("td", {style:"width:130px"}, upd("invoice", h("input", {value: p.invoice, placeholder:"رقم الفاتورة", "aria-label":"رقم الفاتورة"}), "input")),
+      h("td", {style:"width:50px", class:"no-print"}, h("button", {class:"icon-btn", type:"button", "aria-label":"حذف الدفعة", text:"✕", onclick: () => {
+        const f = byId("deals", d.id); f.payments = f.payments.filter(x => x.id !== p.id); put("deals", f); render(true); }})));
+    payBody.append(tr);
+  });
+  if (!(d.payments || []).length) payBody.append(h("tr", null, h("td", {colspan:"7", class:"muted", style:"text-align:center;padding:14px", text:"لا توجد دفعات — أضف دفعة لبدء المتابعة."})));
+
+  const planned = planSum(d);
+  return h("section", {class:"contract" + (late.length ? " is-late" : "")},
+    h("div", {class:"c-head"},
+      h("div", {class:"c-name"}, h("button", {class:"link", style:"font-size:15px", text: a ? a.name : "—", onclick: () => openDrawer("deal", d.id)}),
+        h("small", {text: d.title + (d.contractDate ? " · تعاقد " + fmtDate(d.contractDate) : "") + " · " + d.terms})),
+      h("span", {class:"pill " + status[1], text: status[0]}),
+      h("div", {class:"c-figs"},
+        h("div", null, "قيمة التعاقد", h("b", {text: sar(total)})),
+        h("div", null, "المحصّل", h("b", {text: sar(paid)})),
+        h("div", null, "المتبقي", h("b", {text: sar(Math.max(0, total - paid))})),
+        h("div", null, "أقرب استحقاق", h("b", {text: np ? fmtDate(np.due) + " · " + money(np.amount) : "—"})))),
+    h("div", {class:"bar"}, h("span", {style:"width:" + pct + "%"})),
+    h("div", {class:"c-meta"},
+      h("label", null, "قيمة التعاقد", bind("deals", d.id, "contractAmount", h("input", {type:"number", value: d.contractAmount == null ? "" : d.contractAmount}), {num:true, evt:"change", render:true})),
+      h("label", null, "تاريخ التعاقد", bind("deals", d.id, "contractDate", h("input", {type:"date", value: d.contractDate}), {evt:"change", render:true})),
+      h("label", null, "طريقة السداد", bind("deals", d.id, "terms", h("select", null, TERMS.map(t => h("option", {value:t, text:t, selected: d.terms === t}))), {evt:"change", render:true}))),
+    h("div", {style:"overflow-x:auto"}, h("table", {class:"pay"},
+      h("thead", null, h("tr", null, ["بيان الدفعة","المبلغ","الاستحقاق","سُدد","تاريخ السداد","الفاتورة",""].map(t => h("th", {text: t})))), payBody)),
+    total && Math.abs(planned - total) > 1 ? h("div", {class:"c-warn", text:"مجموع الدفعات (" + money(planned) + ") لا يساوي قيمة التعاقد (" + money(total) + ")."}) : null,
+    h("div", {class:"c-foot"},
+      h("button", {class:"btn sm", type:"button", text:"+ دفعة", onclick: () => { const f = byId("deals", d.id);
+        f.payments.push({id: uid("p"), label: "دفعة " + (f.payments.length + 1), amount: remainingOf(f), due: "", paid: false, paidDate: "", invoice: ""}); put("deals", f); render(true); }}),
+      h("button", {class:"btn sm ghost", type:"button", text:"إعادة توليد الجدول", onclick: () => { const f = byId("deals", d.id);
+        if (!(Number(f.contractAmount) > 0)) return toast("أدخل قيمة التعاقد أولًا");
+        f.payments = buildSchedule(Number(f.contractAmount), f.terms, f.contractDate, 50, 3); put("deals", f); render(true); }}),
+      h("div", {class:"spacer"}),
+      h("button", {class:"btn sm ghost", type:"button", text:"فتح الفرصة", onclick: () => openDrawer("deal", d.id)})));
+}
+
+/* ================= page: tasks ================= */
+function pageTasks(page){
+  page.append(pageHead("المهام", "مهام مرتبطة بعميل أو فرصة، أو مستقلة.",
+    h("label", {class:"switch", style:"display:flex;gap:6px;align-items:center;color:var(--muted)"},
+      h("input", {type:"checkbox", checked: ui.showDone, onchange: e => { ui.showDone = e.target.checked; render(true); }}), "إظهار المنجزة")));
+  page.append(h("div", {class:"filterbar"}, ownerChips(o => S.todos.filter(t => !t.done && (o === "الكل" || t.owner === o)).length)));
+  const mine = S.todos.filter(t => ui.owner === "الكل" || t.owner === ui.owner);
+  const T = today();
+  const groups = [
+    ["متأخرة", mine.filter(t => taskLate(t)), "bad"],
+    ["اليوم", mine.filter(t => !t.done && t.due === T), ""],
+    ["القادمة", mine.filter(t => !t.done && t.due > T), ""],
+    ["بدون تاريخ", mine.filter(t => !t.done && !t.due), ""]
+  ];
+  if (ui.showDone) groups.push(["منجزة", mine.filter(t => t.done).sort((a, b) => (b.doneAt || "").localeCompare(a.doneAt || "")).slice(0, 50), ""]);
+  const panel = h("section", {class:"panel"}, quickTaskFull());
+  let any = false;
+  groups.forEach(([name, items, cls]) => {
+    if (!items.length) return;
+    any = true;
+    items.sort((a, b) => (a.due || "").localeCompare(b.due || "") || TASK_PRI.indexOf(a.priority) - TASK_PRI.indexOf(b.priority));
+    panel.append(h("div", {class:"tgroup-h " + cls}, name, h("span", {class:"muted", text: "(" + items.length + ")"})));
+    panel.append(h("div", {class:"rowlist"}, items.map(t => taskRow(t))));
+  });
+  if (!any) panel.append(h("div", {class:"empty-s", text:"لا توجد مهام مفتوحة."}));
+  page.append(panel);
+}
+function quickTaskFull(){
+  const inp = h("input", {class:"field-in title", placeholder:"مهمة جديدة…", "aria-label":"مهمة جديدة", "data-qt":"full"});
+  const dt = h("input", {class:"field-in", type:"date", "aria-label":"التاريخ"});
+  const pr = h("select", {"aria-label":"الأولوية"}, TASK_PRI.map(p => h("option", {value:p, text:p, selected: p === "متوسطة"})));
+  const acc = h("input", {class:"field-in", list:"dl-accounts", placeholder:"العميل (اختياري)", "aria-label":"العميل"});
+  const ow = h("input", {class:"field-in", list:"dl-owners", placeholder:"المسؤول", value: ui.owner !== "الكل" ? ui.owner : "", "aria-label":"المسؤول", style:"max-width:150px"});
+  const submit = () => {
+    const v = inp.value.trim(); if (!v) return;
+    const a = S.accounts.find(x => x.name === acc.value.trim());
+    add("todos", {id: uid("t"), title: v, due: dt.value, priority: pr.value, owner: ow.value.trim(), done: false, doneAt: "",
+      account: a ? a.id : "", deal: "", createdAt: nowISO()});
+    render(true);
+    setTimeout(() => { const n = document.querySelector("[data-qt='full']"); if (n) n.focus(); }, 0);
+  };
+  inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); submit(); } });
+  return h("div", {class:"addtask"}, inp, dt, pr, acc, ow, h("button", {class:"btn primary sm", type:"button", text:"إضافة", onclick: submit}));
+}
+
+/* ================= drawer ================= */
+function openDrawer(kind, id){ ui.drawer = {kind, id}; ui.confirmDel = null; render(true); $("drawer").querySelector(".dr-b") && ($("drawer").querySelector(".dr-b").scrollTop = 0); }
+function closeDrawer(){ ui.drawer = null; render(true); }
+$("scrim").addEventListener("click", closeDrawer);
+function renderDrawer(){
+  const dr = $("drawer"), sc = $("scrim");
+  const prevScroll = dr.querySelector(".dr-b") ? dr.querySelector(".dr-b").scrollTop : 0;
+  if (!ui.drawer){ dr.hidden = true; sc.hidden = true; dr.innerHTML = ""; return; }
+  const rec = byId(ui.drawer.kind === "deal" ? "deals" : "accounts", ui.drawer.id);
+  if (!rec){ ui.drawer = null; dr.hidden = true; sc.hidden = true; return; }
+  dr.innerHTML = "";
+  dr.hidden = false; sc.hidden = false;
+  if (ui.drawer.kind === "deal") drawerDeal(dr, rec); else drawerAccount(dr, rec);
+  const b = dr.querySelector(".dr-b"); if (b) b.scrollTop = prevScroll;
+}
+function prop(label, control){ return [h("label", {text: label}), control]; }
+
+function drawerDeal(dr, d){
+  const a = accountOf(d);
+  const head = h("div", {class:"dr-h"},
+    h("div", {class:"row"},
+      h("div", {class:"crumb"}, "فرصة · ", h("button", {class:"link", text: a ? a.name : "—", onclick: () => a && openDrawer("account", a.id)}),
+        a && a.acquired ? h("span", {class:"pill gold", text:"مستقطب"}) : null),
+      h("button", {class:"icon-btn", type:"button", "aria-label":"إغلاق", text:"✕", onclick: closeDrawer})),
+    bind("deals", d.id, "title", h("input", {class:"title", value: d.title, "aria-label":"عنوان الفرصة"})));
+
+  const stageSel = h("select", {"aria-label":"المرحلة"},
+    (!d.stage ? [h("option", {value:"", text: STAGE_NAME[""], selected: true})] : []),
+    STAGES.map(s => h("option", {value: s.id, text: s.name, selected: d.stage === s.id})),
+    h("option", {value: WON, text:"✓ تم التعاقد", selected: d.stage === WON}),
+    h("option", {value: LOST, text:"✗ لم يتم التعاقد", selected: d.stage === LOST}));
+  stageSel.addEventListener("change", () => moveDeal(d.id, stageSel.value));
+
+  const props = h("div", {class:"props"},
+    prop("المرحلة", stageSel),
+    prop("القيمة المتوقعة (ر.س)", bind("deals", d.id, "value", h("input", {type:"number", min:"0", step:"500", value: d.value == null ? "" : d.value, placeholder:"—"}), {num:true})),
+    prop("نوع الخدمة", bind("deals", d.id, "service", h("input", {list:"dl-services", value: d.service, placeholder:"—"}))),
+    prop("المسؤول", (() => { const i = h("input", {list:"dl-owners", value: (d.owners || []).join("، "), placeholder:"—"});
+      i.addEventListener("input", () => { clearTimeout(timers["ow" + d.id]); timers["ow" + d.id] = setTimeout(() => { const f = byId("deals", d.id); if (!f) return;
+        f.owners = i.value.split(/[،,]/).map(s => s.trim()).filter(Boolean); put("deals", f); }, 600); });
+      return i; })()),
+    prop("الأولوية", bind("deals", d.id, "priority", h("select", null, DEAL_PRI.map(p => h("option", {value:p, text:p, selected: d.priority === p}))), {evt:"change"})),
+    prop("أُنشئت", h("span", {class:"muted", style:"padding:5px 8px", text: d.createdAt ? fmtDate(d.createdAt) + " · " + ago(d.createdAt) : "—"})));
+
+  const body = h("div", {class:"dr-b"});
+  const ins = dealInsight(d);
+  if (ins) body.append(h("div", {class:"insight " + ins[1]}, h("b", {class:"tag", text:"تنبيه"}), h("span", {text: ins[0]})));
+  body.append(props);
+
+  if (isOpen(d)){
+    body.append(h("div", {class:"sec"}, h("h3", {text:"الإجراء القادم"}),
+      h("div", {class:"next-box"},
+        bind("deals", d.id, "next", h("input", {value: d.next, placeholder:"مثال: متابعة الموافقة على العرض", "aria-label":"الإجراء القادم"})),
+        bind("deals", d.id, "nextDate", h("input", {type:"date", value: d.nextDate, "aria-label":"موعد الإجراء"}), {evt:"change", render:true}))));
+  }
+  if (d.stage === WON){
+    body.append(h("div", {class:"insight ok"}, h("b", {class:"tag", text:"تعاقد"}),
+      h("span", null, sar(d.contractAmount) + " · المحصّل " + sar(paidSum(d)) + " · ",
+        h("button", {class:"link", text:"فتح في التعاقدات", onclick: () => { ui.drawer = null; go("contracts"); }}))));
+  }
+  if (d.stage === LOST){
+    body.append(h("div", {class:"props"}, prop("سبب عدم التعاقد", bind("deals", d.id, "reason", h("input", {value: d.reason})))));
+  }
+
+  body.append(h("div", {class:"sec"}, h("h3", {text:"سجّل نشاط"}), logger(d.account, d.id)));
+
+  const tks = S.todos.filter(t => t.deal === d.id && !t.done);
+  body.append(h("div", {class:"sec"}, h("h3", null, "المهام", h("span", {class:"muted", text: tks.length ? tks.length + " مفتوحة" : ""})),
+    h("div", {class:"mini-list"}, quickTask({account: d.account, deal: d.id, owner: (d.owners || [])[0], key:"d" + d.id}, "مهمة لهذه الفرصة…"),
+      tks.map(t => taskRow(t, {hideLink:true, compact:true})))));
+
+  body.append(h("div", {class:"sec"}, h("h3", {text:"السجل الزمني"}), timeline(dealActs(d))));
+  body.append(h("div", {class:"sec"}, h("h3", {text:"وصف العمل"}),
+    h("div", {class:"props", style:"grid-template-columns:1fr"}, bind("deals", d.id, "desc", h("textarea", {rows:"3", value: d.desc, placeholder:"تفاصيل الموضوع، المستندات المطلوبة…", "aria-label":"وصف العمل"})))));
+
+  const foot = h("div", {class:"dr-foot"},
+    h("button", {class:"btn danger sm", type:"button", text: ui.confirmDel === d.id ? "تأكيد الحذف؟" : "حذف الفرصة", onclick: () => {
+      if (ui.confirmDel !== d.id){ ui.confirmDel = d.id; render(true); return; }
+      remove("deals", d.id);
+      S.acts.filter(x => x.deal === d.id).forEach(x => remove("acts", x.id));
+      ui.drawer = null; ui.confirmDel = null; toast("تم حذف الفرصة"); render(true);
+    }}),
+    h("button", {class:"btn sm", type:"button", text:"إغلاق", onclick: closeDrawer}));
+  dr.append(head, body, foot);
+}
+function dealInsight(d){
+  if (!isOpen(d)) return null;
+  const n = idleDays(d);
+  const acts = dealActs(d).filter(a => a.type !== "المرحلة").sort((a, b) => b.date.localeCompare(a.date));
+  const last = acts[0];
+  if (overdue(d)) return ["موعد «" + (d.next || "المتابعة") + "» كان " + fmtDate(d.nextDate) + " — " + dueLabel(d.nextDate) + ".", "bad"];
+  if (n >= COLD_BAD) return ["لا يوجد نشاط منذ " + n + " يومًا" + (last ? "؛ آخر نشاط: " + last.type + " (" + fmtDate(last.date) + ")" : "") + ". الفرصة بدأت تبرد — يُنصح بالتواصل.", "bad"];
+  if (n >= COLD_WARN) return ["الفرصة في مرحلة «" + STAGE_NAME[d.stage] + "» بدون نشاط منذ " + n + " أيام.", ""];
+  if (!d.next) return ["لا يوجد إجراء قادم محدد لهذه الفرصة.", ""];
+  return null;
+}
+
+function drawerAccount(dr, a){
+  const head = h("div", {class:"dr-h"},
+    h("div", {class:"row"}, h("div", {class:"crumb", text:"عميل"}),
+      h("button", {class:"icon-btn", type:"button", "aria-label":"إغلاق", text:"✕", onclick: closeDrawer})),
+    bind("accounts", a.id, "name", h("input", {class:"title", value: a.name, "aria-label":"اسم العميل"})));
+  const body = h("div", {class:"dr-b"});
+  const last = accLastContact(a);
+  const openDs = S.deals.filter(d => d.account === a.id && isOpen(d));
+  if (last && days(last, today()) >= COLD_BAD && openDs.length) body.append(h("div", {class:"insight bad"}, h("b", {class:"tag", text:"تنبيه"}), h("span", {text:"آخر تواصل مع العميل كان " + ago(last) + " ولديه " + openDs.length + " فرص مفتوحة."})));
+  else if (!last) body.append(h("div", {class:"insight"}, h("b", {class:"tag", text:"تنبيه"}), h("span", {text:"لا يوجد تواصل مسجّل مع هذا العميل بعد."})));
+
+  body.append(h("div", {class:"props"},
+    prop("النوع", bind("accounts", a.id, "kind", h("select", null, h("option", {value:"", text:"غير محدد"}), KINDS.map(k => h("option", {value:k, text:k, selected: a.kind === k}))), {evt:"change", render:true})),
+    prop("عميل مستقطب", h("select", {onchange: e => { const f = byId("accounts", a.id); if (f){ f.acquired = e.target.value === "1"; put("accounts", f); render(true); } }},
+      h("option", {value:"", text:"لا — عميل قائم"}), h("option", {value:"1", text:"نعم — استقطاب تطوير الأعمال", selected: a.acquired}))),
+    prop("الجوال", bind("accounts", a.id, "phone", h("input", {value: a.phone, placeholder:"—", dir:"ltr", style:"text-align:right"}))),
+    prop("البريد", bind("accounts", a.id, "email", h("input", {value: a.email, placeholder:"—", dir:"ltr", style:"text-align:right"}))),
+    prop("ملاحظات", bind("accounts", a.id, "notes", h("textarea", {rows:"2", value: a.notes, placeholder:"—"})))));
+  // contacts
+  const people = h("div", {class:"mini-list"});
+  if (!(a.contacts || []).length) people.append(h("div", {class:"empty-s", style:"padding:12px", text:"لم يُضف صانع قرار بعد."}));
+  (a.contacts || []).forEach(c => people.append(h("div", {class:"mini"}, h("span", {class:"avatar", text: initials(c.name)}),
+    h("div", {class:"grow"}, h("b", {text: c.name}), h("small", {text: [c.title, c.phone, c.email].filter(Boolean).join(" · ")})),
+    c.phone ? h("a", {class:"btn sm ghost", href:"tel:" + c.phone, text:"اتصال"}) : null,
+    h("button", {class:"icon-btn", type:"button", "aria-label":"حذف", text:"✕", onclick: () => { const f = byId("accounts", a.id); f.contacts = f.contacts.filter(x => x.id !== c.id); put("accounts", f); render(true); }}))));
+  const pf = h("div", {class:"person-form", hidden: true});
+  const pn = h("input", {placeholder:"الاسم *"}), pt = h("input", {placeholder:"المنصب (مثال: الرئيس التنفيذي)"}),
+    pp = h("input", {placeholder:"الجوال", dir:"ltr"}), pe = h("input", {placeholder:"البريد", dir:"ltr"});
+  pf.append(pn, pt, pp, pe, h("button", {class:"btn primary sm", type:"button", text:"حفظ", onclick: () => {
+    if (!pn.value.trim()) return pn.focus();
+    const f = byId("accounts", a.id);
+    f.contacts = (f.contacts || []).concat([{id: uid("p"), name: pn.value.trim(), title: pt.value.trim(), phone: pp.value.trim(), email: pe.value.trim()}]);
+    put("accounts", f); render(true);
+  }}));
+  people.append(pf);
+  body.append(h("div", {class:"sec"}, h("h3", null, "صنّاع القرار", h("button", {class:"btn ghost sm", type:"button", text:"+ شخص", onclick: () => { pf.hidden = false; pn.focus(); }})),
+    people));
+
+  // deals
+  const ds = S.deals.filter(d => d.account === a.id);
+  body.append(h("div", {class:"sec"}, h("h3", null, "الفرص", h("button", {class:"btn ghost sm", type:"button", text:"+ فرصة", onclick: () => formDeal({account: a.name})})),
+    ds.length ? h("div", {class:"mini-list"}, ds.map(d => h("button", {class:"mini", type:"button", onclick: () => openDrawer("deal", d.id)},
+      h("div", {class:"grow"}, h("b", {text: d.title}), h("small", {text: [d.service, d.value ? sar(d.value) : "", d.stage === WON ? "تعاقد " + sar(d.contractAmount) : ""].filter(Boolean).join(" · ")})),
+      stagePill(d.stage)))) : h("div", {class:"empty-s", text:"لا توجد فرص."})));
+
+  body.append(h("div", {class:"sec"}, h("h3", {text:"سجّل نشاط"}), logger(a.id, "")));
+
+  const tks = S.todos.filter(t => !t.done && (t.account === a.id || ds.some(d => d.id === t.deal)));
+  body.append(h("div", {class:"sec"}, h("h3", {text:"المهام"}),
+    h("div", {class:"mini-list"}, quickTask({account: a.id, key:"a" + a.id}, "مهمة لهذا العميل…"), tks.map(t => taskRow(t, {hideLink:true, compact:true})))));
+
+  body.append(h("div", {class:"sec"}, h("h3", {text:"السجل الزمني"}), timeline(S.acts.filter(x => x.account === a.id))));
+
+  const foot = h("div", {class:"dr-foot"},
+    h("button", {class:"btn danger sm", type:"button", text: ui.confirmDel === a.id ? "تأكيد الحذف؟" : "حذف العميل", onclick: () => {
+      if (ds.length) return toast("احذف فرص العميل أولًا أو انقلها");
+      if (ui.confirmDel !== a.id){ ui.confirmDel = a.id; render(true); return; }
+      remove("accounts", a.id); S.acts.filter(x => x.account === a.id).forEach(x => remove("acts", x.id));
+      ui.drawer = null; ui.confirmDel = null; toast("تم حذف العميل"); render(true);
+    }}),
+    h("button", {class:"btn sm", type:"button", text:"إغلاق", onclick: closeDrawer}));
+  dr.append(head, body, foot);
+}
+
+/* ================= forms ================= */
+function formModal(title, fields, submitLabel, onSubmit){
+  const dlg = $("formDlg"), form = $("formEl");
+  form.innerHTML = "";
+  const inputs = {};
+  const body = h("div", {class:"dlg-b"});
+  fields.forEach(f => {
+    let ctl;
+    if (f.type === "select") ctl = h("select", null, f.options.map(o => h("option", {value: o[0] != null ? o[0] : o, text: o[1] != null ? o[1] : o, selected: (o[0] != null ? o[0] : o) === f.value})));
+    else if (f.type === "textarea") ctl = h("textarea", {value: f.value || "", placeholder: f.ph || ""});
+    else if (f.type === "check") ctl = h("input", {type:"checkbox", checked: !!f.value});
+    else ctl = h("input", {type: f.type || "text", value: f.value == null ? "" : f.value, placeholder: f.ph || "", list: f.list || null, required: !!f.req, dir: f.dir || null});
+    inputs[f.key] = ctl;
+    body.append(f.type === "check" ? h("label", {class:"fld check wide"}, ctl, h("span", {text: f.label}))
+      : h("label", {class:"fld" + (f.wide ? " wide" : "")}, h("span", {text: f.label + (f.req ? " *" : "")}), ctl, f.hint ? h("small", {text: f.hint}) : null));
+  });
+  form.append(h("div", {class:"dlg-h"}, h("h3", {text: title}), h("button", {type:"button", class:"icon-btn", "aria-label":"إغلاق", text:"✕", onclick: () => dlg.close()})),
+    body, h("div", {class:"dlg-f"}, h("button", {type:"submit", class:"btn primary", text: submitLabel}), h("button", {type:"button", class:"btn", text:"إلغاء", onclick: () => dlg.close()})));
+  form.onsubmit = e => {
+    const vals = {};
+    for (const k in inputs) vals[k] = inputs[k].type === "checkbox" ? inputs[k].checked : inputs[k].value.trim();
+    const r = onSubmit(vals);
+    if (r === false){ e.preventDefault(); }
+  };
+  dlg.showModal();
+  const first = body.querySelector("input,select,textarea"); if (first) setTimeout(() => first.focus(), 20);
+}
+function ensureAccount(name, kind, acquired){
+  let a = S.accounts.find(x => x.name === name);
+  if (!a) a = add("accounts", {id: uid("ac"), name, kind: kind || "", phone:"", email:"", acquired: !!acquired, notes:"", contacts: [], createdAt: nowISO()});
+  else if (acquired && !a.acquired){ a.acquired = true; put("accounts", a); }
+  return a;
+}
+function formDeal(pre){
+  pre = pre || {};
+  formModal("فرصة جديدة", [
+    {key:"account", label:"العميل", list:"dl-accounts", req:true, value: pre.account || "", hint:"اختر عميلًا موجودًا أو اكتب اسمًا جديدًا"},
+    {key:"kind", label:"نوع العميل (إن كان جديدًا)", type:"select", options: [["", "—"], ...KINDS.map(k => [k, k])]},
+    {key:"title", label:"الموضوع", req:true, wide:true, ph:"مثال: قضية تعويض، تأسيس شركة، رعاية سنوية"},
+    {key:"service", label:"نوع الخدمة", list:"dl-services"},
+    {key:"value", label:"القيمة المتوقعة (ر.س)", type:"number"},
+    {key:"stage", label:"المرحلة", type:"select", options: STAGES.map(s => [s.id, s.name]), value:"s1"},
+    {key:"owner", label:"المسؤول", list:"dl-owners", value: ui.owner !== "الكل" ? ui.owner : ""},
+    {key:"next", label:"الإجراء القادم", wide:true, ph:"مثال: ترتيب اجتماع مع العميل"},
+    {key:"nextDate", label:"موعد المتابعة", type:"date"},
+    {key:"acquired", label:"عميل مستقطب من تطوير الأعمال", type:"check"}
+  ], "إضافة الفرصة", v => {
+    if (!v.account || !v.title) return false;
+    const a = ensureAccount(v.account, v.kind, v.acquired);
+    const d = add("deals", {id: uid("d"), account: a.id, title: v.title, service: v.service, value: v.value ? Number(v.value) : null,
+      stage: v.stage, prevStage: "", stageAt: today(), owners: v.owner ? v.owner.split(/[،,]/).map(s => s.trim()).filter(Boolean) : [],
+      priority: "متوسطة", next: v.next, nextDate: v.nextDate, desc: "", reason: "", lostDate: "",
+      contractAmount: null, contractDate: "", terms: "مقدم ومؤخر", payments: [], createdAt: nowISO()});
+    toast("تمت إضافة الفرصة");
+    ui.drawer = {kind:"deal", id: d.id};
+    render(true);
+  });
+}
+function formAccount(){
+  formModal("عميل جديد", [
+    {key:"name", label:"الاسم", req:true, wide:true},
+    {key:"kind", label:"النوع", type:"select", options: KINDS.map(k => [k, k]), value:"شركة"},
+    {key:"phone", label:"الجوال", dir:"ltr"},
+    {key:"email", label:"البريد", dir:"ltr", wide:true},
+    {key:"cname", label:"صانع القرار", ph:"الاسم"},
+    {key:"ctitle", label:"منصبه", ph:"مثال: المدير المالي"},
+    {key:"acquired", label:"عميل مستقطب من تطوير الأعمال", type:"check"}
+  ], "إضافة العميل", v => {
+    if (!v.name) return false;
+    if (S.accounts.some(a => a.name === v.name)){ toast("العميل موجود مسبقًا"); return false; }
+    const a = add("accounts", {id: uid("ac"), name: v.name, kind: v.kind, phone: v.phone, email: v.email, acquired: v.acquired, notes: "",
+      contacts: v.cname ? [{id: uid("p"), name: v.cname, title: v.ctitle, phone: "", email: ""}] : [], createdAt: nowISO()});
+    toast("تمت إضافة العميل");
+    ui.drawer = {kind:"account", id: a.id};
+    render(true);
+  });
+}
+function formTask(){
+  formModal("مهمة جديدة", [
+    {key:"title", label:"المهمة", req:true, wide:true},
+    {key:"due", label:"التاريخ", type:"date", value: today()},
+    {key:"priority", label:"الأولوية", type:"select", options: TASK_PRI.map(p => [p, p]), value:"متوسطة"},
+    {key:"account", label:"العميل (اختياري)", list:"dl-accounts"},
+    {key:"owner", label:"المسؤول", list:"dl-owners"}
+  ], "إضافة", v => {
+    if (!v.title) return false;
+    const a = S.accounts.find(x => x.name === v.account);
+    add("todos", {id: uid("t"), title: v.title, due: v.due, priority: v.priority, owner: v.owner, done: false, doneAt: "", account: a ? a.id : "", deal: "", createdAt: nowISO()});
+    toast("تمت إضافة المهمة"); render(true);
+  });
+}
+function formAct(){
+  formModal("تسجيل نشاط", [
+    {key:"account", label:"العميل", list:"dl-accounts", req:true, wide:true},
+    {key:"type", label:"النوع", type:"select", options: ACT_TYPES.map(t => [t, t]), value:"اتصال"},
+    {key:"date", label:"التاريخ", type:"date", value: today()},
+    {key:"text", label:"التفاصيل", type:"textarea", wide:true}
+  ], "تسجيل", v => {
+    const a = S.accounts.find(x => x.name === v.account);
+    if (!a){ toast("اختر عميلًا من القائمة"); return false; }
+    const open = S.deals.filter(d => d.account === a.id && isOpen(d));
+    add("acts", {id: uid("a"), type: v.type, text: v.text, date: v.date || today(), account: a.id, deal: open.length === 1 ? open[0].id : "", createdAt: nowISO()});
+    toast("تم تسجيل النشاط"); render(true);
+  });
+}
+
+/* ================= search palette ================= */
+const pal = $("palette"), palIn = $("palInput"), palRes = $("palRes");
+let palItems = [], palSel = 0;
+function openPalette(){ palIn.value = ""; runSearch(); pal.showModal(); palIn.focus(); }
+function runSearch(){
+  const q = palIn.value.trim();
+  palRes.innerHTML = ""; palItems = [];
+  const groups = [];
+  const match = s => s && s.includes(q);
+  if (!q){
+    const recent = S.deals.filter(isOpen).sort((a, b) => lastTouch(b).localeCompare(lastTouch(a))).slice(0, 6);
+    groups.push(["فرص نشطة", recent.map(d => ({t: (accName(d.account)), s: d.title + " · " + STAGE_NAME[d.stage], go: () => openDrawer("deal", d.id)}))]);
+  } else {
+    const accs = [], ppl = [];
+    S.accounts.forEach(a => {
+      if (match(a.name) || match(a.phone) || match(a.email)) accs.push({t: a.name, s: [a.kind, a.phone].filter(Boolean).join(" · ") || "عميل", go: () => openDrawer("account", a.id)});
+      (a.contacts || []).forEach(c => { if (match(c.name) || match(c.phone) || match(c.email) || match(c.title))
+        ppl.push({t: c.name, s: [c.title, a.name, c.phone].filter(Boolean).join(" — "), go: () => openDrawer("account", a.id)}); });
+    });
+    const ows = owners().filter(o => match(o)).map(o => ({t: "عملاء " + o, s: S.accounts.filter(a => ownsAcc(a, o)).length + " عميل · " + S.deals.filter(d => isOpen(d) && ownsDeal(d, o)).length + " فرصة مفتوحة",
+      go: () => { ui.owner = o; try { localStorage.setItem("crm.owner", o); } catch (e) {} ui.drawer = null; go("accounts"); }}));
+    groups.push(["المسؤولون", ows], ["العملاء", accs], ["صنّاع القرار", ppl]);
+    groups.push(["الفرص", S.deals.filter(d => match(d.title) || match(d.service) || match(d.next) || match(d.desc)).map(d => ({t: d.title, s: accName(d.account) + " · " + STAGE_NAME[d.stage], go: () => openDrawer("deal", d.id)}))]);
+    groups.push(["المهام", S.todos.filter(t => match(t.title)).map(t => ({t: t.title, s: (t.done ? "منجزة" : (t.due ? dueLabel(t.due) : "بدون تاريخ")) + (t.account ? " · " + accName(t.account) : ""), go: () => go("tasks")}))]);
+    groups.push(["النشاطات", S.acts.filter(a => match(a.text)).slice(0, 8).map(a => ({t: a.type + " — " + accName(a.account), s: fmtDate(a.date) + " · " + a.text, go: () => a.deal ? openDrawer("deal", a.deal) : openDrawer("account", a.account)}))]);
+  }
+  groups.forEach(([name, items]) => {
+    if (!items.length) return;
+    palRes.append(h("div", {class:"pal-g", text: name}));
+    items.slice(0, 6).forEach(it => {
+      const i = palItems.length;
+      const b = h("button", {class:"pal-i", type:"button", "aria-selected": String(i === 0), onclick: () => { pal.close(); it.go(); }},
+        h("span", {class:"avatar", text: initials(it.t)}), h("span", {class:"grow"}, h("b", {text: it.t}), h("small", {text: it.s})));
+      palItems.push({el: b, go: it.go});
+      palRes.append(b);
+    });
+  });
+  if (!palItems.length) palRes.append(h("div", {class:"empty-s", text: q ? "لا توجد نتائج لـ «" + q + "»" : "ابدأ بالكتابة للبحث"}));
+  palSel = 0;
+}
+palIn.addEventListener("input", runSearch);
+palIn.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown" || e.key === "ArrowUp"){
+    e.preventDefault();
+    if (!palItems.length) return;
+    palItems[palSel].el.setAttribute("aria-selected", "false");
+    palSel = (palSel + (e.key === "ArrowDown" ? 1 : -1) + palItems.length) % palItems.length;
+    palItems[palSel].el.setAttribute("aria-selected", "true");
+    palItems[palSel].el.scrollIntoView({block:"nearest"});
+  } else if (e.key === "Enter"){ e.preventDefault(); if (palItems[palSel]){ pal.close(); palItems[palSel].go(); } }
+});
+pal.addEventListener("click", e => { if (e.target === pal) pal.close(); });
+
+/* ================= global wiring ================= */
+$("nav").addEventListener("click", e => { const b = e.target.closest("button[data-view]"); if (b){ ui.drawer = null; ui.q = ""; go(b.dataset.view); } });
+$("collapse").addEventListener("click", () => {
+  const app = $("app"); app.classList.toggle("collapsed");
+  try { localStorage.setItem("crm.collapsed", app.classList.contains("collapsed") ? "1" : "0"); } catch (e) {}
+});
+$("menuBtn").addEventListener("click", () => $("app").classList.toggle("nav-open"));
+$("searchBtn").addEventListener("click", openPalette);
+const qm = $("quickMenu");
+$("quickBtn").addEventListener("click", e => { e.stopPropagation(); qm.hidden = !qm.hidden; $("quickBtn").setAttribute("aria-expanded", String(!qm.hidden)); });
+document.addEventListener("click", e => { if (!qm.hidden && !e.target.closest(".quick")) qm.hidden = true; });
+qm.addEventListener("click", e => {
+  const b = e.target.closest("button[data-q]"); if (!b) return;
+  qm.hidden = true;
+  ({deal: () => formDeal(), account: formAccount, task: formTask, act: formAct})[b.dataset.q]();
+});
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k"){ e.preventDefault(); openPalette(); return; }
+  if (e.key === "Escape" && ui.drawer && !document.querySelector("dialog[open]")){ closeDrawer(); return; }
+  const inField = /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || "") || document.querySelector("dialog[open]");
+  if (inField || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === "/"){ e.preventDefault(); openPalette(); }
+  else if (e.key.toLowerCase() === "n" || e.key === "ى"){ e.preventDefault(); formDeal(); }
+  else if (e.key.toLowerCase() === "t" || e.key === "ف"){ e.preventDefault(); formTask(); }
+});
+
+/* ================= boot ================= */
+(async () => {
+  try { db = await (window.claude && window.claude.use ? window.claude.use("db") : null); } catch (e) { db = null; }
+  if (!db){ setSync("غير متصل — لا يمكن الحفظ في هذا العرض"); loaded = true; render(true); return; }
+  live = true; setSync("متصل — التعديلات تُحفظ تلقائيًا");
+  let waiting = 4;
+  ["accounts","deals","acts","todos"].forEach(col => {
+    let first = true;
+    db.collection(col).onSnapshot(snap => {
+      S[col] = snap.docs.map(d => NORM[col](d.id, d.data() || {}));
+      if (first){ first = false; if (--waiting === 0) loaded = true; }
+      if (loaded) schedule();
+    }, () => setSync("انقطع الاتصال — أعد تحميل الصفحة"));
+  });
+  setTimeout(() => { if (!loaded){ loaded = true; render(true); } }, 8000);
+})();
+render(true);
+</script>
+
+</body></html>
