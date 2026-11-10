@@ -1,20 +1,20 @@
 # Portfolio · Mohammed Alibrahim
 
-**Live site:** https://m-alibrahim.github.io/portfolio/
+**Live site:** https://m-alibrahim.github.io/
 
 Open-source versions of tools, platforms, and AI workflows I have built as a Business Development Manager in legal and consulting services. Every project is rebuilt as a standalone template: names, logos, and data from client engagements have been removed.
 
 | Project | What it is | Links |
 |---|---|---|
 | Recruitment Dream 100 Toolkit | Claude skills chain: 100 target companies → ~300 decision-makers → personalized outreach | [Toolkit](projects/recruitment-dream-100-toolkit) |
-| Client Needs Questionnaire | Bilingual questionnaire whose answers are emailed automatically to feed a retainer proposal | [Demo](https://m-alibrahim.github.io/portfolio/projects/client-needs-questionnaire/) · [Source](projects/client-needs-questionnaire) |
-| Candidate Evaluation Platform | Multi-interviewer scoring, comparison, and PDF reports | [Demo](https://m-alibrahim.github.io/portfolio/projects/candidate-evaluation/) · [Source](projects/candidate-evaluation) |
-| Rawaj Flowers & Gifts | Website for my flowers and gifts business | [Site](https://m-alibrahim.github.io/portfolio/projects/rawaj-website/) |
-| Client Intake Workflow | First-call notes → client-completed case file | [Demo](https://m-alibrahim.github.io/portfolio/projects/client-intake/) |
-| Eligibility Checker | One-minute self-assessment for a legal campaign, handed off on WhatsApp | [Demo](https://m-alibrahim.github.io/portfolio/projects/eligibility-checker/) |
-| Retainer Scoping & Usage Control | Interactive plan for scoped annual retainers | [View](https://m-alibrahim.github.io/portfolio/projects/retainer-scoping/) |
-| BD Pipeline Tracker | Lightweight CRM: accounts, stages, activities, collections | [Demo](https://m-alibrahim.github.io/portfolio/projects/bd-pipeline-tracker/) |
-| Cold-Calling System | Calling queue with a research brief per prospect (sample data) | [Demo](https://m-alibrahim.github.io/portfolio/projects/cold-calling-system/) |
+| Client Needs Questionnaire | Bilingual questionnaire whose answers are emailed automatically to feed a retainer proposal | [Demo](https://m-alibrahim.github.io/projects/client-needs-questionnaire/) · [Source](projects/client-needs-questionnaire) |
+| Candidate Evaluation Platform | Multi-interviewer scoring, comparison, and PDF reports | [Demo](https://m-alibrahim.github.io/projects/candidate-evaluation/) · [Source](projects/candidate-evaluation) |
+| Rawaj Flowers & Gifts | Website for my flowers and gifts business | [Site](https://m-alibrahim.github.io/projects/rawaj-website/) |
+| Client Intake Workflow | First-call notes → client-completed case file | [Demo](https://m-alibrahim.github.io/projects/client-intake/) |
+| Eligibility Checker | One-minute self-assessment for a legal campaign, handed off on WhatsApp | [Demo](https://m-alibrahim.github.io/projects/eligibility-checker/) |
+| Retainer Scoping & Usage Control | Interactive plan for scoped annual retainers | [View](https://m-alibrahim.github.io/projects/retainer-scoping/) |
+| BD Pipeline Tracker | Lightweight CRM: accounts, stages, activities, collections | [Demo](https://m-alibrahim.github.io/projects/bd-pipeline-tracker/) |
+| Cold-Calling System | Calling queue with a research brief per prospect (sample data) | [Demo](https://m-alibrahim.github.io/projects/cold-calling-system/) |
 | Claude Skills for Legal & BD | Proposal writing, intake files, PDF redaction | [Skills](projects/claude-skills) |
 
 More projects are being added.
