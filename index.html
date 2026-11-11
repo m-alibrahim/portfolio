@@ -1,78 +1,165 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>محمد البراهيم | مستشار تطوير أعمال</title>
-<meta name="description" content="ملف أعمال محمد البراهيم، مستشار تطوير أعمال في الرياض: الخدمات القانونية والمهنية، المنافسات الحكومية، الحسابات الرئيسية والشراكات.">
-<link rel="canonical" href="https://m-alibrahim.github.io/">
-<link rel="alternate" hreflang="ar" href="https://m-alibrahim.github.io/">
-<link rel="alternate" hreflang="en" href="https://m-alibrahim.github.io/en/">
-<meta property="og:title" content="محمد البراهيم | مستشار تطوير أعمال">
-<meta property="og:description" content="ملف أعمال محمد البراهيم، مستشار تطوير أعمال في الرياض: الخدمات القانونية والمهنية، المنافسات الحكومية، الحسابات الرئيسية والشراكات.">
-<meta property="og:image" content="https://m-alibrahim.github.io/assets/og.jpg">
-<meta property="og:type" content="profile">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0d1730">
-<script>(function(){var t=(location.search.match(/theme=(dark|light)/)||[])[1];try{t=t||localStorage.getItem("theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t})()</script>
+<title>Mohammed Alibrahim · Portfolio</title>
+<meta name="description" content="Business development portfolio: open-source tools, AI workflows, and web projects built by Mohammed Alibrahim.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<style>body{font-family:"IBM Plex Sans Arabic","IBM Plex Sans Arabic","Inter",system-ui,sans-serif}</style>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1a3d;--gold:#c8a05a;--ink:#1c2233;--muted:#5b6478;--line:#e4e7ee;--bg:#f7f8fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:inherit}
+header{background:var(--navy);color:#fff;padding:64px 24px 56px}
+.wrap{max-width:1040px;margin:0 auto}
+.kicker{color:var(--gold);font-weight:600;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
+h1{font-size:clamp(30px,5vw,44px);margin:10px 0 8px;line-height:1.15}
+.lead{max-width:680px;color:#cfd5e6;font-size:17px;margin:0}
+.ar{font-family:"IBM Plex Sans Arabic",sans-serif;direction:rtl;color:#aab3cc;margin-top:14px;font-size:15px}
+.links{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;border:1px solid rgba(255,255,255,.25)}
+.btn.gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:-30px auto 0;max-width:1040px;padding:0 24px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.stat b{display:block;font-size:26px;color:var(--navy)}
+.stat span{color:var(--muted);font-size:13px}
+main{padding:48px 24px 72px}
+h2{font-size:22px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column}
+.tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.card h3{margin:6px 0 8px;font-size:18px}
+.card p{margin:0 0 14px;color:var(--muted);font-size:14.5px;flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.chip{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:2px 10px;color:var(--muted)}
+.actions{display:flex;gap:8px}
+.actions a{font-size:13.5px;font-weight:600;text-decoration:none;padding:8px 12px;border-radius:8px;border:1px solid var(--line)}
+.actions a.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.soon{margin-top:40px;background:#fff;border:1px dashed var(--line);border-radius:14px;padding:22px}
+.soon ul{margin:8px 0 0;padding-left:18px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var(--muted);font-size:13px}
+</style>
 </head>
 <body>
-<a class="skip" href="#main">انتقل إلى المحتوى</a>
-<div class="glow" aria-hidden="true"></div>
-<div class="page">
-<header class="intro">
-  <div class="intro-top">
-    <img class="photo" src="assets/mohammed.jpg" width="112" height="112" alt="صورة محمد البراهيم">
-    <h1>محمد البراهيم</h1>
-    <p class="role">مستشار تطوير أعمال<span class="place">الرياض، السعودية</span></p>
-    <p class="statement">أساعد شركات المحاماة والخدمات المهنية على كسب عملاء جدد: من قوائم الاستهداف وحملات التواصل، إلى عروض المنافسات الحكومية والشراكات.</p>
-    <div class="cta">
-      <a class="btn primary" href="mailto:m.alibrahim.ksa@gmail.com?subject=%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AA%D8%B7%D9%88%D9%8A%D8%B1%20%D8%A7%D9%84%D8%A3%D8%B9%D9%85%D8%A7%D9%84">راسلني</a>
-      <a class="btn" href="assets/cv/Mohammed_Alibrahim_CV_Arabic.pdf" download>حمّل السيرة الذاتية</a>
+<header>
+  <div class="wrap">
+    <div class="kicker">Portfolio · Riyadh, Saudi Arabia</div>
+    <h1>Mohammed Alibrahim</h1>
+    <p class="lead">Business Development Manager in legal and consulting services. I build the tools behind the growth work: prospecting systems, client-facing web tools, internal platforms, and AI workflows.</p>
+    <p class="ar">مطور أعمال في القطاع القانوني والاستشاري. هنا نسخ مفتوحة المصدر من الأدوات والأنظمة التي بنيتها، بدون أي بيانات عملاء.</p>
+    <div class="links">
+      <a class="btn gold" href="https://www.linkedin.com/in/mohammed-al-ibrahim-0b7192275/">LinkedIn</a>
+      <a class="btn" href="https://github.com/m-alibrahim">GitHub</a>
+      <a class="btn" href="mailto:m.alibrahim.ksa@gmail.com">Email</a>
     </div>
-    <nav aria-label="نبذة"><ul><li><a href="#about"><span class="tick"></span>نبذة</a></li><li><a href="#focus"><span class="tick"></span>مجالات التركيز</a></li><li><a href="#results"><span class="tick"></span>نتائج</a></li><li><a href="#experience"><span class="tick"></span>الخبرة</a></li><li><a href="#work"><span class="tick"></span>أعمال</a></li><li><a href="#now"><span class="tick"></span>الآن</a></li><li><a href="#contact"><span class="tick"></span>تواصل</a></li></ul></nav>
-  </div>
-  <div class="intro-bottom">
-    <a href="https://www.linkedin.com/in/mohammed-al-ibrahim-0b7192275/">لينكدإن</a>
-    <a href="https://github.com/m-alibrahim">جيت هب</a>
-    <a href="https://wa.me/966595521229">واتساب</a>
-    <span class="spacer"></span>
-    <a class="lang" href="en/" lang="en">English</a>
-    <button class="theme" type="button" aria-label="تبديل الوضع الفاتح والداكن"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18V3z"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
   </div>
 </header>
 
-<main id="main">
-  <section id="about"><h2>نبذة</h2><div class="prose"><p>أعمل في تطوير الأعمال منذ أكثر من ست سنوات، أغلبها في القطاع القانوني والاستشاري في الرياض، مع عملاء من القطاعين الخاص والحكومي.</p><p>درست الشريعة، فأفهم ما يقدمه المحامي قبل أن أعرضه على العميل. وأدرس حاليًا ماجستير الذكاء الاصطناعي، وأبني بنفسي الأدوات التي يحتاجها عملي: نظام لمتابعة العملاء، ونماذج استقبال، وحملات مبنية على البحث.</p><p>ما يهمني في النهاية نتيجة تُقاس: إيراد، أو عقد موقّع، أو عرض فائز.</p></div></section>
-
-  <section id="focus"><h2>مجالات التركيز</h2><ul class="focus"><li><h3>تطوير الأعمال للخدمات القانونية والمهنية</h3><p>تحديد العملاء المناسبين حسب القطاع والحجم، والوصول إليهم بحملات مدروسة، وتحويل الخدمة إلى عرض واضح: باقة سنوية بنطاق محدد وسعر مفهوم.</p></li><li><h3>المنافسات والعروض</h3><p>قراءة كراسة الشروط، وإعداد العرض الفني والمالي والتسعير، وتنسيق فريق العرض حتى التقديم على منصة اعتماد.</p></li><li><h3>إدارة الحسابات الرئيسية</h3><p>متابعة كبار العملاء، وتوسيع الخدمات التي يستخدمونها، وضبط استهلاك العقد حتى يبقى مجديًا للطرفين.</p></li><li><h3>الشراكات والتحالفات</h3><p>تكوين تحالفات بين شركات لمشاريع ومنافسات لا تستطيع جهة واحدة تقديمها منفردة.</p></li></ul></section>
-
-  <section id="results"><h2>نتائج بالأرقام</h2><dl class="figs"><div class="fig"><dt>63%</dt><dd>نمو في إيرادات شركة محاماة ساهمت فيه أثناء إدارتي لتطوير الأعمال فيها.</dd></div><div class="fig"><dt>29%</dt><dd>متوسط تجاوز المستهدف الربعي خلال عام 2026.</dd></div><div class="fig"><dt>27</dt><dd>عرضًا فنيًا وماليًا أعددته لمنافسات حكومية على منصة اعتماد، في ثلاث جهات عمل.</dd></div><div class="fig"><dt>+35,000</dt><dd>رسالة عبر البريد ولينكدإن والهاتف، تحوّل 4% منها إلى عملاء محتملين مؤهلين.</dd></div><div class="fig"><dt>40%</dt><dd>زيادة في إيرادات وحدة أعمال بعد إطلاق خدمة استشارية قصيرة المدى.</dd></div><div class="fig"><dt>المركز الثاني</dt><dd>في برنامج زمالة الابتكار بمركز الابتكار في منشآت، لمشروع كوّنت له تحالفًا من ثلاث شركات.</dd></div></dl></section>
-
-  <section id="experience"><h2>الخبرة</h2><ol class="rows"><li class="row"><div class="when">سبتمبر 2025 – الآن</div><div><h3>مدير تطوير أعمال<span class="org">شركة الزريقي للمحاماة والاستشارات القانونية</span></h3><p>أقود فريق تطوير الأعمال: حسابات الشركات، وباقات الرعاية السنوية، وحملات التواصل، وعروض المنافسات، وتقارير الأداء للإدارة.</p><ul class=chips><li>باقات سنوية</li><li>حملات تواصل</li><li>منصة اعتماد</li><li>إدارة علاقات العملاء</li></ul></div></li><li class="row"><div class="when">يناير – سبتمبر 2025</div><div><h3>أخصائي أول تطوير أعمال<span class="org">فيرست أكسس للاستشارات</span></h3><p>حلول توظيف للشركات، وعروض لمنافسات حكومية ولعملاء من القطاع الخاص، وتفاوض على عقود طويلة المدى.</p><ul class=chips><li>حلول التوظيف</li><li>عروض</li><li>تفاوض</li></ul></div></li><li class="row"><div class="when">2023 – 2025</div><div><h3>مسؤول تطوير أعمال<span class="org">مرصد الخبراء</span></h3><p>أسست وحدة أعمال جديدة من الصفر لترشيح المستشارين للمنافسات ودعم فرق العروض، بإشراف مباشر من الرئيس التنفيذي.</p><ul class=chips><li>تأسيس وحدة أعمال</li><li>منافسات</li><li>تحالفات</li></ul></div></li><li class="row"><div class="when">2020 – 2023</div><div><h3>محلل عمليات أعمال<span class="org">شركة الصخور العربية للمقاولات</span></h3><p>الجانب المالي لتخطيط المشاريع من مراجعة عروض الأسعار إلى إتمام العقود، مع الإشراف على مبيعات الجملة.</p><ul class=chips><li>عقود</li><li>مبيعات الجملة</li><li>عمليات</li></ul></div></li><li class="row"><div class="when">2019</div><div><h3>متدرب تعاوني<span class="org">مكتب ابن صالح للمحاماة</span></h3><p>متابعة العملاء وتحديث سجلاتهم.</p></div></li></ol>
-    <h2 class="sub">التعليم والشهادات</h2><ul class="plain"><li>ماجستير الذكاء الاصطناعي، جامعة ميدأوشن (قيد الدراسة، التخرج المتوقع 2028)</li><li>بكالوريوس الشريعة، جامعة الإمام محمد بن سعود الإسلامية (2020)</li><li>شهادة Legal Engineer من Harvey، ودورات Anthropic Academy في الذكاء الاصطناعي (2026)</li></ul></section>
-
-  <section id="work"><h2>نماذج من أعمالي</h2><p class="note">نسخ مفتوحة من أدوات بنيتها لعملي. حُذفت منها أسماء العملاء وشعاراتهم وبياناتهم.</p><ul class="rows"><li class="row work"><div><h3>متتبّع مسار المبيعات</h3><p>نظام خفيف لإدارة علاقات العملاء لفريق تطوير أعمال: حسابات، وفرص حسب المرحلة، ومهام، وعقود، وتحصيل.</p></div><div class="links"><a href="projects/bd-pipeline-tracker/">جرّب النموذج</a><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/bd-pipeline-tracker">المصدر</a></div></li><li class="row work"><div><h3>استبيان احتياج العميل</h3><p>استبيان بالعربية والإنجليزية يقدّر احتياج العميل السنوي من الخدمات، وتصل إجاباته بالبريد لتُبنى عليها الباقة المقترحة.</p></div><div class="links"><a href="projects/client-needs-questionnaire/">جرّب النموذج</a><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/client-needs-questionnaire">المصدر</a></div></li><li class="row work"><div><h3>فحص الأهلية</h3><p>تقييم ذاتي قصير يخبر الزائر خلال دقيقة إن كان مؤهلًا للخدمة، ثم يحوّل إجاباته للفريق عبر واتساب. بُني لحملة قانونية محددة المدة.</p></div><div class="links"><a href="projects/eligibility-checker/">جرّب النموذج</a><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/eligibility-checker">المصدر</a></div></li><li class="row work"><div><h3>ضبط نطاق الباقات السنوية</h3><p>خطة تفاعلية لتحويل الباقات القانونية السنوية من مفتوحة إلى محددة النطاق: مستويات الخدمة، وحدود الاستخدام، وخطة التطبيق.</p></div><div class="links"><a href="projects/retainer-scoping/">اعرض</a></div></li><li class="row work"><div><h3>استقبال العملاء</h3><p>يحوّل ملاحظات أول مكالمة مع العميل إلى ملف يستكمله العميل بنفسه: ملخص، وأسئلة ناقصة، وقائمة مستندات.</p></div><div class="links"><a href="projects/client-intake/">جرّب النموذج</a><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/client-intake">المصدر</a></div></li><li class="row work"><div><h3>نظام الاتصال البارد</h3><p>قائمة اتصال مع موجز لكل عميل محتمل: خلفية صانع القرار، وسبب التواصل، ونقاط الحديث. يُعرض هنا ببيانات افتراضية.</p></div><div class="links"><a href="projects/cold-calling-system/">جرّب النموذج</a><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/cold-calling-system">المصدر</a></div></li><li class="row work"><div><h3>منصة تقييم المرشحين</h3><p>أداة توظيف منظمة: تقييمات بدرجات من عدة مقابلين، ومقارنة النتائج، وتصدير تقرير.</p></div><div class="links"><a href="projects/candidate-evaluation/">جرّب النموذج</a><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/candidate-evaluation">المصدر</a></div></li><li class="row work"><div><h3>حزمة استهداف 100 عميل لشركات التوظيف</h3><p>سلسلة مهارات ذكاء اصطناعي تحوّل موقع شركة توظيف إلى 100 شركة مستهدفة مع صنّاع القرار ورسائل تواصل مخصصة.</p></div><div class="links"><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/recruitment-dream-100-toolkit">اعرض</a></div></li><li class="row work"><div><h3>مهارات ذكاء اصطناعي للعمل القانوني والعروض</h3><p>ثلاث مهارات: عروض المنافسات من الكراسة إلى الملف النهائي، وملفات استقبال العملاء، وحجب البيانات الحساسة في الملفات.</p></div><div class="links"><a href="https://github.com/m-alibrahim/m-alibrahim.github.io/tree/main/projects/claude-skills">اعرض</a></div></li><li class="row work"><div><h3>موقع رواج للورود والهدايا</h3><p>موقع كامل لمشروع شخصي: المتجر، والمناسبات، والاشتراكات، وقسم هدايا الشركات.</p></div><div class="links"><a href="projects/rawaj-website/">اعرض</a></div></li></ul></section>
-
-  <section id="now"><h2>الآن</h2><ul class="plain now"><li>أدرس ماجستير الذكاء الاصطناعي في جامعة ميدأوشن.</li><li>أبني أدوات ذكاء اصطناعي لعمل تطوير الأعمال: كتابة عروض المنافسات، واستقبال العملاء، وبناء قوائم الاستهداف.</li><li>منفتح على فرص ومشاريع في تطوير الأعمال، خصوصًا في القطاع القانوني والاستشاري.</li></ul><p class="note">آخر تحديث: نوفمبر 2026</p></section>
-
-  <section id="contact" class="contact">
-    <h2>تواصل</h2>
-    <p>للتعاون أو الاستفسار، راسلني بالطريقة الأنسب لك. أرد غالبًا خلال يومي عمل.</p>
-    <div class="cta">
-      <a class="btn primary" href="mailto:m.alibrahim.ksa@gmail.com?subject=%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AA%D8%B7%D9%88%D9%8A%D8%B1%20%D8%A7%D9%84%D8%A3%D8%B9%D9%85%D8%A7%D9%84">البريد الإلكتروني</a>
-      <a class="btn" href="https://wa.me/966595521229">واتساب</a>
-      <a class="btn" href="https://www.linkedin.com/in/mohammed-al-ibrahim-0b7192275/">لينكدإن</a>
-    </div>
-  </section>
-  <footer>© 2026 محمد البراهيم</footer>
-</main>
+<div class="stats">
+  <div class="stat"><b>63%</b><span>revenue growth contributed to at a law firm</span></div>
+  <div class="stat"><b>35,000+</b><span>outbound messages, 4% converted to qualified leads</span></div>
+  <div class="stat"><b>27</b><span>government tender proposals on Etimad</span></div>
+  <div class="stat"><b>6+ yrs</b><span>in B2B and B2G business development</span></div>
 </div>
-<script src="assets/site.js" defer></script>
+
+<main class="wrap">
+  <h2>Projects</h2>
+  <p class="sub">Open-source versions of real work. Names, logos, and data from client engagements have been removed.</p>
+
+  <div class="grid">
+    <article class="card">
+      <div class="tag">AI Workflow · Prospecting</div>
+      <h3>Recruitment Dream 100 Toolkit</h3>
+      <p>A chain of Claude skills that turns a recruitment agency's website into 100 target companies, ~300 decision-makers, and personalized multichannel outreach for each one.</p>
+      <div class="chips"><span class="chip">Claude Skills</span><span class="chip">Exa</span><span class="chip">Lemlist</span><span class="chip">Prompt design</span></div>
+      <div class="actions"><a class="primary" href="https://github.com/m-alibrahim/portfolio/tree/main/projects/recruitment-dream-100-toolkit">View toolkit</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Client Tool · Sales</div>
+      <h3>Client Needs Questionnaire</h3>
+      <p>A bilingual questionnaire a firm sends to a prospect to estimate their annual service needs. Answers arrive by email automatically and feed directly into a tailored retainer proposal.</p>
+      <div class="chips"><span class="chip">HTML/JS</span><span class="chip">Bilingual AR/EN</span><span class="chip">Email automation</span></div>
+      <div class="actions"><a class="primary" href="projects/client-needs-questionnaire/">Live demo</a><a href="https://github.com/m-alibrahim/portfolio/tree/main/projects/client-needs-questionnaire">Source</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Internal Platform · HR</div>
+      <h3>Candidate Evaluation Platform</h3>
+      <p>A structured hiring tool: add candidates, collect scored evaluations from multiple interviewers, compare results, and export a PDF report. This demo stores data in your browser only.</p>
+      <div class="chips"><span class="chip">Web app</span><span class="chip">Scoring model</span><span class="chip">PDF export</span></div>
+      <div class="actions"><a class="primary" href="projects/candidate-evaluation/">Live demo</a><a href="https://github.com/m-alibrahim/portfolio/tree/main/projects/candidate-evaluation">Source</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Personal Venture · E-commerce</div>
+      <h3>Rawaj Flowers &amp; Gifts Website</h3>
+      <p>A full website for a flowers and gifts business: storefront, occasions, subscriptions, and a corporate gifting section.</p>
+      <div class="chips"><span class="chip">Web design</span><span class="chip">Arabic RTL</span><span class="chip">Brand</span></div>
+      <div class="actions"><a class="primary" href="projects/rawaj-website/">Visit site</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Client Tool · Legal Intake</div>
+      <h3>Client Intake Workflow</h3>
+      <p>Turns rough notes from a first client call into a case file the client completes themselves, with a summary, open questions, and a document checklist. Uses AI when run inside Claude; shows a worked example here.</p>
+      <div class="chips"><span class="chip">AI prompt design</span><span class="chip">Arabic RTL</span><span class="chip">Legal ops</span></div>
+      <div class="actions"><a class="primary" href="projects/client-intake/">Live demo</a><a href="https://github.com/m-alibrahim/portfolio/tree/main/projects/client-intake">Source</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Campaign Tool · Lead Generation</div>
+      <h3>Eligibility Checker</h3>
+      <p>A short self-assessment that tells a visitor in under a minute whether they may qualify for a service, then hands the answers to the team on WhatsApp. Built for a time-bound legal campaign.</p>
+      <div class="chips"><span class="chip">Campaign design</span><span class="chip">Lead capture</span><span class="chip">WhatsApp handoff</span></div>
+      <div class="actions"><a class="primary" href="projects/eligibility-checker/">Live demo</a><a href="https://github.com/m-alibrahim/portfolio/tree/main/projects/eligibility-checker">Source</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Strategy · Pricing</div>
+      <h3>Retainer Scoping &amp; Usage Control</h3>
+      <p>An interactive plan for moving annual legal retainers from open-ended to scoped: service tiers, usage limits, tracking, and the rollout plan. English with an Arabic switch.</p>
+      <div class="chips"><span class="chip">Service design</span><span class="chip">Bilingual</span><span class="chip">Change plan</span></div>
+      <div class="actions"><a class="primary" href="projects/retainer-scoping/">View plan</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Custom CRM · Sales Ops</div>
+      <h3>BD Pipeline Tracker</h3>
+      <p>A lightweight CRM for a business development team: accounts, opportunities by stage, activities, tasks, contracts, and collections. This demo saves to your browser.</p>
+      <div class="chips"><span class="chip">CRM design</span><span class="chip">Pipeline</span><span class="chip">Collections</span></div>
+      <div class="actions"><a class="primary" href="projects/bd-pipeline-tracker/">Live demo</a><a href="https://github.com/m-alibrahim/portfolio/tree/main/projects/bd-pipeline-tracker">Source</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">Outbound · Sales</div>
+      <h3>Cold-Calling System</h3>
+      <p>A calling queue with a brief for every prospect: decision-maker background, buying signal, why it fits, and talk tips, plus call status tracking. Shown here with fictional sample leads.</p>
+      <div class="chips"><span class="chip">Prospect research</span><span class="chip">Call scripts</span><span class="chip">Tracking</span></div>
+      <div class="actions"><a class="primary" href="projects/cold-calling-system/">Live demo</a><a href="https://github.com/m-alibrahim/portfolio/tree/main/projects/cold-calling-system">Source</a></div>
+    </article>
+
+    <article class="card">
+      <div class="tag">AI Workflow · Legal &amp; Bids</div>
+      <h3>Claude Skills for Legal &amp; BD</h3>
+      <p>Three reusable skills: tender proposals from an RFP to Word and slides, client intake files with a Saudi legal reference, and true PDF redaction that handles Arabic text.</p>
+      <div class="chips"><span class="chip">Claude Skills</span><span class="chip">Etimad</span><span class="chip">Python</span></div>
+      <div class="actions"><a class="primary" href="https://github.com/m-alibrahim/portfolio/tree/main/projects/claude-skills">View skills</a></div>
+    </article>
+  </div>
+
+  <div class="soon">
+    <b>Coming next</b>
+    <ul>
+      <li>Benchmark for testing AI agents on Saudi legal questions</li>
+      <li>Market and competitive study samples</li>
+    </ul>
+  </div>
+</main>
+
+<footer>© 2026 Mohammed Alibrahim · Projects are MIT-licensed unless noted.</footer>
 </body>
 </html>
