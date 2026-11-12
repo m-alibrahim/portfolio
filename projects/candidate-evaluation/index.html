@@ -455,6 +455,29 @@ let state={
   notes:{g:{},s:{}}
 };
 
+// Demo seed: fictional candidates and evaluations so the Records and Analysis tabs have something to show.
+function demoSeed(){
+  const C=[{id:101,name:'سارة المالكي',job:'مدير قضايا',exp:'9 سنوات',age:'34',nat:'سعودية',src:'استقطاب',cv:'82',cvlink:''},
+           {id:102,name:'تركي العنزي',job:'مدير قضايا',exp:'12 سنة',age:'39',nat:'سعودي',src:'إحالة',cv:'76',cvlink:''},
+           {id:103,name:'لمى الغامدي',job:'مدير قضايا',exp:'6 سنوات',age:'31',nat:'سعودية',src:'لينكدإن',cv:'68',cvlink:''},
+           {id:104,name:'يوسف البلوي',job:'مدير قضايا',exp:'4 سنوات',age:'29',nat:'سعودي',src:'إعلان',cv:'55',cvlink:''}];
+  const base={101:4.4,102:3.9,103:3.3,104:2.5}, rec={101:'مناسب جداً',102:'ممتاز',103:'متوسط',104:'بديل'};
+  const str={101:'خبرة مباشرة في إدارة فريق قضايا، وتواصل واضح مع العملاء.',102:'خبرة طويلة ومعرفة إجرائية قوية.',103:'صياغة جيدة وقابلية عالية للتطور.',104:'حماس واضح واستعداد للتعلم.'};
+  const weak={101:'تحتاج وقتًا للتعرف على أنظمة المكتب.',102:'توقعات الراتب أعلى من المدى.',103:'خبرة محدودة في قيادة الفرق.',104:'لم يسبق له إدارة قضايا بهذا الحجم.'};
+  let seed=7; const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};
+  const rate=(n,b)=>{const o={};for(let i=0;i<n;i++){o[i]=Math.max(1,Math.min(5,Math.round(b+(rnd()-.5)*1.6)))}return o};
+  const subs=[]; let k=0;
+  C.forEach(c=>{[state.evaluators[0],state.evaluators[1],state.evaluators[2]].forEach((ev,j)=>{
+    const g=rate(GENERAL.length,base[c.id]+(j-1)*.15), s2=rate(SPECIAL.length,base[c.id]-(j-1)*.1);
+    const gSum=Object.values(g).reduce((a,b)=>a+b,0), sSum=Object.values(s2).reduce((a,b)=>a+b,0);
+    const gPct=Math.round(gSum/(GENERAL.length*5)*100), sPct=Math.round(sSum/(SPECIAL.length*5)*100), total=Math.round(gPct*0.4+sPct*0.6);
+    const label=total<=25?'مرفوض':total<=50?'ضعيف':total<=75?'متوسط':'ممتاز', color=total<=25?'#c0392b':total<=50?'#b7770d':total<=75?'#1a6fa8':'#1e6b3a';
+    subs.push({id:1000+(k++),ts:'بيانات تجريبية',evaluator:ev,candidate:c,date:'',place:'مقر الشركة',ratings:{g:g,s:s2},notes:{g:{},s:{}},
+      strengths:str[c.id],weaknesses:weak[c.id],genNotes:'',recommendation:rec[c.id],salary:'',scores:{gSum,sSum,gPct,sPct,total,label,color}});
+  })});
+  return {candidates:C,submissions:subs};
+}
+
 // ═══ CLOUD SYNC ═══
 function showSyncBadge(msg,color){
   let el=document.getElementById('sync-badge');
@@ -475,7 +498,8 @@ async function loadFromCloud(){
   try{
     const res={ok:true,json:async()=>JSON.parse(localStorage.getItem('candidate_eval_cloud')||'null')};
     if(!res.ok) throw new Error(res.status);
-    const data=await res.json();
+    let data=await res.json();
+    if(!data){data=demoSeed();localStorage.setItem('candidate_eval_cloud',JSON.stringify(data));}
     if(data){
       if(Array.isArray(data.candidates)) state.candidates=data.candidates;
       if(Array.isArray(data.submissions)) state.submissions=data.submissions;
@@ -1007,5 +1031,6 @@ document.getElementById('e-date').value=new Date().toISOString().split('T')[0];
 renderEvaluators();
 loadFromCloud();
 </script>
+<a id="pf-pill" href="../../work/candidate-evaluation/" style="position:fixed;bottom:14px;left:14px;z-index:99999;background:#0d1730;color:#fff;font:600 13px/1.4 'IBM Plex Sans Arabic',system-ui,sans-serif;padding:9px 14px;border-radius:999px;text-decoration:none;box-shadow:0 6px 20px rgba(13,23,48,.3);border:1px solid #d39c6e;direction:rtl">نسخة تجريبية ببيانات وهمية، عن المشروع</a>
 </body>
 </html>

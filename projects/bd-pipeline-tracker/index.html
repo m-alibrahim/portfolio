@@ -522,6 +522,27 @@ dialog::backdrop{background:var(--scrim)}
 <div class="toast" id="toast" hidden></div>
 
 <script>
+/* Demo seed: fictional accounts so the tracker opens with something to explore. All names are invented. */
+(function(){const K="crm.demo.";try{if(localStorage.getItem(K+"seeded"))return;
+const D=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};const now=new Date().toISOString();
+const A=[["ac1","شركة أفق الشمال للمقاولات","شركة","سلمان الحربي","المدير المالي",true],["ac2","مجموعة سدرة الطبية","شركة","نورة العتيبي","مديرة الشؤون القانونية",false],["ac3","شركة ميار للأغذية","شركة","فهد القحطاني","الرئيس التنفيذي",true],["ac4","دار الواحة للتطوير العقاري","شركة","عبدالله الدوسري","مدير العقود",false],["ac5","تلال للخدمات اللوجستية","شركة","ريم الشهري","مديرة العمليات",false],["ac6","مركز الابتكار البلدي","جهة حكومية","خالد المطيري","مدير المشتريات",false],["ac7","ماجد السبيعي","فرد","",  "",false],["ac8","شركة ركن للتقنية","شركة","هند الزهراني","المديرة العامة",false]];
+const accounts={};A.forEach((a,i)=>accounts[a[0]]={name:a[1],kind:a[2],phone:"05500000"+(10+i),email:a[2]==="فرد"?"":"contact"+(i+1)+"@example.com",acquired:a[5],notes:"",contacts:a[3]?[{id:"p"+i,name:a[3],title:a[4],phone:"",email:""}]:[],createdAt:now,updatedAt:now});
+const deal=(id,ac,title,service,value,stage,owner,pri,next,nd,extra)=>Object.assign({account:ac,title,service,value,stage,prevStage:"",stageAt:D(-6),owners:[owner],priority:pri,next,nextDate:nd,desc:"",reason:"",lostDate:"",contractAmount:null,contractDate:"",terms:"مقدم ومؤخر",payments:[],createdAt:now,updatedAt:now},extra||{});
+const deals={
+d1:deal("d1","ac2","رعاية قانونية سنوية","رعاية سنوية",180000,"s4","مسؤول 1","عالية","متابعة الرد على عرض الأتعاب",D(1)),
+d2:deal("d2","ac4","مراجعة عقود المقاولين","عقود واتفاقيات",65000,"s3","مسؤول 2","متوسطة","استلام نماذج العقود الحالية",D(3)),
+d3:deal("d3","ac5","تحصيل مستحقات متأخرة","تحصيل",240000,"s5","مسؤول 1","عالية","اجتماع لتحديد نسبة الأتعاب",D(0)),
+d4:deal("d4","ac6","استشارة في لائحة المشتريات","استشارات",40000,"s2","مسؤول 3","متوسطة","إرسال محضر الاجتماع",D(-2)),
+d5:deal("d5","ac7","قسمة تركة","تركات",30000,"s1","مسؤول 2","منخفضة","اتصال تعريفي ثانٍ",D(5)),
+d6:deal("d6","ac8","تأسيس شركة تابعة","تأسيس شركات",55000,"s2","مسؤول 3","متوسطة","تجهيز قائمة المستندات",D(2)),
+d7:deal("d7","ac1","رعاية قانونية سنوية","رعاية سنوية",150000,"won","مسؤول 1","عالية","","",{contractAmount:150000,contractDate:D(-40),terms:"دفعات متعددة",payments:[{id:"p1",label:"الدفعة الأولى",amount:75000,due:D(-38),paid:true,paidDate:D(-36),invoice:"INV-001"},{id:"p2",label:"الدفعة الثانية",amount:75000,due:D(20),paid:false,paidDate:"",invoice:""}]}),
+d8:deal("d8","ac3","قضية تجارية","قضايا",90000,"won","مسؤول 2","عالية","","",{contractAmount:90000,contractDate:D(-20),payments:[{id:"p3",label:"مقدم",amount:45000,due:D(-18),paid:true,paidDate:D(-17),invoice:"INV-002"},{id:"p4",label:"مؤخر",amount:45000,due:D(-3),paid:false,paidDate:"",invoice:""}]}),
+d9:deal("d9","ac8","عقد عمل نموذجي","عقود واتفاقيات",12000,"lost","مسؤول 3","منخفضة","","",{reason:"السعر",lostDate:D(-9)})};
+const act=(ac,d,type,text,n)=>({type,text,date:D(n),account:ac,deal:d,createdAt:now});
+const acts={a1:act("ac2","d1","اجتماع","اجتماع تعريفي مع الإدارة القانونية، وطلبوا عرضًا بباقتين.",-9),a2:act("ac2","d1","عرض أتعاب","أُرسل عرض الرعاية السنوية بمستويين.",-6),a3:act("ac5","d3","اتصال","أكّدت مديرة العمليات حجم المديونية وعدد العملاء المتأخرين.",-4),a4:act("ac4","d2","بريد","طلبنا نماذج العقود الحالية للمراجعة.",-3),a5:act("ac6","d4","اجتماع","اجتماع أولي لمناقشة اللائحة الجديدة.",-5),a6:act("ac1","d7","ملاحظة","العميل راضٍ عن أول شهرين، ومهتم بإضافة خدمة التحصيل.",-2),a7:act("ac7","d5","واتساب","أرسل صك حصر الورثة.",-1)};
+const todo=(title,n,pri,owner,ac,d,done)=>({title,due:D(n),priority:pri,owner,done:!!done,doneAt:done?D(-1):"",account:ac,deal:d,createdAt:now});
+const todos={t1:todo("متابعة الموافقة على عرض الرعاية",1,"عالية","مسؤول 1","ac2","d1"),t2:todo("إرسال محضر اجتماع المشتريات",-2,"عاجلة","مسؤول 3","ac6","d4"),t3:todo("تحضير نقاط التفاوض على الأتعاب",0,"عالية","مسؤول 1","ac5","d3"),t4:todo("تذكير بالدفعة المتأخرة",0,"عالية","مسؤول 2","ac3","d8"),t5:todo("ترتيب اجتماع ربع سنوي مع العميل",7,"متوسطة","مسؤول 1","ac1","d7"),t6:todo("إرسال قائمة مستندات التأسيس",-1,"متوسطة","مسؤول 3","ac8","d6",true)};
+const put=(c,o)=>localStorage.setItem(K+c,JSON.stringify(o));put("accounts",accounts);put("deals",deals);put("acts",acts);put("todos",todos);localStorage.setItem(K+"seeded","1");}catch(e){}})();
 /* Demo storage: a tiny localStorage-backed stand-in for the hosted database. */
 (function(){if(window.claude)return;const K="crm.demo.";const subs={};
 function load(c){try{return JSON.parse(localStorage.getItem(K+c)||"{}")}catch(e){return{}}}
@@ -1702,4 +1723,5 @@ document.addEventListener("keydown", e => {
 render(true);
 </script>
 
+<a id="pf-pill" href="../../work/bd-pipeline-tracker/" style="position:fixed;bottom:14px;left:14px;z-index:99999;background:#0d1730;color:#fff;font:600 13px/1.4 'IBM Plex Sans Arabic',system-ui,sans-serif;padding:9px 14px;border-radius:999px;text-decoration:none;box-shadow:0 6px 20px rgba(13,23,48,.3);border:1px solid #d39c6e;direction:rtl">نسخة تجريبية ببيانات وهمية، عن المشروع</a>
 </body></html>
